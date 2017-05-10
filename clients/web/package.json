@@ -1,18 +1,29 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "therion-web",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "electron": "^1.6.6",
     "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "electron": "export ELECTRON_START_URL=http://localhost:3000 && electron ."
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "homepage": "https://bitbucket.org/zoog/therion#readme",
+  "main": "./src/electron-index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/zoog/therion.git"
+  },
+  "author": "Kenneth Baylosis <kbaylosis@zoogtech.com>",
+  "license": "ISC"
 }
