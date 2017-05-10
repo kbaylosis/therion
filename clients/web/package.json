@@ -25,7 +25,7 @@
   "main": "./src/index.desktop.js",
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/zoog/therion.git"
+    "url": "git+ssh://git@bitbucket.org/zoog/therion.git"
   },
   "author": "Kenneth Baylosis <kbaylosis@zoogtech.com>",
   "license": "ISC"
