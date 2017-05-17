@@ -1,7 +1,9 @@
+import { combineReducers } from "redux";
 
-export default function reducer(state = {}, action = {}) {
-  switch (action.type) {
-    // do reducer stuff
-    default: return state;
-  }
-}
+import { Todo } from "../modules/todo";
+
+const reducer = combineReducers({
+  Todo
+});
+
+export default reducer;

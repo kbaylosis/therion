@@ -1,12 +1,15 @@
-import React from "react";
+import React, { createStore, applyMiddleware } from "react";
 import { Provider } from "react-redux";
-import { createStore } from "redux"
+import thunk from "redux-thunk";
+
 
 import AppReducer from "./reducers";
 import logo from "../assets/logo.svg";
 import "./styles.css";
 
-let store = createStore(AppReducer);
+import Todo from "../modules/todo";
+
+let store = createStore(AppReducer, applyMiddleware(thunk));
 
 export default class App extends React.Component {
   render() {
@@ -20,6 +23,7 @@ export default class App extends React.Component {
           <p className="App-intro">
             To get started, edit <code>src/App.js</code> and save to reload.
           </p>
+          <Todo />
         </div>
       </Provider>
     );
