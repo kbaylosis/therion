@@ -10,11 +10,11 @@ export const getVisibleTodos = createSelector(
   (todos, filter) => {
     switch (filter) {
       case Constants.SHOW_ALL:
-        return todos;
+        return todos
       case Constants.SHOW_COMPLETED:
-        return todos.filter(t => t.completed);
+        return todos.filter(t => t.completed)
       case Constants.SHOW_ACTIVE:
-        return todos.filter(t => !t.completed);
+        return todos.filter(t => !t.completed)
       default:
         return todos;
     }

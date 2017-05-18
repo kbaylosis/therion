@@ -10,10 +10,10 @@ const todo = (state = {}, action) => {
         id: action.id,
         text: action.text,
         completed: false
-      };
+      }
     case Types.TOGGLE_TODO:
       if (state.id !== action.id) {
-        return state;
+        return state
       }
 
       return Object.assign({}, state, {
@@ -21,7 +21,7 @@ const todo = (state = {}, action) => {
       });
 
     default:
-      return state;
+      return state
   }
 };
 
@@ -31,13 +31,13 @@ const todos = (state = [], action) => {
       return [
         ...state,
         todo(undefined, action)
-      ];
+      ]
     case Types.TOGGLE_TODO:
       return state.map(t =>
         todo(t, action)
-      );
+      )
     default:
-      return state;
+      return state
   }
 };
 
