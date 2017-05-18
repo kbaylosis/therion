@@ -1,0 +1,10 @@
+{
+  "extends": "react-app",
+
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
+
+    "jsx-a11y/img-has-alt" : "off"
+  }
+}
