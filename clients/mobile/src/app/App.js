@@ -1,22 +1,31 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import thunk from "redux-thunk";
+import logger from "redux-logger";
+import Expo from "expo";
 
 import AppReducer from "./reducers";
-import styles from "./styles.css.js";
+import AppNavigator from "./navigator";
 
-let store = createStore(AppReducer);
+import Roboto from "native-base/Fonts/Roboto.ttf";
+import RobotoMedium from "native-base/Fonts/Roboto_medium.ttf";
+
+let store = createStore(AppReducer, applyMiddleware(logger, thunk));
 
 export default class App extends React.Component {
+
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto,
+      "Roboto_medium" : RobotoMedium
+    });
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
-          <Text>Changes you make will automatically reload.</Text>
-          <Text>Shake your phone to open the developer menu.</Text>
-        </View>
+        <AppNavigator />
       </Provider>
     );
   }

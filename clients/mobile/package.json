@@ -27,9 +27,14 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^5.0.0",
     "expo": "^16.0.0",
+    "native-base": "^2.1.3",
     "react": "16.0.0-alpha.6",
-    "react-native": "^0.43.4"
+    "react-native": "^0.43.4",
+    "react-navigation": "^1.0.0-beta.9",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",
   "repository": {
