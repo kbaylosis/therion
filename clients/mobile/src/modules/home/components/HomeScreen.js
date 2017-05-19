@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Button } from "native-base";
 
 import styles from "../styles.css.js";
 
-class HomeScreen extends React.Component {
+class HomeScreen extends Component {
   static navigationOptions = {
     header : null
   }
@@ -12,6 +12,7 @@ class HomeScreen extends React.Component {
   componentWillReceiveProps({ loggedOut }) {
     if (loggedOut) {
       this.props.navigation.goBack();
+      this.props.actions.homeScreenExit();
     }
   }
 
@@ -19,7 +20,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Home Screen</Text>
-        <Button primary full onPress={this.props.logout}><Text>Log Out</Text></Button>
+        <Button primary full onPress={this.props.actions.logout}><Text>Log Out</Text></Button>
       </View>
     );
   }

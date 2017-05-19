@@ -27,6 +27,8 @@ const isLoggedIn = (state = false, action) => {
   switch(action.type) {
     case Types.LOGIN_SUCCESS:
       return true;
+    case Types.LOGIN_SCREEN_EXIT:
+      return false;
     default:
       return state;
   }

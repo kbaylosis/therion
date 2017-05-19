@@ -1,6 +1,7 @@
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { loginInProgress } from "../actions";
+import * as ActionCreators from "../actions";
 import LoginScreen from "../components/LoginScreen";
 
 const mapStateToProps = ({ login }) => ({
@@ -8,9 +9,7 @@ const mapStateToProps = ({ login }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login : id => {
-    dispatch(loginInProgress());
-  }
+  actions: bindActionCreators(ActionCreators, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

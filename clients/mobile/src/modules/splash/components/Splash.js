@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Spinner } from "native-base";
 
@@ -6,13 +6,12 @@ import * as AppConstants from "../../../app/constants";
 
 import styles from "../styles.css.js";
 
-class Splash extends React.Component {
+class Splash extends Component {
   static navigationOptions = {
     header : null
   }
 
   componentDidMount() {
-
     setTimeout(() => {
       this.props.navigation.navigate(AppConstants.LOGIN_SCREEN);
     }, AppConstants.SPLASH_TIMEOUT);

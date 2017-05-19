@@ -26,3 +26,7 @@ export const loginInProgress = () => {
     }, 3000);
   };
 };
+
+export const loginScreenExit = () => ({
+  type : Types.LOGIN_SCREEN_EXIT
+});

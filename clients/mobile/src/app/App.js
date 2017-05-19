@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
@@ -13,7 +13,7 @@ import RobotoMedium from "native-base/Fonts/Roboto_medium.ttf";
 
 let store = createStore(AppReducer, applyMiddleware(logger, thunk));
 
-export default class App extends React.Component {
+export default class App extends Component {
 
   async componentWillMount() {
     await Expo.Font.loadAsync({

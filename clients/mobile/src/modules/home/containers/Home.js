@@ -1,6 +1,7 @@
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { logout } from "../actions";
+import * as ActionCreators from "../actions";
 import HomeScreen from "../components/HomeScreen";
 
 const mapStateToProps = ({ home }) => ({
@@ -8,9 +9,7 @@ const mapStateToProps = ({ home }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logout : () => {
-    dispatch(logout());
-  }
+  actions: bindActionCreators(ActionCreators, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
