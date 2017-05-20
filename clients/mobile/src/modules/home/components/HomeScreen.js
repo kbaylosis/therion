@@ -9,18 +9,19 @@ class HomeScreen extends Component {
     header : null
   }
 
-  componentWillReceiveProps({ loggedOut }) {
+  componentWillReceiveProps({ loggedOut, navigation, actions }) {
     if (loggedOut) {
-      this.props.navigation.goBack();
-      this.props.actions.homeScreenExit();
+      navigation.goBack();
+      // actions.homeScreenExit();
     }
   }
 
   render() {
+    const props = this.props;
     return (
       <View style={styles.container}>
         <Text>Home Screen</Text>
-        <Button primary full onPress={this.props.actions.logout}><Text>Log Out</Text></Button>
+        <Button primary full onPress={props.actions.logout}><Text>Log Out</Text></Button>
       </View>
     );
   }

@@ -11,22 +11,23 @@ class LoginScreen extends Component {
     header : null
   }
 
-  componentWillReceiveProps({ isLoggedIn }) {
+  componentWillReceiveProps({ isLoggedIn, navigation, actions }) {
     if (isLoggedIn) {
-      this.props.navigation.navigate(AppConstants.HOME_SCREEN);
-      this.props.actions.loginScreenExit();
+      navigation.navigate(AppConstants.HOME_SCREEN);
+      // actions.loginScreenExit();
     }
   }
 
   render() {
+    const props = this.props;
     return (
       <View style={styles.container}>
         <Text>Login Screen</Text>
         {
-          this.props.isLoggingIn ?
+          props.isLoggingIn ?
           <Spinner color="blue"/>
           :
-          <Button primary full onPress={this.props.actions.loginInProgress}><Text>Log In</Text></Button>
+          <Button primary full onPress={props.actions.loginInProgress}><Text>Log In</Text></Button>
         }
       </View>
     );

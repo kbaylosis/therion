@@ -3,3 +3,5 @@ export const LOGIN_SCREEN = "Login";
 export const HOME_SCREEN = "Home";
 
 export const SPLASH_TIMEOUT = 3000;
+
+export const NAVIGATION_BACK = "Navigation/BACK";

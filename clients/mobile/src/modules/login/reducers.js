@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 
+import * as AppConstants from "../../app/constants";
 import * as Types from "./types";
 
 const session = (state = {}, action) => {
@@ -27,7 +28,7 @@ const isLoggedIn = (state = false, action) => {
   switch(action.type) {
     case Types.LOGIN_SUCCESS:
       return true;
-    case Types.LOGIN_SCREEN_EXIT:
+    case AppConstants.NAVIGATION_BACK:
       return false;
     default:
       return state;
