@@ -54,3 +54,9 @@ npm start
 
 npm run desktop
 ```
+
+## Debugging/Logging #
+
+1. Install the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+2. Run the app
+3. Open the Redux DevTools in Chrome (find it's icon on the top right corner)
