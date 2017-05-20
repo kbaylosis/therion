@@ -2,7 +2,7 @@ import React from "react";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-
+import { composeWithDevTools } from "remote-redux-devtools";
 
 import AppReducer from "./reducers";
 import logo from "../assets/logo.svg";
@@ -10,7 +10,10 @@ import "./styles.css";
 
 import Todo from "../modules/todo";
 
-let store = createStore(AppReducer, applyMiddleware(thunk));
+const composeEnhancers = composeWithDevTools({ realtime: true });
+let store = createStore(AppReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 export default class App extends React.Component {
   render() {
