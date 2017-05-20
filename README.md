@@ -60,4 +60,7 @@ npm run desktop
 1. Install the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 2. Run the app
 3. Open the **Redux DevTools** menu in Chrome (find it's icon on the top right corner)
+ 
+![logo](https://bitbucket.org/repo/yppqL4R/images/3292584348-Screenshot%202017-05-20%2023.07.05.png =28x28)
+
 4. Select **Open Remote DevTools**
