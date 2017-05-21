@@ -21,8 +21,8 @@
   "scripts": {
     "start": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts start",
     "eject": "react-native-scripts eject",
-    "android": "./node_modules/.bin/eslint . && react-native-scripts android",
-    "ios": "./node_modules/.bin/eslint . && react-native-scripts ios",
+    "android": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts android",
+    "ios": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "lint": "./node_modules/.bin/eslint ."
   },
