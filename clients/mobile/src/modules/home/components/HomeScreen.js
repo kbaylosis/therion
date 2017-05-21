@@ -12,7 +12,6 @@ class HomeScreen extends Component {
   componentWillReceiveProps({ loggedOut, navigation, actions }) {
     if (loggedOut) {
       navigation.goBack();
-      // actions.homeScreenExit();
     }
   }
 

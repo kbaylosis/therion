@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Button, Spinner } from "native-base";
 
-import * as AppConstants from "../../../app/constants";
+import * as AppConstants from "app/constants";
 
 import styles from "../styles.css.js";
 
@@ -14,7 +14,6 @@ class LoginScreen extends Component {
   componentWillReceiveProps({ isLoggedIn, navigation, actions }) {
     if (isLoggedIn) {
       navigation.navigate(AppConstants.HOME_SCREEN);
-      // actions.loginScreenExit();
     }
   }
 

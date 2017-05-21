@@ -2,7 +2,8 @@
   "presets": ["babel-preset-expo"],
   "plugins": [
     ["module-alias", [
-      { "src": "./.globals", "expose": ".globals" }
+      { "src": "./.globals", "expose": ".globals" },
+      { "src": "./src/app", "expose": "app" }
     ]]
   ],
   "env": {
