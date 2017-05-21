@@ -1,5 +1,10 @@
 {
   "presets": ["babel-preset-expo"],
+  "plugins": [
+    ["module-alias", [
+      { "src": "./.globals", "expose": ".globals" }
+    ]]
+  ],
   "env": {
     "development": {
       "plugins": ["transform-react-jsx-source"]

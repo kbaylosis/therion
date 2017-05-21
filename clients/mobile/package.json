@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
+    "babel": "^6.23.0",
     "babel-eslint": "^7.2.3",
+    "babel-plugin-module-alias": "^1.6.0",
     "eslint": "^3.19.0",
     "eslint-config-react-app": "^0.6.2",
     "eslint-plugin-flowtype": "^2.33.0",
@@ -17,7 +19,7 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "./node_modules/.bin/eslint . && react-native-scripts start",
+    "start": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "./node_modules/.bin/eslint . && react-native-scripts android",
     "ios": "./node_modules/.bin/eslint . && react-native-scripts ios",

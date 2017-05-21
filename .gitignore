@@ -66,3 +66,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/macos,linux,windows
 
 *.log
+.globals
