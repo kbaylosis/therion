@@ -28,7 +28,7 @@ const isLoggedIn = (state = false, action) => {
   switch(action.type) {
     case Types.LOGIN_SUCCESS:
       return true;
-    case AppConstants.NAVIGATION_BACK:
+    case AppConstants.REACT_NAVIGATION_BACK:
       return false;
     default:
       return state;

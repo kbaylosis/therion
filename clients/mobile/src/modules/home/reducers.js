@@ -7,7 +7,7 @@ const loggedOut = (state = {}, action) => {
   switch (action.type) {
     case Types.LOGOUT:
       return true;
-    case AppConstants.NAVIGATION_BACK:
+    case AppConstants.REACT_NAVIGATION_BACK:
       return false;
     default:
       return state;
