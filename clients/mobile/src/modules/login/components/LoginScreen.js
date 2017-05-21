@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Button, Spinner } from "native-base";
 
-import * as AppConstants from "app/constants";
+import * as AppConstants from "__src/app/constants";
 
 import styles from "../styles.css.js";
 
