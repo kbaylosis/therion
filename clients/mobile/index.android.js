@@ -8,4 +8,4 @@ import { AppRegistry } from "react-native";
 
 import App from "__src/app/App";
 
-AppRegistry.registerComponent("therion_mobile", App);
+AppRegistry.registerComponent("therion_mobile", () => App);
