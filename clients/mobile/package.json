@@ -1,50 +1,42 @@
 {
-  "name": "therion-mobile",
-  "version": "0.0.0",
+  "name": "therion_mobile",
+  "version": "0.0.1",
   "private": true,
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-eslint": "^7.2.3",
-    "babel-plugin-module-alias": "^1.6.0",
-    "eslint": "^3.19.0",
-    "eslint-config-react-app": "^0.6.2",
-    "eslint-plugin-flowtype": "^2.33.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^5.0.1",
-    "eslint-plugin-react": "^7.0.1",
-    "jest-expo": "^0.4.0",
-    "react-native-scripts": "0.0.29",
-    "react-test-renderer": "16.0.0-alpha.6",
-    "remote-redux-devtools": "^0.5.11"
-  },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts android",
-    "ios": "rm -rf .globals && cp -fR ../../globals .globals && ./node_modules/.bin/eslint . && react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch",
-    "lint": "./node_modules/.bin/eslint ."
-  },
-  "jest": {
-    "preset": "jest-expo"
+    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && node node_modules/react-native/local-cli/cli.js start",
+    "ios": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && react-native run-ios",
+    "android": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && react-native run-android",
+    "test": "jest",
+    "reset": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && node node_modules/react-native/local-cli/cli.js start --reset-cache",
+		"precommit" : "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table --max-warnings 1 ."
   },
   "dependencies": {
-    "@expo/vector-icons": "^5.0.0",
-    "expo": "^16.0.0",
     "native-base": "^2.1.3",
+    "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.6",
-    "react-native": "^0.43.4",
+    "react-native": "0.44.0",
+    "react-native-vector-icons": "^4.1.1",
     "react-navigation": "^1.0.0-beta.9",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "react-redux": "^5.0.5",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
+    "remote-redux-devtools": "^0.5.11"
   },
-  "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/zoog/therion.git"
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-eslint": "^6.1.2",
+    "babel-jest": "20.0.3",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-preset-react-native": "1.9.2",
+    "eslint": "^3.19.0",
+    "eslint-config-react-native": "^1.6.0",
+    "eslint-import-resolver-babel-module": "^3.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "husky": "^0.13.3",
+    "jest": "20.0.3",
+    "react-test-renderer": "16.0.0-alpha.6"
   },
-  "author": "Kenneth Baylosis <kbaylosis@zoogtech.com>",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/zoog/therion#readme"
+  "jest": {
+    "preset": "react-native"
+  }
 }

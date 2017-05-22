@@ -1,4 +1,6 @@
 import Login from "./containers/Login";
 
-export login from "./reducers";
+import reducers from "./reducers";
+
+export const login = reducers;
 export default Login;

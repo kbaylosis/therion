@@ -1,14 +1,11 @@
 {
-  "presets": ["babel-preset-expo"],
-  "plugins": [
-    ["module-alias", [
-      { "src": ".", "expose": "__proj" },
-      { "src": "./src", "expose": "__src" }
-    ]]
-  ],
-  "env": {
-    "development": {
-      "plugins": ["transform-react-jsx-source"]
-    }
-  }
+	"presets": ["react-native"],
+	"plugins": [
+		["module-resolver", {
+			"alias" : {
+				"__proj": ".",
+				"__src" : "./src",
+				"__npm" : "./node_modules"
+		}}]
+	],
 }

@@ -5,9 +5,9 @@ import { login } from "../modules/login";
 import { home } from "../modules/home";
 
 const reducer = combineReducers({
-  nav,
-  login,
-  home
+	nav,
+	login,
+	home
 });
 
 export default reducer;

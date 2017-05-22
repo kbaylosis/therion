@@ -1,4 +1,6 @@
 import Home from "./containers/Home";
 
-export home from "./reducers";
+import reducers from "./reducers";
+
+export const home = reducers;
 export default Home;

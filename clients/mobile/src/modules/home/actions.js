@@ -1,5 +1,5 @@
-import * as Types from "./types";
+import { LOGOUT } from "./types";
 
 export const logout = () => ({
-  type: Types.LOGOUT
+	type: LOGOUT
 });

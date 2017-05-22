@@ -7,30 +7,30 @@ import * as AppConstants from "__src/app/constants";
 import styles from "../styles.css.js";
 
 class LoginScreen extends Component {
-  static navigationOptions = {
-    header : null
-  }
+	static navigationOptions = {
+		header : null
+	}
 
-  componentWillReceiveProps({ isLoggedIn, navigation, actions }) {
-    if (isLoggedIn) {
-      navigation.navigate(AppConstants.HOME_SCREEN);
-    }
-  }
+	componentWillReceiveProps({ isLoggedIn, navigation }) {
+		if (isLoggedIn) {
+			navigation.navigate(AppConstants.HOME_SCREEN);
+		}
+	}
 
-  render() {
-    const props = this.props;
-    return (
-      <View style={styles.container}>
-        <Text>Login Screen</Text>
-        {
-          props.isLoggingIn ?
-          <Spinner color="blue"/>
-          :
-          <Button primary full onPress={props.actions.loginInProgress}><Text>Log In</Text></Button>
-        }
-      </View>
-    );
-  }
+	render() {
+		const props = this.props;
+		return (
+			<View style={styles.container}>
+				<Text>Login Screen</Text>
+				{
+					props.isLoggingIn ?
+					<Spinner color="blue"/>
+					:
+					<Button primary full onPress={props.actions.loginInProgress}><Text>Log In</Text></Button>
+				}
+			</View>
+		);
+	}
 }
 
 export default LoginScreen;
