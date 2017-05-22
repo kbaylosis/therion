@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { StackNavigator, addNavigationHelpers } from "react-navigation";
@@ -34,10 +35,14 @@ const mapStateToProps = ({ nav }) => ({
 	nav
 });
 
+// on Android, the URI prefix typically contains a host in addition to scheme
+const uriPrefix = (Platform.OS === "android") ? "mychat://mychat/" : "mychat://";
+
 const AppNavigatorUI = ({ dispatch, nav }) => (
 	<AppNavigator navigation={addNavigationHelpers({
 		dispatch,
 		state: nav,
+		uriPrefix
 	})} />
 );
 
