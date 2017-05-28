@@ -60,7 +60,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "desktop": "export ELECTRON_START_URL=http://localhost:3000 && electron ."
+    "desktop": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "precommit": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table --max-warnings 1 .
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "homepage": "https://bitbucket.org/zoog/therion#readme",
