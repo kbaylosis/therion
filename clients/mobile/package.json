@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && node node_modules/react-native/local-cli/cli.js start",
-    "ios": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && react-native run-ios",
-    "android": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && react-native run-android",
+    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && node node_modules/react-native/local-cli/cli.js start",
+    "ios": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && react-native run-ios",
+    "android": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && react-native run-android",
     "test": "jest",
-    "reset": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table  --max-warnings 1 . && node node_modules/react-native/local-cli/cli.js start --reset-cache",
-    "precommit": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --format table --max-warnings 1 ."
+    "reset": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "precommit": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 ."
   },
   "dependencies": {
     "native-base": "^2.1.3",
