@@ -5,11 +5,11 @@ import * as ActionCreators from "../actions";
 import LoginScreen from "../components/LoginScreen";
 
 const mapStateToProps = ({ login }) => ({
-	...login
+	...login,
 });
 
-const mapDispatchToProps = dispatch => ({
-	actions: bindActionCreators(ActionCreators, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(ActionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

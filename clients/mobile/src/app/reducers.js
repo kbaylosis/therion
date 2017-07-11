@@ -7,7 +7,7 @@ import { home } from "../modules/home";
 const reducer = combineReducers({
 	nav,
 	login,
-	home
+	home,
 });
 
 export default reducer;

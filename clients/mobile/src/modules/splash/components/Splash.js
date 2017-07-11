@@ -9,11 +9,11 @@ import styles from "../styles.css.js";
 
 class Splash extends Component {
 	static navigationOptions = {
-		header : null
+		header: null,
 	}
 
 	static propTypes = {
-		navigation : PropTypes.object
+		navigation: PropTypes.object,
 	}
 
 	componentDidMount() {

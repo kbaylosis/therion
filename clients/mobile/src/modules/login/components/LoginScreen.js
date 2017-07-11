@@ -8,7 +8,7 @@ import styles from "../styles.css.js";
 
 class LoginScreen extends Component {
 	static navigationOptions = {
-		header : null
+		header: null,
 	}
 
 	componentWillReceiveProps({ isLoggedIn, navigation }) {
@@ -18,19 +18,25 @@ class LoginScreen extends Component {
 	}
 
 	render() {
-		const props = this.props;
+		const { actions, isLoggingIn } = this.props;
+
+
 		return (
 			<View style={styles.container}>
 				<Text>Login Screen</Text>
 				{
-					props.isLoggingIn ?
-					<Spinner color="blue"/>
-					:
-					<Button primary full onPress={props.actions.loginInProgress}><Text>Log In</Text></Button>
+					isLoggingIn ?
+					<Spinner color="blue"/>					:
+					<Button primary full onPress={actions.loginInProgress}><Text>Log In</Text></Button>
 				}
 			</View>
 		);
 	}
 }
+
+LoginScreen.propTypes = {
+	actions: React.PropTypes.object,
+	isLoggingIn: React.PropTypes.bool,
+};
 
 export default LoginScreen;

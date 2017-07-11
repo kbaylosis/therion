@@ -9,15 +9,15 @@ import Login from "../modules/login";
 import Home from "../modules/home";
 
 const AppNavigator = StackNavigator({
-	Splash : {
-		screen : Splash
+	Splash: {
+		screen: Splash,
 	},
-	Login : {
-		screen : Login
+	Login: {
+		screen: Login,
 	},
-	Home : {
-		screen : Home
-	}
+	Home: {
+		screen: Home,
+	},
 });
 
 const initialState = AppNavigator
@@ -32,7 +32,7 @@ export const nav = (state = initialState, action) => {
 };
 
 const mapStateToProps = ({ nav }) => ({
-	nav
+	nav,
 });
 
 // on Android, the URI prefix typically contains a host in addition to scheme
@@ -42,13 +42,13 @@ const AppNavigatorUI = ({ dispatch, nav }) => (
 	<AppNavigator navigation={addNavigationHelpers({
 		dispatch,
 		state: nav,
-		uriPrefix
+		uriPrefix,
 	})} />
 );
 
 AppNavigatorUI.propTypes = {
 	dispatch: PropTypes.func.isRequired,
-	nav: PropTypes.object.isRequired
+	nav: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps)(AppNavigatorUI);

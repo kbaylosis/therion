@@ -13,7 +13,7 @@ const session = (state = {}, action) => {
 };
 
 const isLoggingIn = (state = false, action) => {
-	switch(action.type) {
+	switch (action.type) {
 	case Types.LOGIN_INPROGRESS:
 		return true;
 	case Types.LOGIN_SUCCESS:
@@ -25,7 +25,7 @@ const isLoggingIn = (state = false, action) => {
 };
 
 const isLoggedIn = (state = false, action) => {
-	switch(action.type) {
+	switch (action.type) {
 	case Types.LOGIN_SUCCESS:
 		return true;
 	case ReactNavigationTypes.BACK:
@@ -36,7 +36,7 @@ const isLoggedIn = (state = false, action) => {
 };
 
 const error = (state = {}, action) => {
-	switch(action.type) {
+	switch (action.type) {
 	case Types.LOGIN_FAILED:
 		return action.error;
 	default:
@@ -48,5 +48,5 @@ export default combineReducers({
 	session,
 	isLoggingIn,
 	isLoggedIn,
-	error
+	error,
 });

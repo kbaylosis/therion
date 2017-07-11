@@ -6,7 +6,7 @@ import styles from "../styles.css.js";
 
 class HomeScreen extends Component {
 	static navigationOptions = {
-		header : null
+		header: null,
 	}
 
 	componentWillReceiveProps({ loggedOut, navigation }) {
@@ -16,14 +16,20 @@ class HomeScreen extends Component {
 	}
 
 	render() {
-		const props = this.props;
+		const { actions } = this.props;
+
+
 		return (
 			<View style={styles.container}>
 			<Text>Home Screen</Text>
-			<Button primary full onPress={props.actions.logout}><Text>Log Out</Text></Button>
+			<Button primary full onPress={actions.logout}><Text>Log Out</Text></Button>
 			</View>
 		);
 	}
 }
+
+HomeScreen.propTypes = {
+	actions: React.PropTypes.object,
+};
 
 export default HomeScreen;

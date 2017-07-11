@@ -15,5 +15,5 @@ const loggedOut = (state = {}, action) => {
 };
 
 export default combineReducers({
-	loggedOut
+	loggedOut,
 });
