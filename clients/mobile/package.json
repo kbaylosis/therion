@@ -17,29 +17,30 @@
   "dependencies": {
     "eslint-plugin-react": "^7.4.0",
     "native-base": "2.3.3",
-    "prop-types": "^15.5.10",
+    "prop-types": "15.5.10",
     "react": "16.0.0",
     "react-native": "^0.50.3",
-    "react-native-vector-icons": "^4.1.1",
+    "react-native-vector-icons": "4.4.2",
     "react-navigation": "1.0.0-beta.19",
     "react-redux": "5.0.6",
-    "redux": "^3.6.0",
-    "redux-thunk": "^2.2.0",
-    "remote-redux-devtools": "^0.5.11"
+    "redux": "3.7.2",
+    "redux-thunk": "2.2.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
-    "babel-eslint": "^6.1.2",
-    "babel-jest": "20.0.3",
-    "babel-plugin-module-resolver": "^2.7.1",
-    "babel-preset-react-native": "1.9.2",
-    "eslint": "^3.19.0",
-    "eslint-config-react-native": "^1.6.0",
-    "eslint-import-resolver-babel-module": "^3.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "husky": "^0.13.3",
-    "jest": "20.0.3",
-    "react-test-renderer": "16.0.0-alpha.6"
+    "babel-core": "6.26.0",
+    "babel-eslint": "8.0.2",
+    "babel-jest": "21.2.0",
+    "babel-plugin-module-resolver": "3.0.0",
+    "babel-preset-react-native": "4.0.0",
+    "eslint": "4.11.0",
+    "eslint-config-react-native": "1.6.0",
+    "eslint-import-resolver-babel-module": "4.0.0-beta.3",
+    "eslint-plugin-import": "2.8.0",
+    "husky": "0.14.3",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.1.1",
+    "remote-redux-devtools": "0.5.12"
   },
   "jest": {
     "preset": "react-native"
