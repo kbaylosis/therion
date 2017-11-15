@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Text, View } from "react-native";
 import { Button, Spinner } from "native-base";
 
@@ -35,8 +36,8 @@ class LoginScreen extends Component {
 }
 
 LoginScreen.propTypes = {
-	actions: React.PropTypes.object,
-	isLoggingIn: React.PropTypes.bool,
+	actions: PropTypes.object,
+	isLoggingIn: PropTypes.bool,
 };
 
 export default LoginScreen;

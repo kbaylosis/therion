@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 import { Button } from "native-base";
 
@@ -29,7 +30,7 @@ class HomeScreen extends Component {
 }
 
 HomeScreen.propTypes = {
-	actions: React.PropTypes.object,
+	actions: PropTypes.object,
 };
 
 export default HomeScreen;
