@@ -27,8 +27,8 @@ class LoginScreen extends Component {
 				<Text>Login Screen</Text>
 				{
 					isLoggingIn ?
-					<Spinner color="blue"/>					:
-					<Button primary full onPress={actions.loginInProgress}><Text>Log In</Text></Button>
+						<Spinner color="blue"/>	:
+						<Button primary full onPress={actions.loginInProgress}><Text>Log In</Text></Button>
 				}
 			</View>
 		);

@@ -22,8 +22,8 @@ class HomeScreen extends Component {
 
 		return (
 			<View style={styles.container}>
-			<Text>Home Screen</Text>
-			<Button primary full onPress={actions.logout}><Text>Log Out</Text></Button>
+				<Text>Home Screen</Text>
+				<Button primary full onPress={actions.logout}><Text>Log Out</Text></Button>
 			</View>
 		);
 	}
