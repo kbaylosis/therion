@@ -5,7 +5,7 @@ import Todo from "./Todo";
 
 const TodoList = ({ todos, onTodoClick }) => (
   <ul>
-    {todos ? todos.map(todo =>
+    {todos ? todos.map((todo) =>
       <Todo
         key={todo.id}
         {...todo}
@@ -16,12 +16,12 @@ const TodoList = ({ todos, onTodoClick }) => (
 );
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    completed: PropTypes.bool.isRequired,
-    text: PropTypes.string.isRequired
-  })),
-  onTodoClick: PropTypes.func.isRequired
+	todos: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		completed: PropTypes.bool.isRequired,
+		text: PropTypes.string.isRequired,
+	})),
+	onTodoClick: PropTypes.func.isRequired,
 };
 
 export default TodoList;

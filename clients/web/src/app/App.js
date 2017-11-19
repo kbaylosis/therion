@@ -11,13 +11,13 @@ import "./styles.css";
 import Todo from "../modules/todo";
 
 const composeEnhancers = composeWithDevTools({ realtime: true });
-let store = createStore(AppReducer,
+const store = createStore(AppReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
 
 export default class App extends React.Component {
-  render() {
-    return (
+	render() {
+		return (
       <Provider store={store}>
         <div className="App">
           <div className="App-header">
@@ -30,6 +30,6 @@ export default class App extends React.Component {
           <Todo />
         </div>
       </Provider>
-    );
-  }
+		);
+	}
 }

@@ -6,11 +6,13 @@ import TodoList from "../components/TodoList";
 import { getVisibleTodos } from "../selectors";
 
 const mapStateToProps = ({ Todo }) => ({
-    todos: getVisibleTodos(Todo)
+	todos: getVisibleTodos(Todo),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onTodoClick: (id) => { dispatch(toggleTodo(id)); }
+const mapDispatchToProps = (dispatch) => ({
+	onTodoClick: (id) => {
+		dispatch(toggleTodo(id));
+	},
 });
 
 const VisibleTodoList = connect(

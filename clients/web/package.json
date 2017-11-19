@@ -57,12 +57,13 @@
     "whatwg-fetch": "2.0.2"
   },
   "scripts": {
-    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && node scripts/start.js",
-    "build": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && node scripts/build.js",
-    "test": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && node scripts/test.js --env=jsdom",
-    "desktop": "rm -rf __globals__ && cp -fR ../../globals __globals__ && eslint --max-warnings 1 . && export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node scripts/start.js",
+    "build": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node scripts/build.js",
+    "test": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node scripts/test.js --env=jsdom",
+    "desktop": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && export ELECTRON_START_URL=http://localhost:3000 && electron .",
     "lint": "eslint --max-warnings 1 .",
-    "precommit": "eslint --max-warnings 1 ."
+    "lint-fix": "eslint --fix --max-warnings 1 .",
+    "precommit": "npm run lint"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "homepage": "https://bitbucket.org/zoog/therion#readme",
