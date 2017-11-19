@@ -10,7 +10,7 @@ An application development framework designed to create an app that runs over th
 ```
 #!shell
 
-git clone git@bitbucket.org:zoog/therion.git <project_name>
+git clone git@github.com:kbaylosis/therion.git <project_name>
 cd <project_name>
 
 ```
