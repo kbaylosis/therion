@@ -4,21 +4,21 @@ import * as Constants from "../constants";
 import FilterLink from "../containers/FilterLink";
 
 const Footer = () => (
-  <p>
+	<p>
     Show:
-    {" "}
-    <FilterLink filter={ Constants.SHOW_ALL }>
+		{" "}
+		<FilterLink filter={ Constants.SHOW_ALL }>
       All
-    </FilterLink>
-    {", "}
-    <FilterLink filter={ Constants.SHOW_ACTIVE }>
+		</FilterLink>
+		{", "}
+		<FilterLink filter={ Constants.SHOW_ACTIVE }>
       Active
-    </FilterLink>
-    {", "}
-    <FilterLink filter={ Constants.SHOW_COMPLETED }>
+		</FilterLink>
+		{", "}
+		<FilterLink filter={ Constants.SHOW_COMPLETED }>
       Completed
-    </FilterLink>
-  </p>
+		</FilterLink>
+	</p>
 );
 
 export default Footer;

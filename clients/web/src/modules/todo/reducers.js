@@ -34,8 +34,8 @@ const todos = (state = [], action) => {
 		];
 	case Types.TOGGLE_TODO:
 		return state.map((t) =>
-        todo(t, action)
-      );
+			todo(t, action)
+		);
 	default:
 		return state;
 	}
