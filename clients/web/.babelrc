@@ -1,0 +1,16 @@
+{
+	"presets": ["react-app"],
+	"plugins": [
+		["module-resolver", {
+			"alias" : {
+				"__proj": ".",
+				"__src" : "./src",
+				"__npm" : "./node_modules"
+		}}]
+	],
+	"env": {
+		"production": {
+			"plugins": ["transform-remove-console"],
+		},
+	},
+}
