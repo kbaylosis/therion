@@ -6,7 +6,7 @@ import { composeWithDevTools } from "remote-redux-devtools";
 
 import AppReducer from "./reducers";
 import logo from "../assets/logo.svg";
-import "./styles.css";
+import "./styles.scss";
 
 import Todo from "../modules/todo";
 
