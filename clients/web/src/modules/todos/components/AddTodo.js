@@ -7,6 +7,11 @@ import {
 	Input,
 } from "antd";
 
+//
+// See https://www.npmjs.com/package/history for the routines
+//
+// import { push, replace, go, goBack, goForward } from "react-router-redux";
+
 import { addTodo } from "../actions";
 
 class AddTodo extends PureComponent {
@@ -42,6 +47,9 @@ class AddTodo extends PureComponent {
 		this.props.form.setFieldsValue({
 			todo: "",
 		});
+
+		// Example only:
+		// this.props.dispatch(goBack());
 	}
 };
 
