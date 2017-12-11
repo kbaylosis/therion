@@ -1,9 +1,15 @@
 import { combineReducers } from "redux";
 
-import { Todo } from "../modules/todo";
+import { login } from "../modules/login";
+import { home } from "../modules/home";
+import { dashboard } from "../modules/dashboard";
+import { todos } from "../modules/todos";
 
 const reducer = combineReducers({
-	Todo,
+	login,
+	home,
+	dashboard,
+	todos,
 });
 
 export default reducer;
