@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.0.0",
     "chart.js": "^2.7.1",
+    "history": "^4.7.2",
     "install": "^0.10.2",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
@@ -15,7 +16,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.8",
+    "react-router-redux": "^5.0.0-alpha.8",
     "react-style": "^0.5.5",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",

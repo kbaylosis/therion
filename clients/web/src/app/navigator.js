@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
-	BrowserRouter as Router,
 	Switch,
 } from "react-router-dom";
+import { ConnectedRouter } from "react-router-redux";
 
 import NestedRoute from "__src/components/NestedRoute";
 import Login from "__src/modules/login";
@@ -17,7 +17,7 @@ const routes = [
 class AppNavigator extends PureComponent {
 	render() {
 		return (
-			<Router>
+			<ConnectedRouter { ...this.props }>
 				<div id="navigator">
 					<Switch>
 						{
@@ -29,7 +29,7 @@ class AppNavigator extends PureComponent {
 						}
 					</Switch>
 				</div>
-			</Router>
+			</ConnectedRouter>
 		);
 	}
 }
