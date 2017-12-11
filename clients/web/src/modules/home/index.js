@@ -1,13 +1,17 @@
 import React from "react";
 import Loadable from "react-loadable";
 
-import Dashboard from "__src/modules/dashboard";
-import Todos from "__src/modules/todos";
 import Loading from "__src/components/Loading";
+import Dashboard from "__src/modules/dashboard";
+import Todos, { todos } from "__src/modules/todos";
 
 // import reducers from "./reducers";
 
-// export const home = reducers;
+export const home = {
+	// home: reducers,
+	// dashboard,
+	todos,
+};
 
 export default [{
 	path: "/",
