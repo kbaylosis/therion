@@ -9,7 +9,7 @@ class Content extends PureComponent {
 		const { routes } = this.props;
 
 		return (
-			<Layout.Content>
+			<Layout.Content id="home-content">
 				{
 					routes.map((route, index) => (<NestedRoute key={ index } { ...route } />))
 				}

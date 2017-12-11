@@ -10,7 +10,7 @@ import "../styles.scss";
 class HomeScreen extends PureComponent {
 	render() {
 		return (
-			<Layout>
+			<Layout id="home-container">
 				<Header/>
 				<Layout>
 					<Sidebar/>

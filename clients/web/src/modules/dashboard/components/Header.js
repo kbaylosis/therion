@@ -6,7 +6,7 @@ import {
 class Header extends PureComponent {
 	render() {
 		return (
-			<Layout.Header>
+			<Layout.Header id="dashboard-header">
 			</Layout.Header>
 		);
 	}

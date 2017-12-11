@@ -6,7 +6,7 @@ import {
 class Header extends PureComponent {
 	render() {
 		return (
-			<Layout.Header id="main-header">
+			<Layout.Header id="login-header">
 			</Layout.Header>
 		);
 	}

@@ -4,7 +4,7 @@ import { Layout } from "antd";
 class Footer extends PureComponent {
 	render() {
 		return (
-			<Layout.Footer style={{ textAlign: "center" }}>
+			<Layout.Footer id="home-footer">
 				Copyright © 2017 Zoog Technologies, Inc
 			</Layout.Footer>
 		);

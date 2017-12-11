@@ -21,7 +21,7 @@ const menu = (
 class Header extends PureComponent {
 	render() {
 		return (
-			<Layout.Header id="main-header">
+			<Layout.Header id="home-header">
 				<Row>
 					<Col span={ 3 }>
 						<Avatar src={ logo } className="logo"/>

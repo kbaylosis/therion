@@ -34,7 +34,7 @@ const data = () => ({
 class Content extends PureComponent {
 	render() {
 		return (
-			<Layout.Content>
+			<Layout.Content id="dashboard-content">
 				<Row type="flex">
 					<Col className="bargraph" span={12}>
 						<Bar data={data()} width={250} height={500}
