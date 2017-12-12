@@ -11,6 +11,7 @@ import {
 // See https://www.npmjs.com/package/history for the routines
 //
 // import { push, replace, go, goBack, goForward } from "react-router-redux";
+// import { goBack } from "react-router-redux";
 
 import { addTodo } from "../actions";
 
