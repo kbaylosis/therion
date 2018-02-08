@@ -2,9 +2,22 @@
 	background: #fff;
 }
 
+.ant-layout {
+	background: white;
+}
+
 #todos-content {
-	background: #ececec;
-	border: 1px;
-	padding: 20px;
-	margin: 20px;
+    margin: 30px;
+    min-height: 500px;
+	background: white;
+	background-color: #FFFFFF;
+    box-shadow: 0px 3px 6px -4px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 30px;
+}
+
+.todo-form {
+    margin-bottom: 14px;
 }
