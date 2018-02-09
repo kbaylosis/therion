@@ -1,5 +1,5 @@
 import React from "react";
-import Loadable from "react-loadable";
+import loadable from "react-loadable";
 
 import Loading from "__src/components/Loading";
 import Dashboard from "__src/modules/dashboard";
@@ -15,8 +15,7 @@ export const home = {
 
 export default [{
 	path: "/",
-	// eslint-disable-next-line new-cap
-	component: Loadable({
+	component: loadable({
 		loader: () => import("./containers/Home"),
 		loading: () => (<Loading/>),
 	}),

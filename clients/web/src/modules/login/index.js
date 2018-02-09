@@ -1,5 +1,5 @@
 import React from "react";
-import Loadable from "react-loadable";
+import loadable from "react-loadable";
 
 import Loading from "__src/components/Loading";
 
@@ -9,8 +9,7 @@ import Loading from "__src/components/Loading";
 
 export default [{
 	path: "/login",
-	// eslint-disable-next-line new-cap
-	component: Loadable({
+	component: loadable({
 		loader: () => import("./containers/Login"),
 		loading: () => (<Loading/>),
 	}),
