@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
+import QueueAnim from "rc-queue-anim";
 
 class Sidebar extends PureComponent {
 	static contextTypes = {
@@ -28,13 +29,18 @@ class Sidebar extends PureComponent {
 	render() {
 		return (
 			<Layout.Sider style={{ background: "#fff" }}>
-				<Menu
-					mode="inline"
-					defaultSelectedKeys={[ "/" ]}
-					selectedKeys={[ this.state.route ]}>
+				<QueueAnim
+					component={ Menu }
+					componentProps={{
+						mode: "inline",
+						defaultSelectedKeys: [ "/" ],
+						selectedKeys: [ this.state.route ],
+					}}
+					delay={ 100 }
+					type="left">
 					<Menu.Item key="/"><Link to="/">Dashboard</Link></Menu.Item>
 					<Menu.Item key="/todos"><Link to="/todos">To Dos</Link></Menu.Item>
-				</Menu>
+				</QueueAnim>
 			</Layout.Sider>
 		);
 	}
