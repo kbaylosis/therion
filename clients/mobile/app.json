@@ -1,4 +1,5 @@
 {
-  "name": "therion_mobile",
-  "displayName": "therion_mobile"
+  "expo": {
+    "sdkVersion": "25.0.0"
+  }
 }
