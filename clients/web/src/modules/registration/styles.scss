@@ -1,18 +1,18 @@
 @import "../../app/variables";
 
-#login-content {
-	background-image: url("../../assets/login-background.jpg");
+#registration-content {
+	background-image: url("../../assets/registration-background.jpg");
 	background-size: cover;
 }
 
-#login-signup {
+#registration-login {
 	margin-top: 15px;
 	float: right;
 	color: white;
 	background-color: $primary-color;
 }
 
-#login-box {
+#registration-box {
 	background: $gray-lighter;
 	border: 1px;
 	padding: 20px;
@@ -20,10 +20,10 @@
 	opacity: 0.9;
 }
 
-.login-form-forgot {
+.registration-form-forgot {
 	float: right;
 }
 
-.login-form-button {
+.registration-form-button {
 	width: 100%;
 }

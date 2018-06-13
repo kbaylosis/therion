@@ -13,8 +13,8 @@ class Header extends PureComponent {
 		return (
 			<Layout.Header className="header">
 				<Avatar src={ logo } className="menu-logo"/>
-				<Button id="login-signup">
-					<Link to="/registration">Sign Up</Link>
+				<Button id="registration-login">
+					<Link to="/login">Log In</Link>
 				</Button>
 			</Layout.Header>
 		);

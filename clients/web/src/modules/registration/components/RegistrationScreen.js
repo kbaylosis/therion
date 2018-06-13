@@ -6,7 +6,7 @@ import Content from "./Content";
 import Footer from "./Footer";
 import "../styles.scss";
 
-class LoginScreen extends PureComponent {
+class RegistrationScreen extends PureComponent {
 	render() {
 		return (
 			<Layout className="module-container">
@@ -18,7 +18,7 @@ class LoginScreen extends PureComponent {
 	}
 }
 
-LoginScreen.propTypes = {
+RegistrationScreen.propTypes = {
 };
 
-export default LoginScreen;
+export default RegistrationScreen;

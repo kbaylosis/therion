@@ -2,7 +2,6 @@ import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import {
 	Button,
-	Checkbox,
 	Col,
 	Form,
 	Icon,
@@ -18,20 +17,30 @@ class Content extends PureComponent {
 		const { getFieldDecorator } = this.props.form;
 
 		return (
-			<Layout.Content id="login-content" className="content">
+			<Layout.Content id="registration-content" className="content">
 				<Row type="flex" justify="center">
 					<Col span={ 6 }>
-						<Form onSubmit={this.handleSubmit} id="login-box" className="login-form">
+						<Form onSubmit={this.handleSubmit} id="registration-box" className="registration-form">
 							<div type="flex" style={{ textAlign: "center", paddingBottom: 10 }}>
-								<h2>Welcome to HRIS Pro!</h2>
+								<h2>{ "Let's get started!" }</h2>
 							</div>
 							<FormItem>
 								{
-									getFieldDecorator("userName", {
-										rules: [{ required: true, message: "Please input your username!" }],
+									getFieldDecorator("fullName", {
+										rules: [{ required: true, message: "Please input your full name!" }],
 									})(
 										<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-											placeholder="Username" />
+											placeholder="Full name" />
+									)
+								}
+							</FormItem>
+							<FormItem>
+								{
+									getFieldDecorator("email", {
+										rules: [{ required: true, message: "Please input your email!" }],
+									})(
+										<Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
+											placeholder="Email" />
 									)
 								}
 							</FormItem>
@@ -46,15 +55,6 @@ class Content extends PureComponent {
 								}
 							</FormItem>
 							<FormItem>
-								{
-									getFieldDecorator("remember", {
-										valuePropName: "checked",
-										initialValue: false,
-									})(
-										<Checkbox>Remember me</Checkbox>
-									)
-								}
-								<a className="login-form-forgot" href="">Forgot password</a>
 								<Button type="primary" htmlType="submit" className="login-form-button">
 									<Link to="/">Log In</Link>
 								</Button>
