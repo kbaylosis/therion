@@ -8,6 +8,7 @@ import path from "path";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";
 
 import * as resolvers from "./controllers";
+import { urlPrefix } from "./config/custom";
 
 const log = debug("therion:server:app");
 
@@ -29,10 +30,10 @@ log("Instantiate server app");
 app.use(compression());
 
 // The GraphQL endpoint
-app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
+app.use(`${ urlPrefix }/graphql`, bodyParser.json(), graphqlExpress({ schema }));
 
 // GraphiQL, a visual editor for queries
-app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
+app.use(`${ urlPrefix }/graphiql`, graphiqlExpress({ endpointURL: `${ urlPrefix }/graphql` }));
 
 // Global error handler
 // eslint-disable-next-line no-unused-vars 
