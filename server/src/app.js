@@ -13,7 +13,7 @@ import { urlPrefix } from "./config/custom";
 const log = debug("therion:server:app");
 
 // The GraphQL schema in string form
-const typesArray = fileLoader(path.join(__dirname, "./models/**/*.graphql"));
+const typesArray = fileLoader(path.join(__dirname, "./schemas/**/*.graphql"));
 const typeDefs = mergeTypes(typesArray, { all: true });
 
 const schema = makeExecutableSchema({
