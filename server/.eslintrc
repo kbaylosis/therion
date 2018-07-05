@@ -26,8 +26,5 @@
 			"error",
 			"always"
 		],
-		"no-console": [
-			"off",
-		],
 	},
 }
