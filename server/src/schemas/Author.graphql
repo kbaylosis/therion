@@ -1,4 +1,5 @@
 type Author {
 	firstname: String
 	lastname: String
+	fullname: String
 }

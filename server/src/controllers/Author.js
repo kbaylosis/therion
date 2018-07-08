@@ -1,8 +1,7 @@
 import casual from "casual";
 
-const Author = {
-	firstname: () => casual.first_name,
-	lastname: () => casual.last_name
-};
+class Author {
+	fullname = () => (`${ casual.firstname() } ${ casual.lastname() }`)
+}
 
-export default Author;
+export default new Author();

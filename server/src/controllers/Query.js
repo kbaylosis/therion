@@ -2,15 +2,16 @@ import casual from "casual";
 
 import books from "../mocks/Books.json";
 
-const Query = {
-	books: () => books,
-	book: () => ({
+class Query {
+	books = () => books
+	book = () => ({
 		title: casual.title,
 		content: casual.sentence,
 		author: {
-			fullname: ""
-		}
+			firstname: "Test",
+			lastname: "Okay",
+		},
 	})
-};
+}
 
 export default Query;

@@ -18,7 +18,7 @@ const typeDefs = mergeTypes(typesArray, { all: true });
 
 const schema = makeExecutableSchema({
 	typeDefs,
-	resolvers
+	resolvers,
 });
 
 // Initialize the app
