@@ -1,7 +1,7 @@
-// import casual from "casual";
+import Controller from "../core/base/Controller";
 
-class User {
-	// fullname = () => (`${ casual.firstname() } ${ casual.lastname() }`)
+class User extends Controller {
+
 }
 
-export default new User();
+export default User;

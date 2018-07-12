@@ -2,18 +2,20 @@ import Sequelize from "sequelize";
 import _ from "lodash";
 import debug from "debug";
 
-import * as config from "../config";
-import * as modelDefs from "../models";
-
 const log = debug("therion:server:DataManager");
 
 class DataManager {
-	initialize = async () => {
+	initialize = async (models, config) => {
 		try {
-			this._manager = new Sequelize(config.Datastore.name,
-				config.Datastore.username, config.Datastore.password, {
-					host: config.Datastore.host,
-					dialect: config.Datastore.dialect,
+			this._definitions = models;
+			this._config = config;
+
+			const datastore = this._config.Datastore;
+
+			this._manager = new Sequelize(datastore.name,
+				datastore.username, datastore.password, {
+					host: datastore.host,
+					dialect: datastore.dialect,
 					pool: {
 						max: 5,
 						min: 0,
@@ -26,16 +28,16 @@ class DataManager {
 				});
 
 			await this._manager.authenticate();
-			log(`Database connection to ${ config.Datastore.host } has been established successfully.`);
+			log(`Database connection to ${ datastore.host } has been established successfully.`);
 
 			// Instantiate models
-			this._models = _.transform(modelDefs, (r, v, k) => {
+			this._models = _.transform(this._definitions, (r, v, k) => {
 				r[k] = this.manager.define(_.camelCase(k), v.attributes);
 				r[k].description = v.description;
 			}, {});
 
 			// Construct relationships
-			_.forEach(modelDefs, (modelDef, name) => {
+			_.forEach(this._definitions, (modelDef, name) => {
 				if ("associations" in modelDef) {
 					_.forEach(modelDef.associations, (association, fieldName) => {
 						this._models[name][association.type](this._models[association.model], { as: fieldName });
@@ -50,6 +52,8 @@ class DataManager {
 			log(e);
 			throw e;
 		}
+
+		return this;
 	}
 
 	get manager() {

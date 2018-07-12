@@ -31,6 +31,7 @@
     "merge-graphql-schemas": "^1.5.2",
     "moment": "^2.22.2",
     "mysql2": "^1.5.3",
+    "pluralize": "^7.0.0",
     "sequelize": "^4.38.0"
   },
   "devDependencies": {
