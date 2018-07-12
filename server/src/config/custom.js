@@ -1,4 +1,9 @@
 
-export const port = 3000;
-export const ssl = false;
-export const urlPrefix = "";
+const custom = {
+	port: 3000,
+	ssl: false,
+	urlPrefix: "",
+	endpoint: "graphql",
+};
+
+export default custom;
