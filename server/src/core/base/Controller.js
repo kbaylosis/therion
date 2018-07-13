@@ -15,19 +15,20 @@ class Controller {
 		return this._model;
 	}
 
+	_call = (method, ...args) => (this[method] ? this[method](...args) : this._model.findOne(...args));
+
 	getQuery = () => {
 		const query = {};
-		const model = this._model;
-		const modelName = _.camelCase(model.name);
+		const modelName = _.camelCase(this._model.name);
 
 		query[`${ modelName }`] = async (obj, args) => {
 			args.where = !args.where || JSON.parse(args.where);
 
 			if (args.id) {
-				return await model.findById(args.id);
+				return await this._call("findById", args.id);
 			}
 
-			return await model.findOne(args);
+			return await this._call("findOne", args);
 		};
 
 		query[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
@@ -37,12 +38,12 @@ class Controller {
 			args.where = !args.where || JSON.parse(args.where);
 
 			if (action === Action.COUNT) {
-				const result = await model.findAndCountAll(args);
+				const result = await this._call("findAndCountAll", args);
 
 				total = result.count;
 				rows = result.rows;
 			} else {
-				rows = await model.findAll(args);
+				rows = await this._call("findAll", args);
 			}
 
 			return {
@@ -58,8 +59,7 @@ class Controller {
 
 	getMutation = () => {
 		const mutation = {};
-		const model = this._model;
-		const modelName = _.camelCase(model.name);
+		const modelName = _.camelCase(this._model.name);
 
 		mutation[`${ modelName }`] = async (obj, args) => {
 			let total, rows;
@@ -76,30 +76,30 @@ class Controller {
 				default: {
 					const { values } = args;
 
-					rows = [ model.create(JSON.parse(values), args) ];
+					rows = [ this._call("create", JSON.parse(values), args) ];
 					break;
 				}
 				case Action.READ: {
-					const { created } = await model.findOrCreate(args);
+					const { created } = await this._call("findOrCreate", args);
 
 					rows = [ created ];
 					break;
 				}
 				case Action.UPSERT: {
-					const { created } = await model.upsert(values, args);
+					const { created } = await this._call("upsert", values, args);
 
 					rows = [ created ];
 					break;
 				}
 				case Action.UPDATE: {
 					args.limit = 1;
-					const result = await model.update(values, args);
+					const result = await this._call("update", values, args);
 
 					rows = result[1];
 					break;
 				}
 				case Action.DELETE: {
-					await model.destroy(args);
+					await this._call("destroy", args);
 
 					break;
 				}}
@@ -136,14 +136,14 @@ class Controller {
 					// Do nothing since it's not meaningful to do these operations on multiple records
 					break;
 				case Action.UPDATE: {
-					const result = await model.update(values, args);
+					const result = await this._call("update", values, args);
 
 					total = result[0];
 					rows = result[1];
 					break;
 				}
 				case Action.DELETE: {
-					await model.destroy(args);
+					await this._call("destroy", args);
 
 					total = 1;
 					break;

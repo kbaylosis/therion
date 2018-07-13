@@ -8,9 +8,7 @@ class GraphQLManager {
 		this._models = models;
 		this._controllers = _.transform(models, (r, v, k) => {
 			const type = controllers[k] || Controller;
-			const obj = new type(v);
-
-			r[k] = _.assignIn(new Controller(v), r[k], obj.getQuery());
+			r[k] = new type(v);
 		}, {});
 		this._query = this._getQuery();
 		this._querySchema = this._getQuerySchema();
