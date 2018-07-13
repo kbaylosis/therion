@@ -55,8 +55,8 @@ class Content extends PureComponent {
 								}
 							</FormItem>
 							<FormItem>
-								<Button type="primary" htmlType="submit" className="login-form-button">
-									<Link to="/">Log In</Link>
+								<Button type="primary" htmlType="submit" className="registration-form-button">
+									<Link to="/">Proceed</Link>
 								</Button>
 							</FormItem>
 						</Form>

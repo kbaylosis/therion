@@ -6,9 +6,9 @@ import {
 	Row,
 } from "antd";
 
-import card1 from "../../../assets/news-article1.jpg";
-import card2 from "../../../assets/news-article2.jpg";
-import card3 from "../../../assets/news-article3.jpg";
+import card1 from "../../../../assets/news-article1.jpg";
+import card2 from "../../../../assets/news-article2.jpg";
+import card3 from "../../../../assets/news-article3.jpg";
 
 class Content extends PureComponent {
 	render() {

@@ -3,7 +3,6 @@ import { Layout } from "antd";
 
 import Header from "./Header";
 import Content from "./Content";
-import Footer from "./Footer";
 import "../styles.scss";
 
 class HomeScreen extends PureComponent {
@@ -14,7 +13,6 @@ class HomeScreen extends PureComponent {
 				<Layout>
 					<Content { ...this.props }/>
 				</Layout>
-				<Footer/>
 			</Layout>
 		);
 	}
