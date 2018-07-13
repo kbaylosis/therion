@@ -8,42 +8,49 @@ import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";
 import _ from "lodash";
 
-import * as resolvers from "./resolvers";
+import * as builtInResolvers from "./resolvers";
 
 const log = debug("therion:server:app");
 
 export default (async (config, globals, modelDefs, controllers) => {
 	try {
-		log("***Configurations***");
+		log("Configurations:*********");
 		log(config);
-		log("************");
+		log("************************");
+
+		log("✔ Configurations in good shape");
 
 		const dataMgr = await globals.DataManager.initialize(modelDefs, config);
 		const models = dataMgr.models;
+
+		log("✔ Database models initialized");
+
 		const graphqlMgr = globals.GraphQLManager.initialize(models, controllers);
 
-		// Initialize the app
-		const app = express();
-
-		log("Instantiate server app");
-
 		const typesArray = fileLoader(path.join(__dirname, "./**/*.graphql"))
-			.concat(graphqlMgr.querySchema, graphqlMgr.customTypesSchema);
+			.concat(graphqlMgr.querySchema, graphqlMgr.mutationSchema, graphqlMgr.customTypesSchema);
 
 		const typeDefs = mergeTypes(_.filter(typesArray, (item) => (!Array.isArray(item))),
 			{ all: true });
-		const resolverDefs = {
-			...resolvers,
+		const resolvers = {
+			...builtInResolvers,
 			Query: graphqlMgr.query,
+			Mutation: graphqlMgr.mutation,
 		};
 
+		log("Type Definitions:*******");
 		log(typeDefs);
-		log(resolverDefs);
+		log("************************");
+		log("Resolvers:**************");
+		log(resolvers);
+		log("************************");
 
-		const schema = makeExecutableSchema({
-			typeDefs,
-			resolvers: resolverDefs,
-		});
+		const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+		log("✔ GraphQL schemas and resolvers created");
+
+		// Initialize the app
+		const app = express();
 
 		// Initialize middlewares
 		app.use(compression());
@@ -63,7 +70,7 @@ export default (async (config, globals, modelDefs, controllers) => {
 			res.send(404);
 		});
 
-		log("✔ Done!");
+		log("✔ Server app instantiated");
 
 		return app;
 	} catch (e) {

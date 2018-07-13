@@ -1,10 +1,7 @@
 import _ from "lodash";
 import { attributeFields } from "graphql-sequelize";
-import debug from "debug";
 
 import Controller from "../base/Controller";
-
-const log = debug("therion:server:GraphQLManager");
 
 class GraphQLManager {
 	initialize = (models, controllers) => {
@@ -14,11 +11,12 @@ class GraphQLManager {
 			const obj = new type(v);
 
 			r[k] = _.assignIn(new Controller(v), r[k], obj.getQuery());
-			log(r[k]);
 		}, {});
 		this._query = this._getQuery();
 		this._querySchema = this._getQuerySchema();
 		this._customTypesSchema = this._getCustomTypesSchema();
+		this._mutation = this._getMutation();
+		this._mutationSchema = this._getMutationSchema();
 
 		return this;
 	}
@@ -31,20 +29,16 @@ class GraphQLManager {
 		return this._querySchema;
 	}
 
-	get customTypesSchema() {
-		return this._customTypesSchema;
+	get mutation() {
+		return this._mutation;
 	}
 
-	getMutationSchema = () => {
-		const mutation = _.transform(this._controllers, (r, v) => {
-			r.push(v.getQuerySchema());
-		}, []).join("\n");
+	get mutationSchema() {
+		return this._mutationSchema;
+	}
 
-		return `
-		type Mutation {
-			${ mutation }
-		}
-		`;
+	get customTypesSchema() {
+		return this._customTypesSchema;
 	}
 
 	_getQuery = () => {
@@ -57,16 +51,36 @@ class GraphQLManager {
 		return query;
 	}
 
+	_getMutation = () => {
+		const mutation = {};
+
+		_.map(this._controllers, (v) => {
+			_.assignIn(mutation, v.getMutation());
+		});
+
+		return mutation;
+	}
+
 	_getQuerySchema = () => {
 		const query = _.transform(this._controllers, (r, v) => {
 			r.push(v.getQuerySchema());
 		}, []).join("\n");
 
-		log(query);
-
 		return `
 		type Query {
 			${ query }
+		}
+		`;
+	}
+
+	_getMutationSchema = () => {
+		const mutation = _.transform(this._controllers, (r, v) => {
+			r.push(v.getMutationSchema());
+		}, []).join("\n");
+
+		return `
+		type Mutation {
+			${ mutation }
 		}
 		`;
 	}
@@ -85,7 +99,9 @@ class GraphQLManager {
 	}
 
 	type ${ name }WithCount {
-		count: Int!
+		offset: Int
+		limit: Int
+		total: Int
 		rows: [ ${ name } ]
 	}`, []);
 		}, []).join("\n");
