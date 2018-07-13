@@ -1,0 +1,8 @@
+enum Action {
+	CREATE
+	COUNT
+	READ
+	UPSERT
+	UPDATE
+	DELETE
+}
