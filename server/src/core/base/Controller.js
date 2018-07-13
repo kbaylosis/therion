@@ -165,7 +165,7 @@ class Controller {
 	getQuerySchema = () => {
 		const model = this._model;
 		const modelName = _.camelCase(model.name);
-		const formalModelName = _.capitalize(model.name);
+		const formalModelName = _.upperFirst(model.name);
 
 		return `
 			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, sort: String, id: Int): ${ formalModelName }
@@ -176,7 +176,7 @@ class Controller {
 	getMutationSchema = () => {
 		const model = this._model;
 		const modelName = _.camelCase(model.name);
-		const formalModelName = _.capitalize(model.name);
+		const formalModelName = _.upperFirst(model.name);
 
 		return `
 			${ modelName }(action: Action, values: Json, where: Json, offset: Int, limit: Int, sort: String, id: Int): ${ formalModelName }WithCount
