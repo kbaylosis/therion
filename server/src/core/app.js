@@ -20,6 +20,7 @@ export default (async (config, globals, modelDefs, controllers) => {
 
 		log("✔ Configurations in good shape");
 
+		// Initialize the database and it's models
 		const dataMgr = await globals.DataManager.initialize(modelDefs, config);
 		const models = dataMgr.models;
 
@@ -27,11 +28,14 @@ export default (async (config, globals, modelDefs, controllers) => {
 
 		const graphqlMgr = globals.GraphQLManager.initialize(models, controllers);
 
-		const typesArray = fileLoader(path.join(__dirname, "./**/*.graphql"))
+		// Load all hard coded schema definitions from the core and from the app
+		const typesArray = fileLoader(path.join(__dirname, "../**/*.graphql"))
+		// Generate schema definitions out from the database models
 			.concat(graphqlMgr.querySchema, graphqlMgr.mutationSchema, graphqlMgr.customTypesSchema);
-
 		const typeDefs = mergeTypes(_.filter(typesArray, (item) => (!Array.isArray(item))),
 			{ all: true });
+
+		// Setup all resolvers
 		const resolvers = {
 			...builtInResolvers,
 			Query: graphqlMgr.query,
@@ -45,6 +49,7 @@ export default (async (config, globals, modelDefs, controllers) => {
 		log(resolvers);
 		log("************************");
 
+		// Generate the final schema
 		const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 		log("✔ GraphQL schemas and resolvers created");
