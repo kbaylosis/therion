@@ -32,7 +32,7 @@ class Controller {
 		};
 
 		query[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
-			let total, rows;
+			let count, rows;
 			const { action, offset, limit } = args;
 
 			args.where = !args.where || JSON.parse(args.where);
@@ -40,7 +40,7 @@ class Controller {
 			if (action === Action.COUNT) {
 				const result = await this._obj("findAndCountAll").findAndCountAll(args);
 
-				total = result.count;
+				count = result.count;
 				rows = result.rows;
 			} else {
 				rows = await this._obj("findAll").findAll(args);
@@ -49,7 +49,7 @@ class Controller {
 			return {
 				offset,
 				limit,
-				total,
+				count,
 				rows,
 			};
 		};
@@ -62,67 +62,58 @@ class Controller {
 		const modelName = _.camelCase(this._model.name);
 
 		mutation[`${ modelName }`] = async (obj, args) => {
-			let total, rows;
-
-			// eslint-disable-next-line no-console
-			console.log("BUZZ!!!!!!!!");
+			let record;
 
 			try {
-				const { action } = args;
-				const values = !args.values || JSON.parse(args.values);
+				const { action, values: v, options } = args;
+				const values = !v || JSON.parse(v);
 
-				args.where = !args.where || JSON.parse(args.where);
-				args.default = !args.default || JSON.parse(args.default);
+				if (options) {
+					options.where = !options.where || JSON.parse(options.where);
+					options.default = !options.default || JSON.parse(options.default);
+				}
 
 				switch (action) {
 				case Action.CREATE:
 				default: {
-					const { values } = args;
-
-					rows = [ await this._obj("create").create(JSON.parse(values), args) ];
+					record = await this._obj("create").create(values, options);
 					break;
 				}
 				case Action.READ: {
-					const { created } = await this._obj("findOrCreate").findOrCreate(args);
+					const { created } = await this._obj("findOrCreate").findOrCreate(options);
 
-					rows = [ created ];
+					record = created;
 					break;
 				}
 				case Action.UPSERT: {
-					const { created } = await this._obj("upsert").upsert(values, args);
+					const { created } = await this._obj("upsert").upsert(values, options);
 
-					rows = [ created ];
+					record = created;
 					break;
 				}
 				case Action.UPDATE: {
-					args.limit = 1;
-					const result = await this._obj("update").update(values, args);
+					options.limit = 1;
+					const result = await this._obj("update").update(values, options);
 
-					rows = result[1];
+					record = result[1];
 					break;
 				}
 				case Action.DELETE: {
-					await this._obj("destroy").destroy(args);
+					await this._obj("destroy").destroy(options);
 
 					break;
 				}}
-
-				total = 1;
 			} catch (e) {
 				log(e);
 
-				total = null;
-				rows = null;
+				record = null;
 			}
 
-			return {
-				total,
-				rows,
-			};
+			return record;
 		};
 
 		mutation[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
-			let total, rows;
+			let count, rows;
 
 			try {
 				const { action } = args;
@@ -141,25 +132,25 @@ class Controller {
 				case Action.UPDATE: {
 					const result = await this._obj("update").update(values, args);
 
-					total = result[0];
+					count = result[0];
 					rows = result[1];
 					break;
 				}
 				case Action.DELETE: {
 					await this._obj("destroy").destroy(args);
 
-					total = 1;
+					count = 1;
 					break;
 				}}
 			} catch (e) {
 				log(e);
 
-				total = null;
+				count = null;
 				rows = null;
 			}
 
 			return {
-				total,
+				count,
 				rows,
 			};
 		};
@@ -184,8 +175,8 @@ class Controller {
 		const formalModelName = _.upperFirst(model.name);
 
 		return `
-			${ modelName }(action: Action, values: Json, where: Json, offset: Int, limit: Int, sort: String, id: Int): ${ formalModelName }WithCount
-			${ pluralize.plural(modelName) }(action: Action, values: Json, where: Json, offset: Int, limit: Int, sort: String): ${ formalModelName }WithCount
+			${ modelName }(action: Action, values: Json, options: Json): ${ formalModelName }
+			${ pluralize.plural(modelName) }(action: Action, values: Json, options: Json): ${ formalModelName }WithCount
 		`;
 	}
 }

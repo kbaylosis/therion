@@ -104,7 +104,7 @@ class GraphQLManager {
 	type ${ name }WithCount {
 		offset: Int
 		limit: Int
-		total: Int
+		count: Int
 		rows: [ ${ name } ]
 	}`, []);
 		}, []).join("\n");
