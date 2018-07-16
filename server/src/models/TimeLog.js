@@ -1,14 +1,15 @@
 import Sequelize from "sequelize";
 
-// import User from "./User";
-
-class Ticket {
+class TimeLogs {
 	static attributes = {
-		refId: Sequelize.STRING,
-		schedule: Sequelize.DATE,
+		badgeId: Sequelize.STRING,
 	}
 
 	static associations = {
+		employee: {
+			type: "belongsTo",
+			model: "Employee",
+		},
 		user: {
 			type: "belongsTo",
 			model: "User",
@@ -16,4 +17,4 @@ class Ticket {
 	}
 }
 
-export default Ticket;
+export default TimeLogs;

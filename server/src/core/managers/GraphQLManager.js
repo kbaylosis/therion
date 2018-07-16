@@ -1,7 +1,10 @@
 import _ from "lodash";
+import debug from "debug";
 import { attributeFields } from "graphql-sequelize";
 
 import Controller from "../base/Controller";
+
+const log = debug("therion:server:core:GraphQLManager");
 
 class GraphQLManager {
 	initialize = (models, controllers) => {
@@ -54,6 +57,8 @@ class GraphQLManager {
 
 		_.map(this._controllers, (v) => {
 			_.assignIn(mutation, v.getMutation());
+			log(mutation);
+			log(v);
 		});
 
 		return mutation;

@@ -6,7 +6,8 @@
 				"__proj": ".",
 				"__src" : "./src",
 				"__npm" : "./node_modules"
-		}}]
+		}}],
+		"graphql-tag",
 	],
 	"env": {
 		"production": {

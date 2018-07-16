@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import compression from "compression";
+import cors from "cors";
 import debug from "debug";
 import path from "path";
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
@@ -59,6 +60,13 @@ export default (async (config, globals, modelDefs, controllers) => {
 
 		// Initialize middlewares
 		app.use(compression());
+		app.use(cors());
+
+		// app.use(function(req, res, next) {
+		// 	res.header("Access-Control-Allow-Origin", "*");
+		// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		// 	next();
+		// });
 
 		// The GraphQL endpoint
 		app.use(`${ config.Custom.urlPrefix }/graphql`, bodyParser.json(), graphqlExpress({ schema }));

@@ -18,7 +18,7 @@ app(config, globals, models, controllers).then((a) => {
 		if (process.env.DEBUG) {
 			log(fs.readFileSync(path.join(__dirname, "../assets/logo")).toString());
 			log("✔ Therion server started in debug mode");
-			log(`Go to http://localhost:${ config.Custom.port }`);
+			log(`Send requests to http://localhost:${ config.Custom.port }/${ config.Custom.endpoint }`);
 		} else {
 			// eslint-disable-next-line no-console
 			console.log(

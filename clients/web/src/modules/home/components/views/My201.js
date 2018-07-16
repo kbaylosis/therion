@@ -1,7 +1,5 @@
 import React, { PureComponent } from "react";
 import {
-	Card,
-	Col,
 	Layout,
 	Row,
 } from "antd";
