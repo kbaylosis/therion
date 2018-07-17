@@ -31,15 +31,14 @@ class Controller {
 			} else {
 				const { where="{}", options="{}" } = args;
 
-				args.where = JSON.parse(where);
+				args.where = _.isString(where) ? JSON.parse(where) : where;
 				delete args.options;
-				_.assign(args, JSON.parse(options));
+				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
 				args.include = Object.keys(modelDef.associations);
 
 				record = await this._obj("findOne").findOne(args);
 			}
 
-			log(record);
 			return record;
 		};
 
@@ -47,9 +46,9 @@ class Controller {
 			let count, rows;
 			const { action, offset, limit, where="{}", options="{}" } = args;
 
-			args.where = JSON.parse(where);
+			args.where = _.isString(where) ? JSON.parse(where) : where;
 			delete args.options;
-			_.assign(args, JSON.parse(options));
+			_.assign(args, _.isString(options) ? JSON.parse(options) : options);
 			args.include = Object.keys(modelDef.associations);
 
 			if (action === Action.COUNT) {
@@ -61,7 +60,6 @@ class Controller {
 				rows = await this._obj("findAll").findAll(args);
 			}
 
-			log(rows);
 			return {
 				offset,
 				limit,
@@ -83,8 +81,8 @@ class Controller {
 
 			try {
 				const { action, values: v="{}", options: o="{}" } = args;
-				const values = JSON.parse(v);
-				const options = JSON.parse(o);
+				const values = _.isString(v) ? JSON.parse(v) : v;
+				const options = _.isString(o) ? JSON.parse(o) : o;
 
 				options.include = Object.keys(modelDef.associations);
 				log(options);
@@ -155,8 +153,8 @@ class Controller {
 
 			try {
 				const { action, values: v="{}", options: o="{}" } = args;
-				const values = JSON.parse(v);
-				const options = JSON.parse(o);
+				const values = _.isString(v) ? JSON.parse(v) : v;
+				const options = _.isString(o) ? JSON.parse(o) : o;
 
 				options.include = Object.keys(modelDef.associations);
 
@@ -177,7 +175,7 @@ class Controller {
 					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
 
 					options.include = include;
-					
+
 					count = affectedCount;
 					rows = affectedRows;
 					break;
