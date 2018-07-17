@@ -1,14 +1,15 @@
 import Sequelize from "sequelize";
 
-class TimeLogs {
+class Priority {
 	static attributes = {
-		badgeId: Sequelize.STRING,
+		priorityId: Sequelize.STRING,
+		schedule: Sequelize.DATE,
 	}
 
 	static associations = {
-		employee: {
+		to: {
 			type: "belongsTo",
-			model: "Employee",
+			model: "User",
 		},
 		user: {
 			type: "belongsTo",
@@ -17,4 +18,4 @@ class TimeLogs {
 	}
 }
 
-export default TimeLogs;
+export default Priority;

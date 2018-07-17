@@ -65,50 +65,58 @@ class Controller {
 			let record;
 
 			try {
-				const { action, values: v, options } = args;
+				const { action, values: v, options: o } = args;
 				const values = !v || JSON.parse(v);
-
-				if (options) {
-					options.where = !options.where || JSON.parse(options.where);
-					options.default = !options.default || JSON.parse(options.default);
-				}
+				const options = !o || JSON.parse(o);
 
 				switch (action) {
 				case Action.CREATE:
 				default: {
-					record = await this._obj("create").create(values, options);
+					const { dataValues } = await this._obj("create").create(values, options);
+
+					record = dataValues;
 					break;
 				}
 				case Action.READ: {
-					const { created } = await this._obj("findOrCreate").findOrCreate(options);
+					const [ r ] = await this._obj("findOrCreate").findOrCreate(options);
 
-					record = created;
+					record = r;
 					break;
 				}
 				case Action.UPSERT: {
-					const { created } = await this._obj("upsert").upsert(values, options);
+					await this._obj("upsert").upsert(values, options);
 
-					record = created;
+					// Do not auto fetch record from database since it might return the wrong one
+					options.returning = false;
 					break;
 				}
 				case Action.UPDATE: {
 					options.limit = 1;
-					const result = await this._obj("update").update(values, options);
+					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
 
-					record = result[1];
+					if (affectedCount && affectedRows) {
+						record = affectedRows[0];
+					}
 					break;
 				}
 				case Action.DELETE: {
 					await this._obj("destroy").destroy(options);
 
+					// Do not auto fetch the record from database since it is already non existent
+					options.returning = false;
 					break;
 				}}
+
+				if (!record && options.returning) {
+					record = await this._obj("findOne").findOne({ where: options.where });
+				}
 			} catch (e) {
 				log(e);
 
 				record = null;
 			}
 
+			log(record);
 			return record;
 		};
 
@@ -116,32 +124,40 @@ class Controller {
 			let count, rows;
 
 			try {
-				const { action } = args;
-				const values = !args.values || JSON.parse(args.values);
-
-				args.where = !args.where || JSON.parse(args.where);
-				args.default = !args.default || JSON.parse(args.default);
+				const { action, values: v, options: o } = args;
+				const values = !v || JSON.parse(v);
+				const options = !o || JSON.parse(o);
 
 				switch (action) {
 				case Action.CREATE:
+					rows = await this._obj("bulkCreate").update(values, options);
+					count = rows.length;
+					break;
 				case Action.READ:
 				case Action.UPSERT:
 				default:
 					// Do nothing since it's not meaningful to do these operations on multiple records
-					break;
+					return null;
 				case Action.UPDATE: {
-					const result = await this._obj("update").update(values, args);
+					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
 
-					count = result[0];
-					rows = result[1];
+					count = affectedCount;
+					rows = affectedRows;
 					break;
 				}
 				case Action.DELETE: {
-					await this._obj("destroy").destroy(args);
+					count = await this._obj("destroy").destroy(args);
 
-					count = 1;
+					// Do not auto fetch the record from database since it is already non existent
+					options.returning = false;
 					break;
 				}}
+
+				log(rows);
+				if (!rows && options.returning) {
+					rows = await this._obj("findAll").findAll(options);
+					count = rows.length;
+				}
 			} catch (e) {
 				log(e);
 
