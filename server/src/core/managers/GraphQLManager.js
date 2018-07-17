@@ -7,11 +7,14 @@ import Controller from "../base/Controller";
 const log = debug("therion:server:core:GraphQLManager");
 
 class GraphQLManager {
-	initialize = (models, controllers) => {
+	initialize = (models, controllers, modelDefs) => {
+		log("Initialized!");
+
 		this._models = models;
+		this._modelDefs = modelDefs;
 		this._controllers = _.transform(models, (r, v, k) => {
 			const type = controllers[k] || Controller;
-			r[k] = new type(v);
+			r[k] = new type(v, modelDefs[k]);
 		}, {});
 		this._query = this._getQuery();
 		this._querySchema = this._getQuerySchema();
@@ -57,8 +60,6 @@ class GraphQLManager {
 
 		_.map(this._controllers, (v) => {
 			_.assignIn(mutation, v.getMutation());
-			log(mutation);
-			log(v);
 		});
 
 		return mutation;
@@ -96,9 +97,28 @@ class GraphQLManager {
 				`);
 			}, []).join("\n");
 
+			const associations = _.transform(this._modelDefs[name].associations, (r, v, k) => {
+				let definition;
+
+				switch(v.type) {
+				case "hasMany":
+					definition = `${ k }: [ ${ v.model } ]`;
+					break;
+				case "belongsTo":
+				default:
+					definition = `${ k }: ${ v.model }`;
+					break;
+				}
+
+				r.push(`
+					${ definition }
+				`);
+			}, []).join("\n");
+
 			gType.push(`
 	type ${ name } {
 	${ attributes }
+	${ associations }
 	}
 
 	type ${ name }WithCount {

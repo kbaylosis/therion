@@ -2,7 +2,10 @@ import Sequelize from "sequelize";
 
 class Priority {
 	static attributes = {
-		priorityId: Sequelize.STRING,
+		priorityNum: {
+			type: Sequelize.STRING,
+			unique: true,
+		},
 		schedule: Sequelize.DATE,
 	}
 

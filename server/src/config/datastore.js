@@ -2,7 +2,7 @@
 const datastore = {
 	dialect: "mysql",
 	host: "localhost",
-	name: "linya",
+	name: "therion",
 	username: "root",
 	password: "root",
 };

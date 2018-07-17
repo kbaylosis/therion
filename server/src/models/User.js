@@ -8,6 +8,13 @@ class User {
 		email: Sequelize.STRING,
 		mobile: Sequelize.STRING,
 	};
+
+	static associations = {
+		priorities: {
+			type: "hasMany",
+			model: "Priority",
+		},
+	}
 }
 
 export default User;

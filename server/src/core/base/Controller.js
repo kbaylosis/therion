@@ -7,8 +7,9 @@ import Action from "../resolvers/Action";
 const log = debug("therion:server:Controller");
 
 class Controller {
-	constructor(model) {
+	constructor(model, modelDef) {
 		this._model = model;
+		this._modelDef = modelDef;
 	}
 
 	get model() {
@@ -20,22 +21,36 @@ class Controller {
 	getQuery = () => {
 		const query = {};
 		const modelName = _.camelCase(this._model.name);
+		const modelDef = this._modelDef;
 
 		query[`${ modelName }`] = async (obj, args) => {
-			args.where = !args.where || JSON.parse(args.where);
+			let record;
 
 			if (args.id) {
-				return await this._obj("findById").findById(args.id);
+				record = await this._obj("findById").findById(args.id);
+			} else {
+				const { where="{}", options="{}" } = args;
+
+				args.where = JSON.parse(where);
+				delete args.options;
+				_.assign(args, JSON.parse(options));
+				args.include = Object.keys(modelDef.associations);
+
+				record = await this._obj("findOne").findOne(args);
 			}
 
-			return await this._obj("findOne").findOne(args);
+			log(record);
+			return record;
 		};
 
 		query[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
 			let count, rows;
-			const { action, offset, limit } = args;
+			const { action, offset, limit, where="{}", options="{}" } = args;
 
-			args.where = !args.where || JSON.parse(args.where);
+			args.where = JSON.parse(where);
+			delete args.options;
+			_.assign(args, JSON.parse(options));
+			args.include = Object.keys(modelDef.associations);
 
 			if (action === Action.COUNT) {
 				const result = await this._obj("findAndCountAll").findAndCountAll(args);
@@ -46,6 +61,7 @@ class Controller {
 				rows = await this._obj("findAll").findAll(args);
 			}
 
+			log(rows);
 			return {
 				offset,
 				limit,
@@ -60,21 +76,26 @@ class Controller {
 	getMutation = () => {
 		const mutation = {};
 		const modelName = _.camelCase(this._model.name);
+		const modelDef = this._modelDef;
 
 		mutation[`${ modelName }`] = async (obj, args) => {
 			let record;
 
 			try {
-				const { action, values: v, options: o } = args;
-				const values = !v || JSON.parse(v);
-				const options = !o || JSON.parse(o);
+				const { action, values: v="{}", options: o="{}" } = args;
+				const values = JSON.parse(v);
+				const options = JSON.parse(o);
+
+				options.include = Object.keys(modelDef.associations);
+				log(options);
 
 				switch (action) {
 				case Action.CREATE:
 				default: {
-					const { dataValues } = await this._obj("create").create(values, options);
+					await this._obj("create").create(values, options);
 
-					record = dataValues;
+					// Make sure it returns the newly created record
+					options.returning = true;
 					break;
 				}
 				case Action.READ: {
@@ -100,6 +121,10 @@ class Controller {
 					break;
 				}
 				case Action.DELETE: {
+					if (options.returning) {
+						record = await this._obj("findOne").findOne(options);
+					}
+
 					await this._obj("destroy").destroy(options);
 
 					// Do not auto fetch the record from database since it is already non existent
@@ -108,7 +133,7 @@ class Controller {
 				}}
 
 				if (!record && options.returning) {
-					record = await this._obj("findOne").findOne({ where: options.where });
+					record = await this._obj("findOne").findOne(options);
 				}
 			} catch (e) {
 				log(e);
@@ -124,9 +149,11 @@ class Controller {
 			let count, rows;
 
 			try {
-				const { action, values: v, options: o } = args;
-				const values = !v || JSON.parse(v);
-				const options = !o || JSON.parse(o);
+				const { action, values: v="{}", options: o="{}" } = args;
+				const values = JSON.parse(v);
+				const options = JSON.parse(o);
+
+				options.include = Object.keys(modelDef.associations);
 
 				switch (action) {
 				case Action.CREATE:
@@ -146,10 +173,12 @@ class Controller {
 					break;
 				}
 				case Action.DELETE: {
-					count = await this._obj("destroy").destroy(args);
+					if (options.returning) {
+						rows = await this._obj("findAll").findAll(options);
+						count = rows.length;
+					}
 
-					// Do not auto fetch the record from database since it is already non existent
-					options.returning = false;
+					count = await this._obj("destroy").destroy(options);
 					break;
 				}}
 
@@ -165,6 +194,7 @@ class Controller {
 				rows = null;
 			}
 
+			log(rows);
 			return {
 				count,
 				rows,
@@ -180,8 +210,8 @@ class Controller {
 		const formalModelName = _.upperFirst(model.name);
 
 		return `
-			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, sort: String, id: Int): ${ formalModelName }
-			${ pluralize.plural(modelName) }(action: Action, where: Json, offset: Int, limit: Int, sort: String): ${ formalModelName }WithCount
+			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, sort: String, id: Int, options: Json): ${ formalModelName }
+			${ pluralize.plural(modelName) }(action: Action, where: Json, offset: Int, limit: Int, sort: String, options: Json): ${ formalModelName }WithCount
 		`;
 	}
 

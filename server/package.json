@@ -28,6 +28,7 @@
     "graphql-tools": "^3.0.4",
     "graphql-tools-sequelize": "^2.0.5",
     "graphql-type-json": "^0.2.1",
+    "json-circular-stringify": "^0.0.1",
     "lodash": "^4.17.10",
     "merge-graphql-schemas": "^1.5.2",
     "moment": "^2.22.2",

@@ -27,7 +27,7 @@ export default (async (config, globals, modelDefs, controllers) => {
 
 		log("✔ Database models initialized");
 
-		const graphqlMgr = globals.GraphQLManager.initialize(models, controllers);
+		const graphqlMgr = globals.GraphQLManager.initialize(models, controllers, modelDefs);
 
 		// Load all hard coded schema definitions from the core and from the app
 		const typesArray = fileLoader(path.join(__dirname, "../**/*.graphql"))

@@ -11,6 +11,7 @@ dependencies:
   graphql-tools: 3.0.4
   graphql-tools-sequelize: 2.0.5
   graphql-type-json: 0.2.1
+  json-circular-stringify: 0.0.1
   lodash: 4.17.10
   merge-graphql-schemas: 1.5.2
   moment: 2.22.2
@@ -2950,6 +2951,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-5CGiqOINawgZ3yiQj3glJrlt0f4=
+  /json-circular-stringify/0.0.1:
+    dependencies:
+      json-stringify-safe: 5.0.1
+    dev: false
+    resolution:
+      integrity: sha1-AVN9mJJaH0mRYbDr7pRbIFOUZPI=
   /json-schema-traverse/0.4.1:
     dev: true
     resolution:
@@ -2958,6 +2965,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
+  /json-stringify-safe/5.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
   /json5/0.5.1:
     dev: true
     resolution:
@@ -4768,6 +4779,7 @@ specifiers:
   graphql-tools: ^3.0.4
   graphql-tools-sequelize: ^2.0.5
   graphql-type-json: ^0.2.1
+  json-circular-stringify: ^0.0.1
   lodash: ^4.17.10
   merge-graphql-schemas: ^1.5.2
   moment: ^2.22.2
