@@ -1,26 +1,48 @@
 {
-  "name": "therion",
-  "version": "0.1.0",
+  "name": "therion_mobile",
+  "version": "0.0.1",
   "private": true,
-  "devDependencies": {
-    "react-native-scripts": "1.11.1",
-    "jest-expo": "25.0.0",
-    "react-test-renderer": "16.2.0"
-  },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js"
-  },
-  "jest": {
-    "preset": "jest-expo"
+    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node node_modules/react-native/local-cli/cli.js start",
+    "ios": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && react-native run-ios",
+    "android": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && react-native run-android",
+    "log-ios": "react-native log-ios",
+    "log-android": "react-native log-android",
+    "test": "jest",
+    "reset": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "lint": "eslint --max-warnings 1 .",
+    "lint-fix": "eslint --fix --max-warnings 1 .",
+    "precommit": "npm run lint"
   },
   "dependencies": {
-    "expo": "^25.0.0",
-    "react": "16.2.0",
-    "react-native": "0.52.0"
+    "eslint-plugin-react": "^7.4.0",
+    "native-base": "2.3.3",
+    "prop-types": "15.5.10",
+    "react": "16.0.0",
+    "react-native": "^0.52.0-rc.0",
+    "react-native-vector-icons": "4.4.2",
+    "react-navigation": "1.0.0-beta.19",
+    "react-redux": "5.0.6",
+    "redux": "3.7.2",
+    "redux-thunk": "2.2.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "6.26.0",
+    "babel-eslint": "8.0.2",
+    "babel-jest": "21.2.0",
+    "babel-plugin-module-resolver": "3.0.0",
+    "babel-preset-react-native": "4.0.0",
+    "eslint": "4.11.0",
+    "eslint-config-react-native": "1.6.0",
+    "eslint-import-resolver-babel-module": "4.0.0-beta.3",
+    "eslint-plugin-import": "2.8.0",
+    "husky": "0.14.3",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.1.1",
+    "remote-redux-devtools": "0.5.12"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }
