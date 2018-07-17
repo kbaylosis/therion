@@ -112,8 +112,13 @@ class Controller {
 					break;
 				}
 				case Action.UPDATE: {
+					const { include } = options;
+
+					delete options.include;
 					options.limit = 1;
 					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
+
+					options.include = include;
 
 					if (affectedCount && affectedRows) {
 						record = affectedRows[0];
@@ -166,8 +171,13 @@ class Controller {
 					// Do nothing since it's not meaningful to do these operations on multiple records
 					return null;
 				case Action.UPDATE: {
+					const { include } = options;
+
+					delete options.include;
 					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
 
+					options.include = include;
+					
 					count = affectedCount;
 					rows = affectedRows;
 					break;
