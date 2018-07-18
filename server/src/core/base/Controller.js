@@ -85,7 +85,6 @@ class Controller {
 				const options = _.isString(o) ? JSON.parse(o) : o;
 
 				options.include = Object.keys(modelDef.associations);
-				log(options);
 
 				switch (action) {
 				case Action.CREATE:

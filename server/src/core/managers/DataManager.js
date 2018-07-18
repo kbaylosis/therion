@@ -31,9 +31,13 @@ class DataManager {
 			log(`Database connection to ${ datastore.host } has been established successfully.`);
 
 			// Instantiate models
-			this._models = _.transform(this._definitions, (r, v, k) => {
-				r[k] = this.manager.define(_.camelCase(k), v.attributes);
-				r[k].description = v.description;
+			this._models = _.transform(this._definitions, (r, modelDef, name) => {
+				r[name] = this.manager.define(_.camelCase(name), modelDef.attributes);
+				r[name].description = modelDef.description;
+				
+				_.forEach(modelDef.hooks, (v, k) => {
+					r[name].hook(k, v);
+				});
 			}, {});
 
 			// Construct relationships
