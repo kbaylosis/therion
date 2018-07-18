@@ -100,8 +100,8 @@ class GraphQLManager {
 
 				type = _.replace(type, "!", "");
 				if (_.endsWith(type, "EnumType")) {
-					type = _.upperFirst(_.replace(type, "type", "Type"));
-					this._rawEnumTypes[type] = this._modelDefs[name].attributes[k][k];
+					type = _.upperFirst(_.replace(type, k, _.capitalize(k)));
+					this._rawEnumTypes[type] = this._modelDefs[name].attributes[k].type;
 
 					type = isRequired ? `${ type }!` : type;
 				}
@@ -111,7 +111,9 @@ class GraphQLManager {
 				`);
 			}, []).join("\n");
 
-			log(this._enumTypes);
+			log("#######");
+			log(this._rawEnumTypes);
+			log("#######");
 
 			const associations = _.transform(this._modelDefs[name].associations, (r, v, k) => {
 				let definition;
@@ -147,8 +149,12 @@ class GraphQLManager {
 	}
 
 	_generateEnumTypes = () =>
-		_.transform(this._rawEnumTypes, (result, { values }, key) => {
-			const attributes = _.transform(values, (r, v) => {
+		_.transform(this._rawEnumTypes, (result, type, key) => {
+			if (!type) {
+				return;
+			}
+
+			const attributes = _.transform(type.values, (r, v) => {
 				const attribute = _.toUpper(v);
 				r[attribute] = `${ attribute }`;
 			}, {});
@@ -157,8 +163,12 @@ class GraphQLManager {
 		}, {});
 
 	_generateEnumTypeSchemas = () =>
-		_.transform(this._rawEnumTypes, (result, { values }, key) => {
-			const attributes = _.transform(values, (r, v) => {
+		_.transform(this._rawEnumTypes, (result, type, key) => {
+			if (!type) {
+				return;
+			}
+
+			const attributes = _.transform(type.values, (r, v) => {
 				r.push(`
 					${ _.toUpper(v) }
 				`);
