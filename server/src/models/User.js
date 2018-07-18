@@ -7,6 +7,11 @@ class User {
 		lastname: Sequelize.STRING,
 		email: Sequelize.STRING,
 		mobile: Sequelize.STRING,
+		type: {
+			type: Sequelize.ENUM("BUSINESS", "REGULAR"),
+			defaultValue: "regular",
+			allowNull: false,
+		},
 	};
 
 	static associations = {

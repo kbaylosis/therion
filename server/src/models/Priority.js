@@ -7,6 +7,7 @@ class Priority {
 			unique: true,
 		},
 		schedule: Sequelize.DATE,
+		notes: Sequelize.STRING,
 	}
 
 	static associations = {

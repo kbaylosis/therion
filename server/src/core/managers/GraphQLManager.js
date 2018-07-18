@@ -22,27 +22,27 @@ class GraphQLManager {
 		this._mutation = this._getMutation();
 		this._mutationSchema = this._getMutationSchema();
 
+		this._enumTypes = this._generateEnumTypes();
+		this._enumTypeSchemas = this._generateEnumTypeSchemas();
+		log(this._enumTypeSchemas);
+
 		return this;
 	}
 
-	get query() {
-		return this._query;
+	get schemas() {
+		return "".concat(
+			this._querySchema,
+			this._mutationSchema,
+			this._customTypesSchema,
+			this._enumTypeSchemas);
 	}
 
-	get querySchema() {
-		return this._querySchema;
-	}
-
-	get mutation() {
-		return this._mutation;
-	}
-
-	get mutationSchema() {
-		return this._mutationSchema;
-	}
-
-	get customTypesSchema() {
-		return this._customTypesSchema;
+	get resolvers() {
+		return {
+			Query: this._query,
+			Mutation: this._mutation,
+			...this._enumTypes,
+		};
 	}
 
 	_getQuery = () => {
@@ -90,12 +90,28 @@ class GraphQLManager {
 	}
 
 	_getCustomTypesSchema = () => {
+		this._rawEnumTypes = {};
 		return _.transform(this._models, (gType, model, name) => {
 			const attributes = _.transform(attributeFields(model), (r, v, k) => {
+				log(this._modelDefs[name].attributes.type);
+
+				let type = v.type;
+				const isRequired = _.endsWith(type, "!");
+
+				type = _.replace(type, "!", "");
+				if (_.endsWith(type, "EnumType")) {
+					type = _.upperFirst(_.replace(type, "type", "Type"));
+					this._rawEnumTypes[type] = this._modelDefs[name].attributes[k][k];
+
+					type = isRequired ? `${ type }!` : type;
+				}
+
 				r.push(`
-					${ k }: ${ v.type }
+					${ k }: ${ type }
 				`);
 			}, []).join("\n");
+
+			log(this._enumTypes);
 
 			const associations = _.transform(this._modelDefs[name].associations, (r, v, k) => {
 				let definition;
@@ -129,6 +145,31 @@ class GraphQLManager {
 	}`, []);
 		}, []).join("\n");
 	}
+
+	_generateEnumTypes = () =>
+		_.transform(this._rawEnumTypes, (result, { values }, key) => {
+			const attributes = _.transform(values, (r, v) => {
+				const attribute = _.toUpper(v);
+				r[attribute] = `${ attribute }`;
+			}, {});
+
+			result[key] = attributes;
+		}, {});
+
+	_generateEnumTypeSchemas = () =>
+		_.transform(this._rawEnumTypes, (result, { values }, key) => {
+			const attributes = _.transform(values, (r, v) => {
+				r.push(`
+					${ _.toUpper(v) }
+				`);
+			}, []);
+
+			result.push(`
+				enum ${ key } {
+					${ attributes }
+				}
+			`);
+		}, []);
 }
 
 export default GraphQLManager;

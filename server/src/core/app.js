@@ -32,15 +32,14 @@ export default (async (config, globals, modelDefs, controllers) => {
 		// Load all hard coded schema definitions from the core and from the app
 		const typesArray = fileLoader(path.join(__dirname, "../**/*.graphql"))
 		// Generate schema definitions out from the database models
-			.concat(graphqlMgr.querySchema, graphqlMgr.mutationSchema, graphqlMgr.customTypesSchema);
+			.concat(graphqlMgr.schemas);
 		const typeDefs = mergeTypes(_.filter(typesArray, (item) => (!Array.isArray(item))),
 			{ all: true });
 
 		// Setup all resolvers
 		const resolvers = {
 			...builtInResolvers,
-			Query: graphqlMgr.query,
-			Mutation: graphqlMgr.mutation,
+			...graphqlMgr.resolvers,
 		};
 
 		log("Type Definitions:*******");
