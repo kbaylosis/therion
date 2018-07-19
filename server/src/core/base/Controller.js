@@ -1,8 +1,9 @@
-import { GraphQLError } from "graphql";
 import _ from "lodash";
 import pluralize from "pluralize";
 import debug from "debug";
 
+import RecordNotFound from "./RecordNotFound";
+import ServerError from "./ServerError";
 import Action from "../resolvers/Action";
 
 const log = debug("therion:server:Controller");
@@ -41,10 +42,14 @@ class Controller {
 
 					record = await this._obj("findOne").findOne(args);
 				}
+
+				if (!record) {
+					throw new RecordNotFound();
+				}
 			} catch (e) {
 				log(e);
 
-				throw new GraphQLError(e.message);
+				throw new ServerError(e);
 			}
 
 			return record;
@@ -73,7 +78,7 @@ class Controller {
 			} catch (e) {
 				log(e);
 
-				throw new GraphQLError(e.message);
+				throw new ServerError(e);
 			}
 
 			return {
@@ -105,10 +110,7 @@ class Controller {
 				switch (action) {
 				case Action.CREATE:
 				default: {
-					await this._obj("create").create(values, options);
-
-					// Make sure it returns the newly created record
-					options.returning = true;
+					record = await this._obj("create").create(values, options);
 					break;
 				}
 				case Action.READ: {
@@ -143,7 +145,11 @@ class Controller {
 						record = await this._obj("findOne").findOne(options);
 					}
 
-					await this._obj("destroy").destroy(options);
+					const count = await this._obj("destroy").destroy(options);
+
+					if (!count) {
+						throw new RecordNotFound();
+					}
 
 					// Do not auto fetch the record from database since it is already non existent
 					options.returning = false;
@@ -152,11 +158,15 @@ class Controller {
 
 				if (!record && options.returning) {
 					record = await this._obj("findOne").findOne(options);
+
+					if (!record) {
+						throw new RecordNotFound();
+					}
 				}
 			} catch (e) {
 				log(e);
 
-				throw new GraphQLError(e.message);
+				throw new ServerError(e);
 			}
 
 			log(record);
@@ -213,7 +223,7 @@ class Controller {
 			} catch (e) {
 				log(e);
 
-				throw new GraphQLError(e.message);
+				throw new ServerError(e);
 			}
 
 			log(rows);

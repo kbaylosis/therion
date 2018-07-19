@@ -4,6 +4,7 @@ import compression from "compression";
 import cors from "cors";
 import debug from "debug";
 import path from "path";
+// import { formatError } from "graphql";
 import graphqlExpress from "express-graphql";
 import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";
@@ -12,6 +13,7 @@ import _ from "lodash";
 import * as builtInResolvers from "./resolvers";
 
 const log = debug("therion:server:app");
+const isDebug = (process.env.NODE_ENV !== "production");
 
 export default (async (config, globals, modelDefs, controllers) => {
 	try {
@@ -66,7 +68,16 @@ export default (async (config, globals, modelDefs, controllers) => {
 			bodyParser.json(),
 			graphqlExpress({
 				schema,
-				graphiql: process.env.NODE_ENV !== "production",
+				pretty: isDebug,
+				graphiql: isDebug,
+				formatError: (e) => ({
+					code: e.message.code,
+					name: e.message.name,
+					message: e.message.message,
+					locations: e.locations,
+					path: e.path,
+					stack: e.stack ? e.stack.split("\n") : [],
+				}),
 			}),
 		);
 
