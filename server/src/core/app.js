@@ -4,7 +4,7 @@ import compression from "compression";
 import cors from "cors";
 import debug from "debug";
 import path from "path";
-import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
+import graphqlExpress from "express-graphql";
 import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";
 import _ from "lodash";
@@ -61,18 +61,14 @@ export default (async (config, globals, modelDefs, controllers) => {
 		app.use(compression());
 		app.use(cors());
 
-		// app.use(function(req, res, next) {
-		// 	res.header("Access-Control-Allow-Origin", "*");
-		// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		// 	next();
-		// });
-
 		// The GraphQL endpoint
-		app.use(`${ config.Custom.urlPrefix }/graphql`, bodyParser.json(), graphqlExpress({ schema }));
-
-		// GraphiQL, a visual editor for queries
-		app.use(`${ config.Custom.urlPrefix }/graphiql`,
-			graphiqlExpress({ endpointURL: `${ config.Custom.urlPrefix }/graphql` }));
+		app.use(`${ config.Custom.urlPrefix }/graphql`,
+			bodyParser.json(),
+			graphqlExpress({
+				schema,
+				graphiql: process.env.NODE_ENV !== "production",
+			}),
+		);
 
 		// Global error handler
 		// eslint-disable-next-line no-unused-vars
