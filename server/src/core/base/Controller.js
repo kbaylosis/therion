@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import _ from "lodash";
 import pluralize from "pluralize";
 import debug from "debug";
@@ -26,18 +27,24 @@ class Controller {
 		query[`${ modelName }`] = async (obj, args) => {
 			let record;
 
-			if (args.id) {
-				record = await this._obj("findById").findById(args.id);
-			} else {
-				const { where="{}", order="[]", options="{}" } = args;
+			try {
+				if (args.id) {
+					record = await this._obj("findById").findById(args.id);
+				} else {
+					const { where="{}", order="[]", options="{}" } = args;
 
-				args.where = _.isString(where) ? JSON.parse(where) : where;
-				args.order = _.isString(order) ? JSON.parse(order) : order;
-				delete args.options;
-				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-				args.include = Object.keys(modelDef.associations);
+					args.where = _.isString(where) ? JSON.parse(where) : where;
+					args.order = _.isString(order) ? JSON.parse(order) : order;
+					delete args.options;
+					_.assign(args, _.isString(options) ? JSON.parse(options) : options);
+					args.include = Object.keys(modelDef.associations);
 
-				record = await this._obj("findOne").findOne(args);
+					record = await this._obj("findOne").findOne(args);
+				}
+			} catch (e) {
+				log(e);
+
+				throw new GraphQLError(e.message);
 			}
 
 			return record;
@@ -47,19 +54,26 @@ class Controller {
 			let count, rows;
 			const { action, offset, limit, where="{}", order="[]", options="{}" } = args;
 
-			args.where = _.isString(where) ? JSON.parse(where) : where;
-			args.order = _.isString(order) ? JSON.parse(order) : order;
-			delete args.options;
-			_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-			args.include = Object.keys(modelDef.associations);
+			try {
 
-			if (action === Action.COUNT) {
-				const result = await this._obj("findAndCountAll").findAndCountAll(args);
+				args.where = _.isString(where) ? JSON.parse(where) : where;
+				args.order = _.isString(order) ? JSON.parse(order) : order;
+				delete args.options;
+				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
+				args.include = Object.keys(modelDef.associations);
 
-				count = result.count;
-				rows = result.rows;
-			} else {
-				rows = await this._obj("findAll").findAll(args);
+				if (action === Action.COUNT) {
+					const result = await this._obj("findAndCountAll").findAndCountAll(args);
+
+					count = result.count;
+					rows = result.rows;
+				} else {
+					rows = await this._obj("findAll").findAll(args);
+				}
+			} catch (e) {
+				log(e);
+
+				throw new GraphQLError(e.message);
 			}
 
 			return {
@@ -142,7 +156,7 @@ class Controller {
 			} catch (e) {
 				log(e);
 
-				record = null;
+				throw new GraphQLError(e.message);
 			}
 
 			log(record);
@@ -199,8 +213,7 @@ class Controller {
 			} catch (e) {
 				log(e);
 
-				count = null;
-				rows = null;
+				throw new GraphQLError(e.message);
 			}
 
 			log(rows);

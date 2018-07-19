@@ -5,9 +5,10 @@ import debug from "debug";
 const log = debug("therion:server:DataManager");
 
 class DataManager {
-	initialize = async (models, config) => {
+	initialize = async (models, controllers, config) => {
 		try {
 			this._definitions = models;
+			this._controllers = controllers;
 			this._config = config;
 
 			const datastore = this._config.Datastore;
@@ -34,10 +35,12 @@ class DataManager {
 			this._models = _.transform(this._definitions, (r, modelDef, name) => {
 				r[name] = this.manager.define(_.camelCase(name), modelDef.attributes);
 				r[name].description = modelDef.description;
-				
-				_.forEach(modelDef.hooks, (v, k) => {
-					r[name].hook(k, v);
-				});
+
+				if (controllers[name]) {
+					_.forEach(controllers[name].hooks, (v, k) => {
+						r[name].hook(k, v);
+					});
+				}
 			}, {});
 
 			// Construct relationships

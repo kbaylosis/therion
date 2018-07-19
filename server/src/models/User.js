@@ -1,8 +1,6 @@
 import Sequelize from "sequelize";
-import bcrypt from "bcryptjs";
 
 import * as Types from "../types";
-import security from "../config/security";
 
 class User {
 	static description = "System user";
@@ -47,13 +45,6 @@ class User {
 		},
 	};
 
-	static hooks = {
-		beforeCreate: async (user) => {
-			const salt = await bcrypt.genSalt(security.saltRounds);
-
-			user.password = await bcrypt.hash(user.password, salt);
-		},
-	}
 }
 
 export default User;
