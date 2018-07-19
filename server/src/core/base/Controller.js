@@ -2,13 +2,16 @@ import _ from "lodash";
 import pluralize from "pluralize";
 import debug from "debug";
 
+import RecordNotFound from "./RecordNotFound";
+import ServerError from "./ServerError";
 import Action from "../resolvers/Action";
 
 const log = debug("therion:server:Controller");
 
 class Controller {
-	constructor(model) {
+	constructor(model, modelDef) {
 		this._model = model;
+		this._modelDef = modelDef;
 	}
 
 	get model() {
@@ -20,36 +23,68 @@ class Controller {
 	getQuery = () => {
 		const query = {};
 		const modelName = _.camelCase(this._model.name);
+		const modelDef = this._modelDef;
 
 		query[`${ modelName }`] = async (obj, args) => {
-			args.where = !args.where || JSON.parse(args.where);
+			let record;
 
-			if (args.id) {
-				return await this._obj("findById").findById(args.id);
+			try {
+				if (args.id) {
+					record = await this._obj("findById").findById(args.id);
+				} else {
+					const { where="{}", order="[]", options="{}" } = args;
+
+					args.where = _.isString(where) ? JSON.parse(where) : where;
+					args.order = _.isString(order) ? JSON.parse(order) : order;
+					delete args.options;
+					_.assign(args, _.isString(options) ? JSON.parse(options) : options);
+					args.include = Object.keys(modelDef.associations);
+
+					record = await this._obj("findOne").findOne(args);
+				}
+
+				if (!record) {
+					throw new RecordNotFound();
+				}
+			} catch (e) {
+				log(e);
+
+				throw new ServerError(e);
 			}
 
-			return await this._obj("findOne").findOne(args);
+			return record;
 		};
 
 		query[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
-			let total, rows;
-			const { action, offset, limit } = args;
+			let count, rows;
+			const { action, offset, limit, where="{}", order="[]", options="{}" } = args;
 
-			args.where = !args.where || JSON.parse(args.where);
+			try {
 
-			if (action === Action.COUNT) {
-				const result = await this._obj("findAndCountAll").findAndCountAll(args);
+				args.where = _.isString(where) ? JSON.parse(where) : where;
+				args.order = _.isString(order) ? JSON.parse(order) : order;
+				delete args.options;
+				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
+				args.include = Object.keys(modelDef.associations);
 
-				total = result.count;
-				rows = result.rows;
-			} else {
-				rows = await this._obj("findAll").findAll(args);
+				if (action === Action.COUNT) {
+					const result = await this._obj("findAndCountAll").findAndCountAll(args);
+
+					count = result.count;
+					rows = result.rows;
+				} else {
+					rows = await this._obj("findAll").findAll(args);
+				}
+			} catch (e) {
+				log(e);
+
+				throw new ServerError(e);
 			}
 
 			return {
 				offset,
 				limit,
-				total,
+				count,
 				rows,
 			};
 		};
@@ -60,106 +95,140 @@ class Controller {
 	getMutation = () => {
 		const mutation = {};
 		const modelName = _.camelCase(this._model.name);
+		const modelDef = this._modelDef;
 
 		mutation[`${ modelName }`] = async (obj, args) => {
-			let total, rows;
-
-			// eslint-disable-next-line no-console
-			console.log("BUZZ!!!!!!!!");
+			let record;
 
 			try {
-				const { action } = args;
-				const values = !args.values || JSON.parse(args.values);
+				const { action, values: v="{}", options: o="{}" } = args;
+				const values = _.isString(v) ? JSON.parse(v) : v;
+				const options = _.isString(o) ? JSON.parse(o) : o;
 
-				args.where = !args.where || JSON.parse(args.where);
-				args.default = !args.default || JSON.parse(args.default);
+				options.include = Object.keys(modelDef.associations);
 
 				switch (action) {
 				case Action.CREATE:
 				default: {
-					const { values } = args;
-
-					rows = [ await this._obj("create").create(JSON.parse(values), args) ];
+					record = await this._obj("create").create(values, options);
 					break;
 				}
 				case Action.READ: {
-					const { created } = await this._obj("findOrCreate").findOrCreate(args);
+					const [ r ] = await this._obj("findOrCreate").findOrCreate(options);
 
-					rows = [ created ];
+					record = r;
 					break;
 				}
 				case Action.UPSERT: {
-					const { created } = await this._obj("upsert").upsert(values, args);
+					await this._obj("upsert").upsert(values, options);
 
-					rows = [ created ];
+					// Do not auto fetch record from database since it might return the wrong one
+					options.returning = false;
 					break;
 				}
 				case Action.UPDATE: {
-					args.limit = 1;
-					const result = await this._obj("update").update(values, args);
+					const { include } = options;
 
-					rows = result[1];
+					delete options.include;
+					options.limit = 1;
+					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
+
+					options.include = include;
+
+					if (affectedCount && affectedRows) {
+						record = affectedRows[0];
+					}
 					break;
 				}
 				case Action.DELETE: {
-					await this._obj("destroy").destroy(args);
+					if (options.returning) {
+						record = await this._obj("findOne").findOne(options);
+					}
 
+					const count = await this._obj("destroy").destroy(options);
+
+					if (!count) {
+						throw new RecordNotFound();
+					}
+
+					// Do not auto fetch the record from database since it is already non existent
+					options.returning = false;
 					break;
 				}}
 
-				total = 1;
+				if (!record && options.returning) {
+					record = await this._obj("findOne").findOne(options);
+
+					if (!record) {
+						throw new RecordNotFound();
+					}
+				}
 			} catch (e) {
 				log(e);
 
-				total = null;
-				rows = null;
+				throw new ServerError(e);
 			}
 
-			return {
-				total,
-				rows,
-			};
+			log(record);
+			return record;
 		};
 
 		mutation[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
-			let total, rows;
+			let count, rows;
 
 			try {
-				const { action } = args;
-				const values = !args.values || JSON.parse(args.values);
+				const { action, values: v="{}", options: o="{}" } = args;
+				const values = _.isString(v) ? JSON.parse(v) : v;
+				const options = _.isString(o) ? JSON.parse(o) : o;
 
-				args.where = !args.where || JSON.parse(args.where);
-				args.default = !args.default || JSON.parse(args.default);
+				options.include = Object.keys(modelDef.associations);
 
 				switch (action) {
 				case Action.CREATE:
+					rows = await this._obj("bulkCreate").update(values, options);
+					count = rows.length;
+					break;
 				case Action.READ:
 				case Action.UPSERT:
 				default:
 					// Do nothing since it's not meaningful to do these operations on multiple records
-					break;
+					return null;
 				case Action.UPDATE: {
-					const result = await this._obj("update").update(values, args);
+					const { include } = options;
 
-					total = result[0];
-					rows = result[1];
+					delete options.include;
+					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
+
+					options.include = include;
+
+					count = affectedCount;
+					rows = affectedRows;
 					break;
 				}
 				case Action.DELETE: {
-					await this._obj("destroy").destroy(args);
+					if (options.returning) {
+						rows = await this._obj("findAll").findAll(options);
+						count = rows.length;
+					}
 
-					total = 1;
+					count = await this._obj("destroy").destroy(options);
 					break;
 				}}
+
+				log(rows);
+				if (!rows && options.returning) {
+					rows = await this._obj("findAll").findAll(options);
+					count = rows.length;
+				}
 			} catch (e) {
 				log(e);
 
-				total = null;
-				rows = null;
+				throw new ServerError(e);
 			}
 
+			log(rows);
 			return {
-				total,
+				count,
 				rows,
 			};
 		};
@@ -173,8 +242,8 @@ class Controller {
 		const formalModelName = _.upperFirst(model.name);
 
 		return `
-			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, sort: String, id: Int): ${ formalModelName }
-			${ pluralize.plural(modelName) }(action: Action, where: Json, offset: Int, limit: Int, sort: String): ${ formalModelName }WithCount
+			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, order: Json, id: Int, options: Json): ${ formalModelName }
+			${ pluralize.plural(modelName) }(action: Action, where: Json, offset: Int, limit: Int, order: Json, options: Json): ${ formalModelName }WithCount
 		`;
 	}
 
@@ -184,8 +253,8 @@ class Controller {
 		const formalModelName = _.upperFirst(model.name);
 
 		return `
-			${ modelName }(action: Action, values: Json, where: Json, offset: Int, limit: Int, sort: String, id: Int): ${ formalModelName }WithCount
-			${ pluralize.plural(modelName) }(action: Action, values: Json, where: Json, offset: Int, limit: Int, sort: String): ${ formalModelName }WithCount
+			${ modelName }(action: Action, values: Json, options: Json): ${ formalModelName }
+			${ pluralize.plural(modelName) }(action: Action, values: Json, options: Json): ${ formalModelName }WithCount
 		`;
 	}
 }

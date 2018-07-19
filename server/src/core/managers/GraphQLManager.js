@@ -7,11 +7,14 @@ import Controller from "../base/Controller";
 const log = debug("therion:server:core:GraphQLManager");
 
 class GraphQLManager {
-	initialize = (models, controllers) => {
+	initialize = (models, controllers, modelDefs) => {
+		log("Initialized!");
+
 		this._models = models;
+		this._modelDefs = modelDefs;
 		this._controllers = _.transform(models, (r, v, k) => {
 			const type = controllers[k] || Controller;
-			r[k] = new type(v);
+			r[k] = new type(v, modelDefs[k]);
 		}, {});
 		this._query = this._getQuery();
 		this._querySchema = this._getQuerySchema();
@@ -19,27 +22,27 @@ class GraphQLManager {
 		this._mutation = this._getMutation();
 		this._mutationSchema = this._getMutationSchema();
 
+		this._enumTypes = this._generateEnumTypes();
+		this._enumTypeSchemas = this._generateEnumTypeSchemas();
+		log(this._enumTypeSchemas);
+
 		return this;
 	}
 
-	get query() {
-		return this._query;
+	get schemas() {
+		return "".concat(
+			this._querySchema,
+			this._mutationSchema,
+			this._customTypesSchema,
+			this._enumTypeSchemas);
 	}
 
-	get querySchema() {
-		return this._querySchema;
-	}
-
-	get mutation() {
-		return this._mutation;
-	}
-
-	get mutationSchema() {
-		return this._mutationSchema;
-	}
-
-	get customTypesSchema() {
-		return this._customTypesSchema;
+	get resolvers() {
+		return {
+			Query: this._query,
+			Mutation: this._mutation,
+			...this._enumTypes,
+		};
 	}
 
 	_getQuery = () => {
@@ -89,26 +92,96 @@ class GraphQLManager {
 	}
 
 	_getCustomTypesSchema = () => {
+		this._rawEnumTypes = {};
 		return _.transform(this._models, (gType, model, name) => {
 			const attributes = _.transform(attributeFields(model), (r, v, k) => {
+				log(this._modelDefs[name].attributes.type);
+
+				let type = v.type;
+				const isRequired = _.endsWith(type, "!");
+
+				type = _.replace(type, "!", "");
+				if (_.endsWith(type, "EnumType")) {
+					type = _.upperFirst(_.replace(type, k, _.capitalize(k)));
+					this._rawEnumTypes[type] = this._modelDefs[name].attributes[k].type;
+
+					type = isRequired ? `${ type }!` : type;
+				}
+
 				r.push(`
-					${ k }: ${ v.type }
+					${ k }: ${ type }
+				`);
+			}, []).join("\n");
+
+			log("#######");
+			log(this._rawEnumTypes);
+			log("#######");
+
+			const associations = _.transform(this._modelDefs[name].associations, (r, v, k) => {
+				let definition;
+
+				switch(v.type) {
+				case "hasMany":
+					definition = `${ k }: [ ${ v.model } ]`;
+					break;
+				case "belongsTo":
+				default:
+					definition = `${ k }: ${ v.model }`;
+					break;
+				}
+
+				r.push(`
+					${ definition }
 				`);
 			}, []).join("\n");
 
 			gType.push(`
 	type ${ name } {
 	${ attributes }
+	${ associations }
 	}
 
 	type ${ name }WithCount {
 		offset: Int
 		limit: Int
-		total: Int
+		count: Int
 		rows: [ ${ name } ]
 	}`, []);
 		}, []).join("\n");
 	}
+
+	_generateEnumTypes = () =>
+		_.transform(this._rawEnumTypes, (result, type, key) => {
+			if (!type) {
+				return;
+			}
+
+			const attributes = _.transform(type.values, (r, v) => {
+				const attribute = _.toUpper(v);
+				r[attribute] = `${ attribute }`;
+			}, {});
+
+			result[key] = attributes;
+		}, {});
+
+	_generateEnumTypeSchemas = () =>
+		_.transform(this._rawEnumTypes, (result, type, key) => {
+			if (!type) {
+				return;
+			}
+
+			const attributes = _.transform(type.values, (r, v) => {
+				r.push(`
+					${ _.toUpper(v) }
+				`);
+			}, []);
+
+			result.push(`
+				enum ${ key } {
+					${ attributes }
+				}
+			`);
+		}, []);
 }
 
 export default GraphQLManager;

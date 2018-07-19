@@ -1,3 +1,3 @@
-import GraphQLJSON from "graphql-type-json";
+import GraphQLToolsTypes from "graphql-tools-types";
 
-export default GraphQLJSON;
+export default GraphQLToolsTypes.JSON({ name: "Json" });

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import debug from "debug";
+import "json-circular-stringify";
 
 import app from "./core/app";
 import * as config from "./config";

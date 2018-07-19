@@ -4,7 +4,8 @@ import compression from "compression";
 import cors from "cors";
 import debug from "debug";
 import path from "path";
-import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
+// import { formatError } from "graphql";
+import graphqlExpress from "express-graphql";
 import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";
 import _ from "lodash";
@@ -12,6 +13,7 @@ import _ from "lodash";
 import * as builtInResolvers from "./resolvers";
 
 const log = debug("therion:server:app");
+const isDebug = (process.env.NODE_ENV !== "production");
 
 export default (async (config, globals, modelDefs, controllers) => {
 	try {
@@ -22,25 +24,24 @@ export default (async (config, globals, modelDefs, controllers) => {
 		log("✔ Configurations in good shape");
 
 		// Initialize the database and it's models
-		const dataMgr = await globals.DataManager.initialize(modelDefs, config);
+		const dataMgr = await globals.DataManager.initialize(modelDefs, controllers, config);
 		const models = dataMgr.models;
 
 		log("✔ Database models initialized");
 
-		const graphqlMgr = globals.GraphQLManager.initialize(models, controllers);
+		const graphqlMgr = globals.GraphQLManager.initialize(models, controllers, modelDefs);
 
 		// Load all hard coded schema definitions from the core and from the app
 		const typesArray = fileLoader(path.join(__dirname, "../**/*.graphql"))
 		// Generate schema definitions out from the database models
-			.concat(graphqlMgr.querySchema, graphqlMgr.mutationSchema, graphqlMgr.customTypesSchema);
+			.concat(graphqlMgr.schemas);
 		const typeDefs = mergeTypes(_.filter(typesArray, (item) => (!Array.isArray(item))),
 			{ all: true });
 
 		// Setup all resolvers
 		const resolvers = {
 			...builtInResolvers,
-			Query: graphqlMgr.query,
-			Mutation: graphqlMgr.mutation,
+			...graphqlMgr.resolvers,
 		};
 
 		log("Type Definitions:*******");
@@ -62,18 +63,23 @@ export default (async (config, globals, modelDefs, controllers) => {
 		app.use(compression());
 		app.use(cors());
 
-		// app.use(function(req, res, next) {
-		// 	res.header("Access-Control-Allow-Origin", "*");
-		// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		// 	next();
-		// });
-
 		// The GraphQL endpoint
-		app.use(`${ config.Custom.urlPrefix }/graphql`, bodyParser.json(), graphqlExpress({ schema }));
-
-		// GraphiQL, a visual editor for queries
-		app.use(`${ config.Custom.urlPrefix }/graphiql`,
-			graphiqlExpress({ endpointURL: `${ config.Custom.urlPrefix }/graphql` }));
+		app.use(`${ config.Custom.urlPrefix }/graphql`,
+			bodyParser.json(),
+			graphqlExpress({
+				schema,
+				pretty: isDebug,
+				graphiql: isDebug,
+				formatError: (e) => ({
+					code: e.message.code,
+					name: e.message.name,
+					message: e.message.message,
+					locations: e.locations,
+					path: e.path,
+					stack: e.stack ? e.stack.split("\n") : [],
+				}),
+			}),
+		);
 
 		// Global error handler
 		// eslint-disable-next-line no-unused-vars
