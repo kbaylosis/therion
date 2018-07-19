@@ -29,9 +29,10 @@ class Controller {
 			if (args.id) {
 				record = await this._obj("findById").findById(args.id);
 			} else {
-				const { where="{}", options="{}" } = args;
+				const { where="{}", order="[]", options="{}" } = args;
 
 				args.where = _.isString(where) ? JSON.parse(where) : where;
+				args.order = _.isString(order) ? JSON.parse(order) : order;
 				delete args.options;
 				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
 				args.include = Object.keys(modelDef.associations);
@@ -44,9 +45,10 @@ class Controller {
 
 		query[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
 			let count, rows;
-			const { action, offset, limit, where="{}", options="{}" } = args;
+			const { action, offset, limit, where="{}", order="[]", options="{}" } = args;
 
 			args.where = _.isString(where) ? JSON.parse(where) : where;
+			args.order = _.isString(order) ? JSON.parse(order) : order;
 			delete args.options;
 			_.assign(args, _.isString(options) ? JSON.parse(options) : options);
 			args.include = Object.keys(modelDef.associations);
@@ -217,8 +219,8 @@ class Controller {
 		const formalModelName = _.upperFirst(model.name);
 
 		return `
-			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, sort: String, id: Int, options: Json): ${ formalModelName }
-			${ pluralize.plural(modelName) }(action: Action, where: Json, offset: Int, limit: Int, sort: String, options: Json): ${ formalModelName }WithCount
+			${ modelName }(action: Action, where: Json, offset: Int, limit: Int, order: Json, id: Int, options: Json): ${ formalModelName }
+			${ pluralize.plural(modelName) }(action: Action, where: Json, offset: Int, limit: Int, order: Json, options: Json): ${ formalModelName }WithCount
 		`;
 	}
 
