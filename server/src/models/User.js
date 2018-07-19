@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 import * as Types from "../types";
 import security from "../config/security";
