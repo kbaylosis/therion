@@ -12,7 +12,7 @@
     "clean": "rm -Rf build && echo '✔  Clean build.'",
     "copy-assets": "cp -R ./src/models ./build/models && cp -R ./src/mocks ./build/mocks && echo '✔  Copy assets.'",
     "build": "npx babel ./src -d build && echo '✔  Transform files.'",
-				"setup": "rm -rf ./src/__globals__ && cp -fR ../globals ./src/__globals__"
+    "setup": "rm -rf ./src/__globals__ && cp -fR ../globals ./src/__globals__"
   },
   "author": "",
   "license": "ISC",
@@ -35,7 +35,8 @@
     "moment": "^2.22.2",
     "mysql2": "^1.5.3",
     "pluralize": "^7.0.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "sqlite3": "^4.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
