@@ -14,7 +14,7 @@ import * as builtInResolvers from "./resolvers";
 const log = debug("therion:server:app");
 const isDebug = (process.env.NODE_ENV !== "production");
 
-export default ((config, globals, modelDefs, controllers) => {
+module.exports = ((config, globals, modelDefs, controllers) => {
 	try {
 		log("Configurations:*********");
 		log(config);
