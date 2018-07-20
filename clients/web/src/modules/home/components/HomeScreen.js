@@ -11,7 +11,7 @@ class HomeScreen extends PureComponent {
 			<Layout className="module-container">
 				<Header/>
 				<Layout>
-					<Content { ...this.props }/>
+					<Content { ...this.props } />
 				</Layout>
 			</Layout>
 		);

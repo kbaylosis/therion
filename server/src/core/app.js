@@ -68,7 +68,7 @@ export default (async (config, globals, modelDefs, controllers) => {
 			graphqlExpress({
 				schema,
 				pretty: isDebug,
-				graphiql: isDebug,
+				graphiql: true,
 				formatError: (e) => ({
 					code: e.message.code,
 					name: e.message.name,

@@ -5,10 +5,15 @@ import * as globals from "__src/globals";
 
 class Api {
 	constructor(name) {
-		this._name = _.capitalize(name);
+		this._name = name;
 		this._pluralName = pluralize(this._name);
-		this._resource = _.toLower(this._name);
+		this._resource = _.camelCase(this._name);
 		this._resources = pluralize(this._resource);
+
+		console.log(this._name);
+		console.log(this._pluralName);
+		console.log(this._resource);
+		console.log(this._resources);
 	}
 
 	get name() {
@@ -70,7 +75,7 @@ class Api {
 				limit
 				count
 				rows {
-					${ attributes.join("\n") }
+					${ this._generateAttribTree(attributes) }
 				}
 			}
 		}
@@ -273,6 +278,20 @@ class Api {
 		const { data } = await globals.DataManager.execute(query, variables);
 
 		return data[this._resources];
+	}
+
+	_generateAttribTree = (attribTree) => {
+		return _.transform(attribTree, (r, attrib) => {
+			if (!_.isString(attrib)) {
+				attrib = `${ attrib[0] } {
+						${ this._generateAttribTree(attrib[1]) }
+					}`;
+			}
+
+			r.push(`
+				${ attrib }
+			`);
+		}, []).join("\n");
 	}
 }
 

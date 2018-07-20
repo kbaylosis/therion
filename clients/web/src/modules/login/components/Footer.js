@@ -5,7 +5,7 @@ class Footer extends PureComponent {
 	render() {
 		return (
 			<Layout.Footer className="footer">
-				© Copyright 2018 Zoog Technologies, Inc - All rights reserved.
+
 			</Layout.Footer>
 		);
 	}
@@ -15,3 +15,5 @@ Footer.propTypes = {
 };
 
 export default Footer;
+
+// 				© Copyright 2018 Zoog Technologies, Inc - All rights reserved.

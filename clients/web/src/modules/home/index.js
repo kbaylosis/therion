@@ -3,14 +3,12 @@ import loadable from "react-loadable";
 
 import Loading from "__src/components/Loading";
 import Dashboard from "__src/modules/dashboard";
-import Todos, { todos } from "__src/modules/todos";
 
-// import reducers from "./reducers";
+import reducers from "./reducers";
 
 export const home = {
-	// home: reducers,
+	home: reducers,
 	// dashboard,
-	todos,
 };
 
 export default [{
@@ -21,6 +19,5 @@ export default [{
 	}),
 	routes: [
 		...Dashboard,
-		...Todos,
 	],
 }];

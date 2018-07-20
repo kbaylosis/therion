@@ -37,14 +37,6 @@ class User {
 			},
 		},
 	};
-
-	static associations = {
-		priorities: {
-			type: "hasMany",
-			model: "Priority",
-		},
-	};
-
 }
 
 export default User;

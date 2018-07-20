@@ -3,16 +3,23 @@ import PropTypes from "prop-types";
 import { Layout } from "antd";
 import loadable from "react-loadable";
 
-// import NestedRoute from "__src/components/NestedRoute";
 import Loading from "__src/components/Loading";
 
 import DashboardView from "./views/Dashboard";
 
 class Content extends PureComponent {
-	render() {
-		const { location: { pathname } } = this.props;
+	componentDidMount() {
+		this._fetchPageData(this.props.location.pathname);
+	}
 
-		console.log(pathname);
+	componentWillReceiveProps({ location: { pathname }}) {
+		if (pathname !== this.props.location.pathname) {
+			this._fetchPageData(pathname);
+		}
+	}
+
+	render() {
+		const { location: { pathname }} = this.props;
 
 		return (
 			<Layout.Content id="home-content" className="content"
@@ -34,8 +41,21 @@ class Content extends PureComponent {
 				loading: () => (<Loading/>),
 			});
 
-			return <ThisView />;
+			return <ThisView { ...this.props } />;
 		}
+		}
+	}
+
+	_fetchPageData = (pathname) => {
+		switch (pathname) {
+		case "/Employees":
+			this.props.actions.listEmployees();
+			break;
+		case "/Timekeeping":
+			this.props.actions.listTimeLogs();
+			break;
+		default:
+			break;
 		}
 	}
 }
