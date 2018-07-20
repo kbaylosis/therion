@@ -67,3 +67,5 @@ $RECYCLE.BIN/
 
 *.log
 .globals
+__globals__
+

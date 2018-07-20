@@ -4,7 +4,6 @@ import compression from "compression";
 import cors from "cors";
 import debug from "debug";
 import path from "path";
-// import { formatError } from "graphql";
 import graphqlExpress from "express-graphql";
 import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";

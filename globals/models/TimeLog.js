@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from "../../db";
 
 class TimeLogs {
 	static attributes = {

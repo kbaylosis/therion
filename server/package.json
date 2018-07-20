@@ -4,14 +4,15 @@
   "description": "The therion server",
   "main": "server.js",
   "scripts": {
-    "start": "DEBUG=therion:* nodemon  -e js,json,graphql --delay 3 --watch ./src --watch ./assets --exec npm run dev",
+    "start": "npm run setup && DEBUG=therion:* nodemon  -e js,json,graphql --delay 3 --watch ./src --watch ./assets --exec npm run dev",
     "dev": "npm run lint && npx babel-node src/server.js",
     "lint": "node ./node_modules/eslint/bin/eslint ./src --max-warnings=1 --fix && echo '✔  Your code looks good.'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "npm run clean && npm run build && npm run copy-assets && node build/server.js",
+    "deploy": "npm run clean && npm run setup && npm run build && npm run copy-assets && node build/server.js",
     "clean": "rm -Rf build && echo '✔  Clean build.'",
     "copy-assets": "cp -R ./src/models ./build/models && cp -R ./src/mocks ./build/mocks && echo '✔  Copy assets.'",
-    "build": "npx babel ./src -d build && echo '✔  Transform files.'"
+    "build": "npx babel ./src -d build && echo '✔  Transform files.'",
+				"setup": "rm -rf ./src/__globals__ && cp -fR ../globals ./src/__globals__"
   },
   "author": "",
   "license": "ISC",

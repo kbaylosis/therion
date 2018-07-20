@@ -4,8 +4,8 @@ import {
 	Row,
 } from "antd";
 
-import User from "__src/api/User";
 import thisView from "../../../../assets/employees.png";
+import * as globals from "__src/globals";
 
 class Content extends PureComponent {
 	render() {
@@ -17,7 +17,50 @@ class Content extends PureComponent {
 				<div>
 					{
 						(() => {
-							User.getList().then((result) => {
+							console.log(globals.ApiFactory.api);
+							globals.ApiFactory.api.User.create({
+								values: {
+									username: "mbaylosis",
+									email: "mbaylosis@zoogtech.com",
+									mobile: "+639177770000",
+									password: "success!",
+									firstname: "Maria Nay",
+									lastname: "Baylosis",
+								},
+							}, [ "id", "firstname", "lastname" ]).then((result) => {
+								console.log("***");
+								console.log(result);
+							}).catch((e) => {
+								console.log(e);
+								console.log(e.errors);
+							});
+
+							globals.ApiFactory.api.User.findOne({
+								where: {
+									id: 1,
+								},
+							}, [ "id", "firstname", "lastname" ]).then((result) => {
+								console.log("***");
+								console.log(result);
+							}).catch((e) => {
+								console.log(e);
+							});
+
+							globals.ApiFactory.api.User.findById({
+								id: 13,
+							}, [ "id", "firstname", "lastname" ]).then((result) => {
+								console.log("***");
+								console.log(result);
+							}).catch((e) => {
+								console.log(e);
+							});
+
+							globals.ApiFactory.api.User.findAndCount({
+								where: {
+									id: 13,
+								},
+							}, [ "id", "firstname", "lastname" ]).then((result) => {
+								console.log("***");
 								console.log(result);
 							}).catch((e) => {
 								console.log(e);

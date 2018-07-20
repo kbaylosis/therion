@@ -11,6 +11,8 @@
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "install": "^0.10.4",
+    "lodash": "^4.17.10",
+    "pluralize": "^7.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "rc-queue-anim": "^1.4.1",
@@ -39,6 +41,7 @@
     "babel-plugin-graphql-tag": "^1.6.0",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-plugin-transform-remove-console": "^6.8.5",
+    "babel-plugin-wildcard": "^5.0.0",
     "babel-preset-react-app": "^3.1.0",
     "babel-runtime": "^6.26.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.1",
@@ -83,13 +86,14 @@
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
-    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && node scripts/start.js",
-    "build": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node scripts/build.js",
-    "test": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node scripts/test.js --env=jsdom",
-    "desktop": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "start": "npm run setup && node scripts/start.js",
+    "build": "npm run setup && npm run lint && node scripts/build.js",
+    "test": "npm run setup && npm run lint && node scripts/test.js --env=jsdom",
+    "desktop": "npm run setup && npm run lint && export ELECTRON_START_URL=http://localhost:3000 && electron .",
     "lint": "eslint --max-warnings 1 .",
     "lint-fix": "eslint --fix --max-warnings 1 .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "setup": "rm -rf ./src/__globals__ && cp -fR ../../globals ./src/__globals__"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "homepage": "https://bitbucket.org/zoog/therion#readme",
