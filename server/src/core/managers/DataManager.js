@@ -5,7 +5,7 @@ import debug from "debug";
 const log = debug("therion:server:DataManager");
 
 class DataManager {
-	initialize = async (models, controllers, config) => {
+	initialize = (models, controllers, config) => {
 		try {
 			this._definitions = models;
 			this._controllers = controllers;
@@ -28,7 +28,6 @@ class DataManager {
 					operatorsAliases: false,
 				});
 
-			await this._manager.authenticate();
 			log(`Database connection to ${ datastore.host } has been established successfully.`);
 
 			// Instantiate models

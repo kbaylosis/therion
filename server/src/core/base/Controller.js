@@ -65,7 +65,7 @@ class Controller {
 				args.order = _.isString(order) ? JSON.parse(order) : order;
 				delete args.options;
 				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-				args.include = Object.keys(modelDef.associations);
+				args.include = modelDef.associations ? Object.keys(modelDef.associations) : [];
 
 				if (action === Action.COUNT) {
 					const result = await this._obj("findAndCountAll").findAndCountAll(args);

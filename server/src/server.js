@@ -3,10 +3,11 @@ import path from "path";
 import debug from "debug";
 import "json-circular-stringify";
 
+import * as models from "./__globals__/models";
+
 import app from "./core/app";
 import * as config from "./config";
 import * as globals from "./globals";
-import * as models from "./models";
 import * as controllers from "./controllers";
 
 const log = debug("therion:server");
@@ -19,7 +20,11 @@ app(config, globals, models, controllers).then((a) => {
 		if (process.env.DEBUG) {
 			log(fs.readFileSync(path.join(__dirname, "../assets/logo")).toString());
 			log("✔ Therion server started in debug mode");
-			log(`Send requests to http://localhost:${ config.Custom.port }/${ config.Custom.endpoint }`);
+			log(`
+************************************************
+* Send requests to http${ config.Custom.ssl ? "s" : "" }://localhost:${ config.Custom.port }/${ config.Custom.endpoint }
+************************************************
+`);
 		} else {
 			// eslint-disable-next-line no-console
 			console.log(
