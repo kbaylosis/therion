@@ -3,6 +3,7 @@ import _ from "lodash";
 import debug from "debug";
 
 const log = debug("therion:server:DataManager");
+const env = process.env.NODE_ENV || "development";
 
 class DataManager {
 	initialize = (models, controllers, config) => {
@@ -11,12 +12,13 @@ class DataManager {
 			this._controllers = controllers;
 			this._config = config;
 
-			const datastore = this._config.Datastore;
+			const datastore = this._config.Datastore[env];
 
 			this._manager = new Sequelize(datastore.name,
 				datastore.username, datastore.password, {
 					host: datastore.host,
 					dialect: datastore.dialect,
+					storage: datastore.storage || null,
 					pool: {
 						max: 5,
 						min: 0,
