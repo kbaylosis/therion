@@ -98,5 +98,7 @@
     "no-console" : "off",
     "no-new" : "off",
     "no-fallthrough" : "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off"
   }
 }

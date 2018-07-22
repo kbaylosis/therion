@@ -3,16 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node node_modules/react-native/local-cli/cli.js start",
-    "ios": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && react-native run-ios",
-    "android": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && react-native run-android",
+    "start": "npm run setup && npm run lint && node node_modules/react-native/local-cli/cli.js start",
+    "ios": "npm run setup && npm run lint && react-native run-ios",
+    "android": "npm run setup && npm run lint && react-native run-android",
     "log-ios": "react-native log-ios",
     "log-android": "react-native log-android",
     "test": "jest",
-    "reset": "rm -rf __globals__ && cp -fR ../../globals __globals__ && npm run lint && node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "reset": "npm run setup && npm run lint && node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "lint": "eslint --max-warnings 1 .",
     "lint-fix": "eslint --fix --max-warnings 1 .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "setup": "rm -rf ./src/commons && cp -fR ../commons ./src/commons"
   },
   "dependencies": {
     "eslint-plugin-react": "^7.4.0",
