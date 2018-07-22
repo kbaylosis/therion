@@ -2,10 +2,11 @@
 const datastore = {
 	development: {
 		dialect: "sqlite",
-		storage: "./db.therion.sqlite",
-		name: "therion",
+		host: "sqlite",
+		name: "db.therion.sqlite",
 		username: null,
 		password: null,
+		location: "./",
 	},
 
 	test: {
