@@ -4,6 +4,8 @@ dependencies:
   history: 4.7.2
   immutable: 3.8.2
   install: 0.10.4
+  lodash: 4.17.10
+  pluralize: 7.0.0
   prop-types: 15.6.0
   raf: 3.4.0
   rc-queue-anim: 1.4.1
@@ -5649,6 +5651,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
+  /lodash/4.17.10:
+    dev: false
+    resolution:
+      integrity: sha512-UejweD1pDoXu+AD825lWwp4ZGtSwgnpZxb3JDViD7StjQz+Nb/6l093lx4OQ0foGWNRoc19mWy7BzL+UAK2iVg==
   /lodash/4.17.5:
     resolution:
       integrity: sha512-svL3uiZf1RwhH+cWrfZn3A4+U58wbP0tGVTLQPbjplZxZ8ROD9VLuNgsRniTlLe7OlSqR79RUehXgpBW/s0IQw==
@@ -6676,7 +6682,6 @@ packages:
     resolution:
       integrity: sha1-yBmscoBZpGHKscOImivjxJoATX8=
   /pluralize/7.0.0:
-    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -10052,8 +10057,10 @@ specifiers:
   json-loader: ^0.5.7
   less: ^2.7.3
   less-loader: ^4.0.5
+  lodash: ^4.17.10
   node-sass: ^4.7.1
   object-assign: ^4.1.1
+  pluralize: ^7.0.0
   postcss-flexbugs-fixes: ^3.2.0
   postcss-loader: ^2.0.8
   promise: ^8.0.1

@@ -8,6 +8,8 @@
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "install": "^0.10.2",
+    "lodash": "^4.17.10",
+    "pluralize": "^7.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "rc-queue-anim": "^1.4.1",
