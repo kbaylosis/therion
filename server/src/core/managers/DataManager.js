@@ -54,8 +54,23 @@ class DataManager {
 				}
 			});
 
+			const options = (() => {
+				switch(this._config.Datastore.mode) {
+				case "alter":
+					return {
+						alter: true,
+					};
+				case "drop":
+					return {
+						force: true,
+					};
+				case "safe":
+					return {};
+				}
+			})();
+
 			_.forEach(this._models, (model) => {
-				model.sync({force: false});
+				model.sync(options);
 			});
 		} catch (e) {
 			log(e);

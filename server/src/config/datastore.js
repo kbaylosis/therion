@@ -24,6 +24,13 @@ const datastore = {
 		username: process.env.DB_USERNAME || "root",
 		password: process.env.DB_PASSWORD || "root",
 	},
+
+	//
+	// safe - Do not touch the database
+	// alter - Alters tables to fit models
+	// drop - Deletes tables before re-creating it
+	//
+	mode: "alter",
 };
 
 module.exports = datastore;
