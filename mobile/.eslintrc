@@ -1,9 +1,17 @@
 {
-  "extends": ["react-app"],
-
+  "extends": ["react-native"],
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
   "rules": {
     // Best Practices
     "curly": "error",
+
+    // Node.js and Common.js
+    "global-require": "error",
+
     // Stylistic Issues
     "block-spacing": "error",
     "brace-style": "error",
@@ -14,15 +22,16 @@
     "consistent-this": ["error", "that"],
     "eol-last": ["error", "always"],
     "func-call-spacing": ["error", "never"],
+    "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
     "keyword-spacing": ["error", { "after": true }],
     "indent": ["error", "tab"],
     "line-comment-position": ["error", { "position": "above" }],
     "linebreak-style": ["error", "unix"],
     "max-depth": ["error", 4],
     "max-len": ["error", 100, 2],
-    "max-statements": ["error", 20],
+    "max-statements": ["error", 50],
     "max-statements-per-line": ["error", { "max": 1 }],
-    "new-cap": ["error", { "newIsCap": true }],
+    "new-cap": "off",
     "new-parens": "error",
     "newline-after-var": ["error", "always"],
     "newline-before-return": "error",
@@ -34,7 +43,7 @@
     "no-negated-condition": "error",
     "no-nested-ternary": "error",
     "no-new-object": "error",
-    "no-trailing-spaces": "error",
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
     "no-unneeded-ternary": "error",
     "no-whitespace-before-property": "error",
     "operator-assignment": ["error", "always"],
@@ -63,7 +72,7 @@
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
     "prefer-destructuring": ["error", {
-      "array": true,
+      "array": false,
       "object": true
     }, {
       "enforceForRenamedProperties": false
@@ -77,6 +86,19 @@
     "symbol-description": "error",
     "yield-star-spacing": ["error", "after"],
 
-    "jsx-a11y/href-no-hash": "off",
+    // Overrides
+    "react/prefer-stateless-function" : "off",
+    "class-methods-use-this" : "off",
+    "react/jsx-handler-names" : "off",
+    "import/no-namespace" : "off",
+    "import/prefer-default-export" : "off",
+    "arrow-body-style": "off",
+    "react/no-unused-prop-types": "off",
+    "no-invalid-this" : "off",
+    "no-console" : "off",
+    "no-new" : "off",
+    "no-fallthrough" : "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off"
   }
 }

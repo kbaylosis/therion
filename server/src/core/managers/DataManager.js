@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import _ from "lodash";
 import debug from "debug";
+import path from "path";
 
 const log = debug("therion:server:DataManager");
 const env = process.env.NODE_ENV || "development";
@@ -18,7 +19,7 @@ class DataManager {
 				datastore.username, datastore.password, {
 					host: datastore.host,
 					dialect: datastore.dialect,
-					storage: datastore.storage || null,
+					storage: path.join(__dirname, datastore.name) || null,
 					pool: {
 						max: 5,
 						min: 0,

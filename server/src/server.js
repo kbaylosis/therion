@@ -3,7 +3,7 @@ import path from "path";
 import debug from "debug";
 import "json-circular-stringify";
 
-import * as models from "./models";
+import * as models from "./commons/models";
 
 import App from "./core/app";
 import * as config from "./config";
@@ -20,7 +20,7 @@ try {
 
 	app.listen(process.env.DEBUG ? config.Custom.port : (config.Custom.ssl ? 443 : 80), () => {
 		if (process.env.DEBUG) {
-			log(fs.readFileSync(path.join(__dirname, "../assets/logo")).toString());
+			log(fs.readFileSync(path.join(__dirname, "./commons/assets/logo")).toString());
 			log("✔ Therion server started in debug mode");
 			log(`
 ************************************************
