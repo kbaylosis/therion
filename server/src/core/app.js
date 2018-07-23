@@ -63,7 +63,7 @@ export default ((config, globals, modelDefs, controllers) => {
 		app.use(cors());
 
 		// The GraphQL endpoint
-		app.use(`${ config.Custom.urlPrefix }/graphql`,
+		app.use(`${ config.Custom.urlPrefix }/${ config.Custom.endpoint }`,
 			bodyParser.json(),
 			graphqlExpress({
 				schema,
