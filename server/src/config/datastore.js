@@ -25,4 +25,4 @@ const datastore = {
 	},
 };
 
-export default datastore;
+module.exports = datastore;
