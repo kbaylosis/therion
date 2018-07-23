@@ -7,7 +7,7 @@ const log = debug("therion:server:DataManager");
 const env = process.env.NODE_ENV || "development";
 
 class DataManager {
-	initialize = (models, controllers, config) => {
+	initialize = async (models, controllers, config) => {
 		try {
 			this._definitions = models;
 			this._controllers = controllers;
@@ -54,23 +54,24 @@ class DataManager {
 				}
 			});
 
+			const mode = this._config.Datastore.mode;
 			const options = (() => {
-				switch(this._config.Datastore.mode) {
+				switch(mode) {
 				case "alter":
 					return {
 						alter: true,
-					};
-				case "drop":
-					return {
-						force: true,
 					};
 				case "safe":
 					return {};
 				}
 			})();
 
-			_.forEach(this._models, (model) => {
-				model.sync(options);
+			if (mode === "drop") {
+				await this._manager.drop();
+			}
+
+			_.forEach(this._models, async (model) => {
+				await model.sync(options);
 			});
 		} catch (e) {
 			log(e);

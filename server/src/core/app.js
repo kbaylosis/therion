@@ -14,7 +14,7 @@ import * as builtInResolvers from "./resolvers";
 const log = debug("therion:server:app");
 const isDebug = (process.env.NODE_ENV !== "production");
 
-module.exports = ((config, globals, modelDefs, controllers) => {
+module.exports = (async (config, globals, modelDefs, controllers) => {
 	try {
 		log("Configurations:*********");
 		log(config);
@@ -23,7 +23,7 @@ module.exports = ((config, globals, modelDefs, controllers) => {
 		log("✔ Configurations in good shape");
 
 		// Initialize the database and it's models
-		const dataMgr = globals.DataManager.initialize(modelDefs, controllers, config);
+		const dataMgr = await globals.DataManager.initialize(modelDefs, controllers, config);
 		const models = dataMgr.models;
 
 		log("✔ Database models initialized");
