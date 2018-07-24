@@ -7,7 +7,7 @@ const log = debug("therion:server:DataManager");
 const env = process.env.NODE_ENV || "development";
 
 class DataManager {
-	initialize = (models, controllers, config) => {
+	initialize = async (models, controllers, config) => {
 		try {
 			this._definitions = models;
 			this._controllers = controllers;

@@ -2,7 +2,7 @@
 	"verbose": true,
 	"ignore": [
 		"node_modules",
-		"./src/commons"
+		"src/commons"
 	],
 	"env": {
 		"NODE_ENV": "development",
