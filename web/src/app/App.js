@@ -34,7 +34,7 @@ export default class App extends React.Component {
 		this.state = {};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		reduxStorage.createLoader(engine)(store)
 			.then((state) => {
 				console.debug("Loaded previous state: ", state);

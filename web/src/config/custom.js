@@ -1,2 +1,4 @@
 
-export const host = "http://localhost:8000/graphql";
+export const host = "http://localhost";
+export const port = 8000;
+export const endpoint = "graphql";
