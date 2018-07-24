@@ -1,8 +1,10 @@
 import Sequelize from "sequelize";
 import _ from "lodash";
 import debug from "debug";
+import path from "path";
 
 const log = debug("therion:server:DataManager");
+const env = process.env.NODE_ENV || "development";
 
 class DataManager {
 	initialize = (models, controllers, config) => {
@@ -11,12 +13,13 @@ class DataManager {
 			this._controllers = controllers;
 			this._config = config;
 
-			const datastore = this._config.Datastore;
+			const datastore = this._config.Datastore[env];
 
 			this._manager = new Sequelize(datastore.name,
 				datastore.username, datastore.password, {
 					host: datastore.host,
 					dialect: datastore.dialect,
+					storage: path.join(__dirname, datastore.name) || null,
 					pool: {
 						max: 5,
 						min: 0,
@@ -51,8 +54,24 @@ class DataManager {
 				}
 			});
 
-			_.forEach(this._models, (model) => {
-				model.sync({force: false});
+			const mode = this._config.Datastore.mode;
+			const options = (() => {
+				switch(mode) {
+				case "alter":
+					return {
+						alter: true,
+					};
+				case "safe":
+					return {};
+				}
+			})();
+
+			if (mode === "drop") {
+				await this._manager.drop();
+			}
+
+			_.forEach(this._models, async (model) => {
+				await model.sync(options);
 			});
 		} catch (e) {
 			log(e);

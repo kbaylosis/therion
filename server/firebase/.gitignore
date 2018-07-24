@@ -39,6 +39,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+functions/node_modules/
+functions/jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
@@ -80,5 +82,8 @@ typings/
 # End of https://www.gitignore.io/api/node
 
 build
-src/commons
+__globals__
+
+
+# sqlite db
 *.sqlite

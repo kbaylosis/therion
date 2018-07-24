@@ -14,7 +14,7 @@ import * as builtInResolvers from "./resolvers";
 const log = debug("therion:server:app");
 const isDebug = (process.env.NODE_ENV !== "production");
 
-export default ((config, globals, modelDefs, controllers) => {
+module.exports = (async (config, globals, modelDefs, controllers) => {
 	try {
 		log("Configurations:*********");
 		log(config);
@@ -23,7 +23,7 @@ export default ((config, globals, modelDefs, controllers) => {
 		log("✔ Configurations in good shape");
 
 		// Initialize the database and it's models
-		const dataMgr = globals.DataManager.initialize(modelDefs, controllers, config);
+		const dataMgr = await globals.DataManager.initialize(modelDefs, controllers, config);
 		const models = dataMgr.models;
 
 		log("✔ Database models initialized");
@@ -63,12 +63,12 @@ export default ((config, globals, modelDefs, controllers) => {
 		app.use(cors());
 
 		// The GraphQL endpoint
-		app.use(`${ config.Custom.urlPrefix }/graphql`,
+		app.use(`${ config.Custom.urlPrefix }/${ config.Custom.endpoint }`,
 			bodyParser.json(),
 			graphqlExpress({
 				schema,
 				pretty: isDebug,
-				graphiql: true,
+				graphiql: isDebug,
 				formatError: (e) => ({
 					code: e.message.code,
 					name: e.message.name,

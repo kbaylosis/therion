@@ -24,7 +24,6 @@ class GraphQLManager {
 
 		this._enumTypes = this._generateEnumTypes();
 		this._enumTypeSchemas = this._generateEnumTypeSchemas();
-		log(this._enumTypeSchemas);
 
 		return this;
 	}
@@ -95,8 +94,6 @@ class GraphQLManager {
 		this._rawEnumTypes = {};
 		return _.transform(this._models, (gType, model, name) => {
 			const attributes = _.transform(attributeFields(model), (r, v, k) => {
-				log(this._modelDefs[name].attributes.type);
-
 				let type = v.type;
 				const isRequired = _.endsWith(type, "!");
 
@@ -112,10 +109,6 @@ class GraphQLManager {
 					${ k }: ${ type }
 				`);
 			}, []).join("\n");
-
-			log("#######");
-			log(this._rawEnumTypes);
-			log("#######");
 
 			const associations = _.transform(this._modelDefs[name].associations, (r, v, k) => {
 				let definition;

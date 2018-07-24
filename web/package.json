@@ -4,15 +4,13 @@
   "private": true,
   "dependencies": {
     "antd": "^3.0.0",
-    "apollo-boost": "^0.1.10",
     "chart.js": "^2.7.1",
     "graphql": "^0.13.0",
     "graphql-tag": "^2.9.2",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
-    "install": "^0.10.4",
+    "install": "^0.10.2",
     "lodash": "^4.17.10",
-    "moment": "^2.22.2",
     "pluralize": "^7.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
@@ -87,14 +85,14 @@
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
-    "start": "npm run setup && node scripts/start.js",
+    "start": "npm run setup && npm run lint && node scripts/start.js",
     "build": "npm run setup && npm run lint && node scripts/build.js",
     "test": "npm run setup && npm run lint && node scripts/test.js --env=jsdom",
     "desktop": "npm run setup && npm run lint && export ELECTRON_START_URL=http://localhost:3000 && electron .",
     "lint": "eslint --max-warnings 1 .",
     "lint-fix": "eslint --fix --max-warnings 1 .",
     "precommit": "npm run lint",
-    "setup": "rm -rf ./src/__globals__ && cp -fR ../../globals ./src/__globals__"
+    "setup": "rm -rf ./src/commons && cp -fR ../commons ./src/commons"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "homepage": "https://bitbucket.org/zoog/therion#readme",

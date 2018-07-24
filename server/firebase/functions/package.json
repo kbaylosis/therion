@@ -1,22 +1,20 @@
 {
-  "name": "therion-server",
+  "name": "therion-firebase-server",
   "version": "0.0.0",
-  "description": "The therion server",
+  "description": "The therion firebase server",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon",
-    "dev": "npm run setup && npm run lint && npx babel-node src/server.js",
-    "lint": "node ./node_modules/eslint/bin/eslint ./src --max-warnings=1 --fix && echo '✔  Your code looks good.'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "npm run clean && npm run setup && npm run build && npm run copy-assets && node build/server.js",
-    "clean": "rm -Rf build && echo '✔  Clean build.'",
-    "copy-assets": "cp -R ./src/models ./build/models && cp -R ./src/mocks ./build/mocks && echo '✔  Copy assets.'",
-    "build": "npx babel ./src -d build && echo '✔  Transform files.'",
-    "setup": "rm -rf ./src/commons && cp -fR ../commons ./src/commons"
+    "lint": "node ./node_modules/eslint/bin/eslint . --format table --max-warnings=1 && echo '✔  Your code looks good.'",
+    "serve": "npm run lint && firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "npm run lint && firebase deploy --only functions",
+    "logs": "firebase functions:log"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
@@ -24,6 +22,8 @@
     "debug": "^3.1.0",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
+    "firebase-admin": "^5.13.0",
+    "firebase-functions": "^1.1.0",
     "graphql": "^0.13.2",
     "graphql-relay": "^0.5.5",
     "graphql-sequelize": "^8.3.1",
@@ -33,9 +33,9 @@
     "lodash": "^4.17.10",
     "merge-graphql-schemas": "^1.5.2",
     "moment": "^2.22.2",
+    "mysql2": "^1.5.3",
     "pluralize": "^7.0.0",
-    "sequelize": "^4.38.0",
-    "sqlite3": "^4.0.2"
+    "sequelize": "^4.38.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

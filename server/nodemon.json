@@ -1,0 +1,19 @@
+{
+	"verbose": true,
+	"ignore": [
+		"node_modules",
+		"./src/commons"
+	],
+	"env": {
+		"NODE_ENV": "development",
+		"BABEL_DISABLE_CACHE": 1,
+		"DEBUG": "therion:*"
+	},
+	"exec": "npm run dev",
+	"ext": "js,json,graphql",
+	"delay": 3,
+	"watch": [
+		"./src",
+		"../commons"
+	]
+}
