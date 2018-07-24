@@ -17,11 +17,11 @@ class Sidebar extends PureComponent {
 		};
 	}
 
-	componentWillReceiveProps(nextProps, nextContext) {
-		if (nextContext.router.route.location.pathname !==
+	componentDidUpdate(prevProps, prevContext) {
+		if (prevContext.router.route.location.pathname !==
 			this.context.router.route.location.pathname) {
 			this.setState({
-				route: nextContext.router.route.location.pathname,
+				route: this.context.router.route.location.pathname,
 			});
 		}
 	}

@@ -11,6 +11,7 @@
     "immutable": "^3.8.2",
     "install": "^0.10.2",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "pluralize": "^7.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
