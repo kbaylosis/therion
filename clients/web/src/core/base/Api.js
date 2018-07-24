@@ -24,7 +24,7 @@ class Api {
 	// Singular queries
 	//
 
-	findById = async ({ id, options }, attributes = []) => {
+	findById = async ({ id, options }, attributes = [ "id" ]) => {
 		const query = `
 		query Find${ this._name }ById($id: Int) {
 			${ this._resource }(id: $id) {
@@ -42,7 +42,7 @@ class Api {
 		return data[this._resource];
 	}
 
-	findOne = async ({ where, options }, attributes = []) => {
+	findOne = async ({ where, options }, attributes = [ "id" ]) => {
 		const query = `
 		query Find${ this._name }($where: Json, $options: Json) {
 			${ this._resource }(where: $where, options: $options) {
@@ -65,7 +65,7 @@ class Api {
 	// Plural queries
 	//
 
-	findAndCount = async ({ where, offset, limit, order, options }, attributes = []) => {
+	findAndCount = async ({ where, offset, limit, order, options }, attributes = [ "id" ]) => {
 		const query = `
 		query FindAndCount${ this._pluralName }
 			($where: Json, $offset: Int, $limit: Int, $order: Json, $options: Json) {
@@ -94,7 +94,7 @@ class Api {
 		return data[this._resources];
 	}
 
-	findAll = async ({ where, offset, limit, order, options }, attributes = []) => {
+	findAll = async ({ where, offset, limit, order, options }, attributes = [ "id" ]) => {
 		const query = `
 		query FindAndCount${ this._pluralName }
 			($where: Json, $offset: Int, $limit: Int, $order: Json, $options: Json) {
@@ -126,7 +126,7 @@ class Api {
 	// Singular mutations
 	//
 
-	create = async ({ values, options }, attributes = []) => {
+	create = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation Create${ this._name }($values: Json, $options: Json) {
 			${ this._resource }(values: $values, options: $options) {
@@ -145,7 +145,7 @@ class Api {
 		return data[this._resource];
 	}
 
-	findOrCreate = async ({ values, options }, attributes = []) => {
+	findOrCreate = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation FindOrCreate{ this._name }($values: Json, $options: Json) {
 			${ this._resource }(values: $values, options: $options) {
@@ -164,7 +164,7 @@ class Api {
 		return data[this._resource];
 	}
 
-	upsert = async ({ values, options }, attributes = []) => {
+	upsert = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation UpdateOrInsert{ this._name }($values: Json, $options: Json) {
 			${ this._resource }(values: $values, options: $options) {
@@ -183,7 +183,7 @@ class Api {
 		return data[this._resource];
 	}
 
-	update = async ({ values, options}, attributes = []) => {
+	update = async ({ values, options}, attributes = [ "id" ]) => {
 		const query = `
 		mutation Update{ this._name }($values: Json, $options: Json) {
 			${ this._resource }(values: $values, options: $options) {
@@ -202,7 +202,7 @@ class Api {
 		return data[this._resource];
 	}
 
-	destroy = async (options, attributes = []) => {
+	destroy = async (options, attributes = [ "id" ]) => {
 		const query = `
 		mutation Delete{ this._name }($options: Json) {
 			${ this._resource }(options: $options) {
@@ -224,7 +224,7 @@ class Api {
 	// Plural mutations
 	//
 
-	bulkCreate = async ({ values, options }, attributes = []) => {
+	bulkCreate = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation BulkCreate{ this._pluralName }($values: Json, $options: Json) {
 			${ this._resources }(values: $values, options: $options) {
@@ -243,7 +243,7 @@ class Api {
 		return data[this._resources];
 	}
 
-	update = async ({ values, options}, attributes = []) => {
+	update = async ({ values, options}, attributes = [ "id" ]) => {
 		const query = `
 		mutation Update{ this._pluralName }($values: Json, $options: Json) {
 			${ this._resources }(values: $values, options: $options) {
@@ -262,7 +262,7 @@ class Api {
 		return data[this._resources];
 	}
 
-	destroy = async (options, attributes = []) => {
+	destroy = async (options, attributes = [ "id" ]) => {
 		const query = `
 		mutation Delete{ this._pluralName }($options: Json) {
 			${ this._resources }(options: $options) {
