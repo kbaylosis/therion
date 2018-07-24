@@ -1,5 +1,3 @@
-@import "variables";
-
 html {
 	position: relative;
 	min-height: 100%;
@@ -10,38 +8,9 @@ html {
 	}
 }
 
-.module-container {
-	height: 100%;
-	background: rgba(255,255,255, 0) !important;
-}
-
-.menu-logo {
-	background: rgba(255,255,255,.2);
-	margin: 16px 28px 16px 0;
-	float: left;
-}
-
-.header {
-	padding: 0px 10px !important;
-}
-
-.navbar-menu {
-	line-height: 64px;
-}
-
-.content {
-	background: #fff;
-}
-
-footer {
+footer, .footer {
 	position: absolute;
 	bottom: 0;
-}
-
-.footer {
-	text-align: center;
-	color: #fff;
-	background-color: #000c1a;
 }
 
 #root, #navigator {

@@ -9,7 +9,7 @@ import "../styles.scss";
 class LoginScreen extends PureComponent {
 	render() {
 		return (
-			<Layout className="module-container">
+			<Layout id="login-container">
 				<Header/>
 				<Content/>
 				<Footer/>

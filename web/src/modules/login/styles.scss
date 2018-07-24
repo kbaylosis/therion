@@ -1,23 +1,28 @@
-@import "../../app/variables";
-
-#login-content {
-	background-image: url("../../assets/login-background.jpg");
-	background-size: cover;
+#login-container {
+	height: 100%;
 }
 
-#login-signup {
-	margin-top: 15px;
-	float: right;
-	color: white;
-	background-color: $error-color;
+#login-header {
+
+}
+
+#login-content {
+	background: #fff;
+}
+
+#login-footer {
+	text-align: center;
 }
 
 #login-box {
-	background: $gray-lighter;
+	background: #ececec;
 	border: 1px;
 	padding: 20px;
 	margin: 20px;
-	opacity: 0.9;
+}
+
+.logo {
+	margin: 10px 10px 20px 10px;
 }
 
 .login-form-forgot {

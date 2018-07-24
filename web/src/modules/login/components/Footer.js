@@ -4,8 +4,8 @@ import { Layout } from "antd";
 class Footer extends PureComponent {
 	render() {
 		return (
-			<Layout.Footer className="footer">
-
+			<Layout.Footer id="login-footer">
+				Copyright © 2017 Zoog Technologies, Inc
 			</Layout.Footer>
 		);
 	}
@@ -15,5 +15,3 @@ Footer.propTypes = {
 };
 
 export default Footer;
-
-// 				© Copyright 2018 Zoog Technologies, Inc - All rights reserved.

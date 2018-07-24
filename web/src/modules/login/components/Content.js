@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import {
+	Avatar,
 	Button,
 	Checkbox,
 	Col,
@@ -10,6 +11,7 @@ import {
 	Layout,
 	Row,
 } from "antd";
+import logo from "__src/assets/logo.svg";
 
 const FormItem = Form.Item;
 
@@ -18,13 +20,13 @@ class Content extends PureComponent {
 		const { getFieldDecorator } = this.props.form;
 
 		return (
-			<Layout.Content id="login-content" className="content">
+			<Layout.Content id="login-content">
 				<Row type="flex" justify="center">
 					<Col span={ 6 }>
 						<Form onSubmit={this.handleSubmit} id="login-box" className="login-form">
-							<div type="flex" style={{ textAlign: "center", paddingBottom: 10 }}>
-								<h2>Welcome to HRIS Pro!</h2>
-							</div>
+							<Row type="flex" justify="center">
+								<Avatar src={ logo } className="logo" size="large"/>
+							</Row>
 							<FormItem>
 								{
 									getFieldDecorator("userName", {
@@ -49,7 +51,7 @@ class Content extends PureComponent {
 								{
 									getFieldDecorator("remember", {
 										valuePropName: "checked",
-										initialValue: false,
+										initialValue: true,
 									})(
 										<Checkbox>Remember me</Checkbox>
 									)
@@ -58,6 +60,7 @@ class Content extends PureComponent {
 								<Button type="primary" htmlType="submit" className="login-form-button">
 									<Link to="/">Log In</Link>
 								</Button>
+								Or <a href="">register now!</a>
 							</FormItem>
 						</Form>
 					</Col>

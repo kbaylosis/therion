@@ -7,12 +7,10 @@ import { ConnectedRouter } from "react-router-redux";
 
 import NestedRoute from "__src/components/NestedRoute";
 import Login from "__src/modules/login";
-import Registration from "__src/modules/registration";
 import Home from "__src/modules/home";
 
 const routes = [
 	...Login,
-	...Registration,
 	...Home,
 ];
 

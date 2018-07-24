@@ -7,7 +7,7 @@ import "../styles.scss";
 class DashboardView extends PureComponent {
 	render() {
 		return (
-			<Layout className="module-container">
+			<Layout id="dashboard-container">
 				<Content/>
 			</Layout>
 		);

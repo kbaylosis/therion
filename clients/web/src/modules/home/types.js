@@ -1,7 +1,0 @@
-export const LIST_EMPLOYEES_ONGOING = "todo/types/LIST_EMPLOYEES_ONGOING";
-export const LIST_EMPLOYEES_DONE = "todo/types/LIST_EMPLOYEES_DONE";
-export const LIST_EMPLOYEES_ERROR = "todo/types/LIST_EMPLOYEES_ERROR";
-
-export const LIST_TIMELOGS_ONGOING = "todo/types/LIST_TIMELOGS_ONGOING";
-export const LIST_TIMELOGS_DONE = "todo/types/LIST_TIMELOGS_DONE";
-export const LIST_TIMELOGS_ERROR = "todo/types/LIST_TIMELOGS_ERROR";
