@@ -2,6 +2,7 @@ import _ from "lodash";
 import pluralize from "pluralize";
 
 import * as globals from "__src/globals";
+import ApiError from "./ApiError";
 
 class Api {
 	constructor(name) {
@@ -9,11 +10,6 @@ class Api {
 		this._pluralName = pluralize(this._name);
 		this._resource = _.camelCase(this._name);
 		this._resources = pluralize(this._resource);
-
-		console.log(this._name);
-		console.log(this._pluralName);
-		console.log(this._resource);
-		console.log(this._resources);
 	}
 
 	get name() {
@@ -24,11 +20,11 @@ class Api {
 	// Singular queries
 	//
 
-	findById = async ({ id, options }, attributes = [ "id" ]) => {
+	findById = async ({ id }, attributes = [ "id" ]) => {
 		const query = `
 		query Find${ this._name }ById($id: Int) {
 			${ this._resource }(id: $id) {
-				${ attributes.join("\n") }
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -37,16 +33,14 @@ class Api {
 			id,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
+		return this._execute(this._resource, query, variables);
 	}
 
 	findOne = async ({ where, options }, attributes = [ "id" ]) => {
 		const query = `
 		query Find${ this._name }($where: Json, $options: Json) {
 			${ this._resource }(where: $where, options: $options) {
-				${ attributes.join("\n") }
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -56,9 +50,7 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
+		return this._execute(this._resource, query, variables);
 	}
 
 	//
@@ -89,21 +81,19 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resources];
+		return this._execute(this._resources, query, variables);
 	}
 
 	findAll = async ({ where, offset, limit, order, options }, attributes = [ "id" ]) => {
 		const query = `
-		query FindAndCount${ this._pluralName }
+		query FindAll${ this._pluralName }
 			($where: Json, $offset: Int, $limit: Int, $order: Json, $options: Json) {
 			${ this._resources }(where: $where, offset: $offset,
 				limit: $limit, order: $order, options: $options) {
 				offset
 				limit
 				rows {
-					${ attributes.join("\n") }
+					${ this._generateAttribTree(attributes) }
 				}
 			}
 		}
@@ -117,9 +107,7 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resources];
+		return this._execute(this._resources, query, variables);
 	}
 
 	//
@@ -129,8 +117,8 @@ class Api {
 	create = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation Create${ this._name }($values: Json, $options: Json) {
-			${ this._resource }(values: $values, options: $options) {
-				${ attributes.join("\n") }
+			${ this._resource }(action: CREATE, values: $values, options: $options) {
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -140,16 +128,14 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
+		return this._execute(this._resource, query, variables);
 	}
 
 	findOrCreate = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation FindOrCreate{ this._name }($values: Json, $options: Json) {
-			${ this._resource }(values: $values, options: $options) {
-				${ attributes.join("\n") }
+			${ this._resource }(action: READ, values: $values, options: $options) {
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -159,16 +145,14 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
+		return this._execute(this._resource, query, variables);
 	}
 
 	upsert = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation UpdateOrInsert{ this._name }($values: Json, $options: Json) {
-			${ this._resource }(values: $values, options: $options) {
-				${ attributes.join("\n") }
+			${ this._resource }(action: UPSERT, values: $values, options: $options) {
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -178,46 +162,7 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
-	}
-
-	update = async ({ values, options}, attributes = [ "id" ]) => {
-		const query = `
-		mutation Update{ this._name }($values: Json, $options: Json) {
-			${ this._resource }(values: $values, options: $options) {
-				${ attributes.join("\n") }
-			}
-		}
-		`;
-
-		const variables = {
-			values,
-			options,
-		};
-
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
-	}
-
-	destroy = async (options, attributes = [ "id" ]) => {
-		const query = `
-		mutation Delete{ this._name }($options: Json) {
-			${ this._resource }(options: $options) {
-				${ attributes.join("\n") }
-			}
-		}
-		`;
-
-		const variables = {
-			options,
-		};
-
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resource];
+		return this._execute(this._resource, query, variables);
 	}
 
 	//
@@ -227,8 +172,8 @@ class Api {
 	bulkCreate = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
 		mutation BulkCreate{ this._pluralName }($values: Json, $options: Json) {
-			${ this._resources }(values: $values, options: $options) {
-				${ attributes.join("\n") }
+			${ this._resources }(action: CREATE, values: $values, options: $options) {
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -238,16 +183,15 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resources];
+		return this._execute(this._resources, query, variables);
 	}
 
-	update = async ({ values, options}, attributes = [ "id" ]) => {
+	update = async ({ values, options }, attributes = [ "id" ]) => {
+		const r = (options.limit === 1) ? this._resource : this._resources;
 		const query = `
 		mutation Update{ this._pluralName }($values: Json, $options: Json) {
-			${ this._resources }(values: $values, options: $options) {
-				${ attributes.join("\n") }
+			${ r }(action: UPDATE, values: $values, options: $options) {
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -257,16 +201,15 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resources];
+		return this._execute(r, query, variables);
 	}
 
 	destroy = async (options, attributes = [ "id" ]) => {
+		const r = (options.limit === 1) ? this._resource : this._resources;
 		const query = `
 		mutation Delete{ this._pluralName }($options: Json) {
-			${ this._resources }(options: $options) {
-				${ attributes.join("\n") }
+			${ r }(action: DELETE, options: $options) {
+				${ this._generateAttribTree(attributes) }
 			}
 		}
 		`;
@@ -275,9 +218,7 @@ class Api {
 			options,
 		};
 
-		const { data } = await globals.DataManager.execute(query, variables);
-
-		return data[this._resources];
+		return this._execute(r, query, variables);
 	}
 
 	_generateAttribTree = (attribTree) => {
@@ -292,6 +233,16 @@ class Api {
 				${ attrib }
 			`);
 		}, []).join("\n");
+	}
+
+	_execute = async (resource, query, variables) => {
+		const { data, errors } = await globals.RequestManager.execute(query, variables);
+
+		if (errors) {
+			throw new ApiError(errors);
+		}
+
+		return data[resource];
 	}
 }
 

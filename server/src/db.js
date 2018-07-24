@@ -1,3 +1,3 @@
 import Sequelize from "sequelize";
 
-export default (Sequelize || {});
+export default Sequelize;
