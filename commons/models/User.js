@@ -1,6 +1,6 @@
 import Sequelize from "../../db";
 
-import * as Types from "../types";
+import * as Enum from "../enums";
 
 class User {
 	static description = "System user";
@@ -29,11 +29,11 @@ class User {
 		firstname: Sequelize.STRING,
 		lastname: Sequelize.STRING,
 		type: {
-			type: Sequelize.ENUM(Types.BUSINESS, Types.REGULAR),
-			defaultValue: Types.REGULAR,
+			type: Sequelize.ENUM(Enum.BUSINESS, Enum.REGULAR),
+			defaultValue: Enum.REGULAR,
 			allowNull: false,
 			validate: {
-				isIn: [[Types.BUSINESS, Types.REGULAR]],
+				isIn: [[Enum.BUSINESS, Enum.REGULAR]],
 			},
 		},
 	};
