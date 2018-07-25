@@ -1,7 +1,12 @@
 # Therion #
 
-An application development framework designed to create an app that runs over the mobile, web, and desktop platforms. This is based from the [create-react-app](https://github.com/facebookincubator/create-react-app),
- [create-react-native-app](https://github.com/react-community/create-react-native-app), and [electron](https://github.com/electron/electron) projects.
+An application development framework designed to create an app that runs over the mobile, web, and desktop platforms. This is based on the following projects:
+
+* [create-react-app](https://github.com/facebookincubator/create-react-app)
+* [create-react-native-app](https://github.com/react-community/create-react-native-app)
+* [electron](https://github.com/electron/electron)
+* [express](https://expressjs.com/)
+* [GraphQL](https://graphql.org/learn/)
 
 ## How do I get set up? #
 
@@ -13,6 +18,24 @@ An application development framework designed to create an app that runs over th
 git clone git@github.com:kbaylosis/therion.git <project_name>
 cd <project_name>
 
+# Install the node modules of each project component
+cd <project_name>/server
+pnpm install
+
+cd <project_name>/mobile
+yarn install
+
+cd <project_name>/web
+pnpm install
+```
+
+**Running the graphql server
+**
+```
+#!shell
+
+cd <project_path>/server
+pnpm start
 ```
 
 **Running the ios mobile client.
@@ -20,8 +43,8 @@ cd <project_name>
 ```
 #!shell
 
-cd <project_path>/clients/mobile
-npm run ios
+cd <project_path>/mobile
+yarn run ios
 ```
 
 **Running the android mobile client.** Attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup).
@@ -29,8 +52,8 @@ npm run ios
 ```
 #!shell
 
-cd <project_path>/clients/mobile
-npm run android
+cd <project_path>/mobile
+yarn run android
 ```
 
 **Running the web client. ** Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -38,8 +61,8 @@ npm run android
 ```
 #!shell
 
-cd <project_path>/clients/web
-npm start
+cd <project_path>/web
+pnpm start
 ```
 
 **Running the desktop client
@@ -47,12 +70,12 @@ npm start
 ```
 #!shell
 
-cd <project_path>/clients/web
+cd <project_path>/web
 npm start
 
 ### Open another terminal window.
 
-npm run desktop
+pnpm run desktop
 ```
 
 ## Debugging/Logging #
