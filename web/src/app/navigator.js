@@ -4,6 +4,9 @@ import {
 	Switch,
 } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
+import { bindActionCreators } from "redux";
+
+import * as globals from "__src/globals";
 
 import NestedRoute from "__src/components/NestedRoute";
 import Login from "__src/modules/login";
@@ -21,11 +24,9 @@ class AppNavigator extends PureComponent {
 				<div id="navigator">
 					<Switch>
 						{
-							routes.map((route, index) => {
-								return (
-									<NestedRoute { ...route } key={ index } />
-								);
-							})
+							routes.map((route, index) => (
+								<NestedRoute { ...route } key={ index } db={ this.props.db } />
+							))
 						}
 					</Switch>
 				</div>
@@ -40,4 +41,8 @@ AppNavigator.propTypes = {
 const mapStateToProps = () => ({
 });
 
-export default connect(mapStateToProps)(AppNavigator);
+const mapDispatchToProps = (dispatch) => ({
+	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);

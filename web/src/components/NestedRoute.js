@@ -4,14 +4,10 @@ import {
 } from "react-router-dom";
 
 const NestedRoute = (route) => (
-	<Route exact={ route.exact } path={ route.path } render={(props) => {
-		console.log(route);
-
+	<Route exact={ route.exact } path={ route.path } render={(props) => (
 		// pass the sub-routes down to keep nesting
-		return (
-			<route.component { ...props } routes={ route.routes }/>
-		);
-	}}/>
+		<route.component { ...props } routes={ route.routes } db={ route.db } />
+	)}/>
 );
 
 export default NestedRoute;
