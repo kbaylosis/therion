@@ -1,6 +1,6 @@
 import Sequelize from "../../db";
 
-import * as Types from "../types";
+import * as Enums from "../enums";
 
 class Priority {
 	static attributes = {
@@ -12,21 +12,21 @@ class Priority {
 		notes: Sequelize.STRING,
 		status: {
 			type: Sequelize.ENUM(
-				Types.PENDING,
-				Types.ACCEPTED,
-				Types.SERVED,
-				Types.REJECTED,
-				Types.CANCELLED,
+				Enums.PENDING,
+				Enums.ACCEPTED,
+				Enums.SERVED,
+				Enums.REJECTED,
+				Enums.CANCELLED,
 			),
-			defaultValue: Types.PENDING,
+			defaultValue: Enums.PENDING,
 			allowNull: false,
 			validate: {
 				isIn: [[
-					Types.PENDING,
-					Types.ACCEPTED,
-					Types.SERVED,
-					Types.REJECTED,
-					Types.CANCELLED,
+					Enums.PENDING,
+					Enums.ACCEPTED,
+					Enums.SERVED,
+					Enums.REJECTED,
+					Enums.CANCELLED,
 				]],
 			},
 		},

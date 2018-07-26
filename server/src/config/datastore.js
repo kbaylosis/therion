@@ -6,7 +6,7 @@ const datastore = {
 		name: "db.therion.sqlite",
 		username: null,
 		password: null,
-		location: "./",
+		location: "../..",
 	},
 
 	test: {

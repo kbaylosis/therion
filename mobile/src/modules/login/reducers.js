@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import * as ReactNavigationTypes from "__proj/__globals__/ReactNavigationTypes";
+import * as ReactNavigationTypes from "__src/commons/ReactNavigationTypes";
 import * as Types from "./types";
 
 const session = (state = {}, action) => {

@@ -19,7 +19,7 @@ class DataManager {
 				datastore.username, datastore.password, {
 					host: datastore.host,
 					dialect: datastore.dialect,
-					storage: path.join(__dirname, datastore.name) || null,
+					storage: path.join(datastore.location, datastore.name) || null,
 					pool: {
 						max: 5,
 						min: 0,
