@@ -1,6 +1,7 @@
 {
 	"presets": ["react-native"],
 	"plugins": [
+		"wildcard",
 		["module-resolver", {
 			"alias" : {
 				"__proj": ".",

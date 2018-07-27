@@ -2,7 +2,10 @@ import React from "react";
 import { Platform } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { StackNavigator, addNavigationHelpers } from "react-navigation";
+import { StackNavigator } from "react-navigation";
+import { bindActionCreators } from "redux";
+
+import * as globals from "__src/globals";
 
 import Splash from "../modules/splash";
 import Login from "../modules/login";
@@ -35,20 +38,26 @@ const mapStateToProps = ({ nav }) => ({
 	nav,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+	dispatch,
+	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
+});
+
 // on Android, the URI prefix typically contains a host in addition to scheme
 const uriPrefix = (Platform.OS === "android") ? "mychat://mychat/" : "mychat://";
 
-const AppNavigatorUI = ({ dispatch, nav }) => (
-	<AppNavigator navigation={addNavigationHelpers({
+const AppNavigatorUI = ({ dispatch, nav, db }) => (
+	<AppNavigator navigation={{
 		dispatch,
 		state: nav,
 		uriPrefix,
-	})} />
+	}} screenProps={{ db }} />
 );
 
 AppNavigatorUI.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	nav: PropTypes.object.isRequired,
+	db: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(AppNavigatorUI);
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigatorUI);
