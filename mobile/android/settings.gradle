@@ -1,0 +1,3 @@
+rootProject.name = 'therionmobile'
+
+include ':app'
