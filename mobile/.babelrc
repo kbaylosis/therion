@@ -2,6 +2,15 @@
   "presets": [
     "babel-preset-react-native-stage-0/decorator-support"
   ],
+  "plugins": [
+    "wildcard",
+    ["module-resolver", {
+     "alias" : {
+      "__proj": ".",
+      "__src" : "./src",
+      "__npm" : "./node_modules"
+     }}]
+  ],
   "env": {
     "development": {
       "plugins": [

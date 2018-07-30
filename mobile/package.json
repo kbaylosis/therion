@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-wildcard": "^5.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "jest": "^23.4.2",
     "jest-react-native": "^18.0.0",
-    "react-test-renderer": "16.3.1"
+    "react-test-renderer": "16.3.1",
+    "remote-redux-devtools": "^0.5.12"
   },
   "scripts": {
     "start": "react-native start",
@@ -18,7 +21,17 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "lodash": "^4.17.10",
+    "native-base": "^2.7.2",
+    "pluralize": "^7.0.0",
+    "prop-types": "^15.6.2",
     "react": "16.3.1",
-    "react-native": "~0.55.2"
+    "react-native": "~0.55.2",
+    "react-navigation": "^2.9.3",
+    "react-navigation-fluid-transitions": "^0.2.2",
+    "react-navigation-redux-helpers": "^2.0.4",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   }
 }
