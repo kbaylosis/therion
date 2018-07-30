@@ -2,6 +2,7 @@
   "extends": ["react-native"],
   "settings": {
     "import/resolver": {
+      node: {},
       "babel-module": {}
     }
   },

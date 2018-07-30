@@ -1,8 +1,9 @@
 {
   "presets": [
-    "babel-preset-react-native-stage-0/decorator-support"
+    "react-native"
   ],
   "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
     "wildcard",
     ["module-resolver", {
      "alias" : {
@@ -14,7 +15,7 @@
   "env": {
     "development": {
       "plugins": [
-        "transform-react-jsx-source"
+        "@babel/plugin-transform-react-jsx-source"
       ]
     }
   }
