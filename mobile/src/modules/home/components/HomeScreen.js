@@ -10,15 +10,22 @@ class HomeScreen extends Component {
 		header: null,
 	}
 
-	componentWillReceiveProps({ loggedOut, navigation }) {
-		if (loggedOut) {
+	static propTypes = {
+		actions: PropTypes.object,
+		navigation: PropTypes.object,
+		loggedOut: PropTypes.bool,
+	}
+
+	componentDidUpdate(prevProps) {
+		const { loggedOut, navigation } = this.props;
+
+		if (prevProps.loggedOut !== loggedOut && loggedOut) {
 			navigation.goBack();
 		}
 	}
 
 	render() {
 		const { actions } = this.props;
-
 
 		return (
 			<View style={styles.container}>
@@ -28,9 +35,5 @@ class HomeScreen extends Component {
 		);
 	}
 }
-
-HomeScreen.propTypes = {
-	actions: PropTypes.object,
-};
 
 export default HomeScreen;

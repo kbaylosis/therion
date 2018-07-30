@@ -38,7 +38,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class AppNavigatorWrapper extends PureComponent {
-	static router = AppNavigator.router;
+	static router = AppNavigator.router
+
+	static propTypes = {
+		nav: PropTypes.object,
+		db: PropTypes.object,
+	}
 
 	render() {
 		const { nav, db } = this.props;

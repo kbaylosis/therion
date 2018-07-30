@@ -6,16 +6,29 @@
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-wildcard": "^5.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "eslint": "^5.2.0",
+    "eslint-config-react-native": "^3.0.0",
+    "eslint-import-resolver-babel-module": "^4.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-react": "^7.10.0",
+    "husky": "^0.14.3",
     "jest": "^23.4.2",
     "jest-react-native": "^18.0.0",
     "react-test-renderer": "16.3.1",
     "remote-redux-devtools": "^0.5.12"
   },
   "scripts": {
-    "start": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "test": "jest"
+    "start": "npm run setup && npm run lint && react-native start",
+    "reset": "npm run setup && npm run lint && react-native start --reset-cache",
+    "android": "npm run setup && npm run lint && react-native run-android",
+    "ios": "npm run setup && npm run lint && react-native run-ios",
+    "log-ios": "react-native log-ios",
+    "log-android": "react-native log-android",
+    "test": "jest",
+    "lint": "eslint --max-warnings 1 .",
+    "lint-fix": "eslint --fix --max-warnings 1 .",
+    "precommit": "npm run lint",
+    "setup": "rm -rf ./src/commons && cp -fR ../commons ./src/commons"
   },
   "jest": {
     "preset": "react-native"
