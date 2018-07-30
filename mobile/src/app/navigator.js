@@ -1,5 +1,4 @@
-import React from "react";
-import { Platform, Component } from "react-native";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createStackNavigator } from "react-navigation";
@@ -17,15 +16,9 @@ import Login from "../modules/login";
 import Home from "../modules/home";
 
 const AppNavigator = createStackNavigator({
-	Splash: {
-		screen: Splash,
-	},
-	Login: {
-		screen: Login,
-	},
-	Home: {
-		screen: Home,
-	},
+	Splash,
+	Login,
+	Home,
 });
 
 export const nav = createNavigationReducer(AppNavigator);
@@ -37,14 +30,25 @@ export const reactNavigation = createReactNavigationReduxMiddleware(
 );
 
 const mapStateToProps = ({ nav }) => ({
-	state: nav,
+	nav,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	dispatch,
-	// db: bindActionCreators(globals.ApiFactory.actions, dispatch),
+	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	reduxifyNavigator(AppNavigator, "root")
-);
+class AppNavigatorWrapper extends PureComponent {
+	static router = AppNavigator.router;
+
+	render() {
+		const { nav, db } = this.props;
+
+		return <AppNavigator nav={ nav } screenProps={{ db }} />;
+	}
+}
+
+export default connect()(
+	reduxifyNavigator(
+		connect(mapStateToProps, mapDispatchToProps)(AppNavigatorWrapper),
+		"root"
+	));
