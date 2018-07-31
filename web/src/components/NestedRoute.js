@@ -6,7 +6,7 @@ import {
 const NestedRoute = (route) => (
 	<Route exact={ route.exact } path={ route.path } render={(props) => (
 		// pass the sub-routes down to keep nesting
-		<route.component { ...props } routes={ route.routes } db={ route.db } />
+		<route.component { ...props } routes={ route.routes } screenProps={ route.screenProps } />
 	)}/>
 );
 

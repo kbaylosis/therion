@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
 	Switch,
@@ -17,15 +18,28 @@ const routes = [
 	...Home,
 ];
 
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
+});
+
 class AppNavigator extends PureComponent {
+	static propTypes = {
+		db: PropTypes.object,
+	};
+
 	render() {
+		const { db } = this.props;
+
 		return (
 			<ConnectedRouter { ...this.props }>
 				<div id="navigator">
 					<Switch>
 						{
 							routes.map((route, index) => (
-								<NestedRoute { ...route } key={ index } db={ this.props.db } />
+								<NestedRoute { ...route } key={ index } screenProps={{ db }} />
 							))
 						}
 					</Switch>
@@ -34,15 +48,5 @@ class AppNavigator extends PureComponent {
 		);
 	}
 }
-
-AppNavigator.propTypes = {
-};
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = (dispatch) => ({
-	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);
