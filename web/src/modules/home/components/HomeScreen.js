@@ -22,7 +22,4 @@ class HomeScreen extends PureComponent {
 	}
 }
 
-HomeScreen.propTypes = {
-};
-
 export default HomeScreen;

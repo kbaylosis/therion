@@ -70,7 +70,4 @@ class Content extends PureComponent {
 	}
 }
 
-Content.propTypes = {
-};
-
 export default Form.create()(Content);

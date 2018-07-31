@@ -46,7 +46,4 @@ class Content extends PureComponent {
 	}
 }
 
-Content.propTypes = {
-};
-
 export default Content;

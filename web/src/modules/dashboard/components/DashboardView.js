@@ -14,7 +14,4 @@ class DashboardView extends PureComponent {
 	}
 }
 
-DashboardView.propTypes = {
-};
-
 export default DashboardView;

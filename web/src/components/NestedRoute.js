@@ -3,10 +3,10 @@ import {
 	Route,
 } from "react-router-dom";
 
-const NestedRoute = (route) => (
-	<Route exact={ route.exact } path={ route.path } render={(props) => (
+const NestedRoute = ({ exact, path, component: Component, routes, screenProps }) => (
+	<Route exact={ exact } path={ path } render={(props) => (
 		// pass the sub-routes down to keep nesting
-		<route.component { ...props } routes={ route.routes } screenProps={ route.screenProps } />
+		<Component { ...props } routes={ routes } screenProps={ screenProps } />
 	)}/>
 );
 

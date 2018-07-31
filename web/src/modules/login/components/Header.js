@@ -12,7 +12,4 @@ class Header extends PureComponent {
 	}
 }
 
-Header.propTypes = {
-};
-
 export default Header;

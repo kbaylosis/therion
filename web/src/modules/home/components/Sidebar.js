@@ -46,7 +46,4 @@ class Sidebar extends PureComponent {
 	}
 }
 
-Sidebar.propTypes = {
-};
-
 export default Sidebar;

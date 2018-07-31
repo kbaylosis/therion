@@ -5,6 +5,10 @@ import { Layout } from "antd";
 import NestedRoute from "__src/components/NestedRoute";
 
 class Content extends PureComponent {
+	static propTypes = {
+		views: PropTypes.object,
+	};
+
 	render() {
 		const { routes } = this.props;
 
@@ -17,9 +21,5 @@ class Content extends PureComponent {
 		);
 	}
 }
-
-Content.propTypes = {
-	views: PropTypes.object,
-};
 
 export default Content;

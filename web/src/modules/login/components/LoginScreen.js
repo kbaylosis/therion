@@ -18,7 +18,4 @@ class LoginScreen extends PureComponent {
 	}
 }
 
-LoginScreen.propTypes = {
-};
-
 export default LoginScreen;

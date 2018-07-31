@@ -10,7 +10,4 @@ class Footer extends PureComponent {
 	}
 }
 
-Footer.propTypes = {
-};
-
 export default Footer;
