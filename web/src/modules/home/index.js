@@ -5,11 +5,10 @@ import Loading from "__src/components/Loading";
 import Dashboard from "__src/modules/dashboard";
 import Todos, { todos } from "__src/modules/todos";
 
-// import reducers from "./reducers";
+import reducer from "./reducers";
 
 export const home = {
-	// home: reducers,
-	// dashboard,
+	home: reducer,
 	todos,
 };
 

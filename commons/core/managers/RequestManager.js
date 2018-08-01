@@ -1,8 +1,11 @@
-import * as custom from "__src/config/custom";
 
 class RequestManager {
+	constructor(config) {
+		this._url = `${ config.host }:${ config.port }/${ config.endpoint }`;
+	}
+
 	execute = async (query, variables) => {
-		const result = await fetch(`${ custom.host }:${ custom.port }/${ custom.endpoint }`, {
+		const result = await fetch(this._url, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

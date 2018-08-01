@@ -1,15 +1,16 @@
 import _ from "lodash";
 import pluralize from "pluralize";
 
-import * as globals from "__src/globals";
 import ApiError from "./ApiError";
 
 class Api {
-	constructor(name) {
+	constructor(name, requestManager) {
 		this._name = name;
 		this._pluralName = pluralize(this._name);
 		this._resource = _.camelCase(this._name);
 		this._resources = pluralize(this._resource);
+
+		this._requestManager = requestManager;
 	}
 
 	get name() {
@@ -236,7 +237,7 @@ class Api {
 	}
 
 	_execute = async (resource, query, variables) => {
-		const { data, errors } = await globals.RequestManager.execute(query, variables);
+		const { data, errors } = await this._requestManager.execute(query, variables);
 
 		if (errors) {
 			throw new ApiError(errors);

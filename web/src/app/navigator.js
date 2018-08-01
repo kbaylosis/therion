@@ -7,7 +7,7 @@ import {
 import { ConnectedRouter } from "react-router-redux";
 import { bindActionCreators } from "redux";
 
-import * as globals from "__src/globals";
+import { therion } from "__src/globals";
 
 import NestedRoute from "__src/components/NestedRoute";
 import Login from "__src/modules/login";
@@ -22,7 +22,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
+	db: bindActionCreators(therion.ApiFactory.actions, dispatch),
 });
 
 class AppNavigator extends PureComponent {

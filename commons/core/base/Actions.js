@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
 
-import * as Types from "__src/commons/types";
+import * as ActionTypes from "./ActionTypes";
 
 class Actions {
 	constructor(api) {
@@ -38,13 +38,16 @@ class Actions {
 	_operation = (op) => (id, options = {}, attributes = [ "id" ]) => (
 		async (dispatch) => {
 			try {
-				dispatch({ type: Types.ONGOING, name: this._api.name, id });
+				dispatch({ type: ActionTypes.ONGOING, name: this._api.name, id });
 
 				const result = await this._api[op](options, attributes);
 
-				dispatch({ type: Types.DONE, name: this._api.name, id, result });
+				// eslint-disable-next-line no-console
+				console.log(result);
+
+				dispatch({ type: ActionTypes.DONE, name: this._api.name, id, result });
 			} catch (error) {
-				dispatch({ type: Types.ERROR, name: this._api.name, id, errors: error });
+				dispatch({ type: ActionTypes.ERROR, name: this._api.name, id, errors: error });
 			}
 		}
 	)

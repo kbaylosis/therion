@@ -22,7 +22,7 @@ const storage = reduxStorage.createMiddleware(engine);
 const history = createHistory();
 const router = routerMiddleware(history);
 
-const composeEnhancers = composeWithDevTools({ realtime: true });
+const composeEnhancers = composeWithDevTools({ realtime: false });
 const store = createStore(
 	reduxStorage.reducer(AppReducer),
 	composeEnhancers(applyMiddleware(thunk, router, storage))

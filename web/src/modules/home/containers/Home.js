@@ -1,9 +1,15 @@
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import * as ActionsCreators from "../actions";
 import HomeScreen from "../components/HomeScreen";
 
 const mapStateToProps = ({ home }) => ({
 	...home,
 });
 
-export default connect(mapStateToProps)(HomeScreen);
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(ActionsCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
