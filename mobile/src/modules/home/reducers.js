@@ -1,14 +1,18 @@
 import { combineReducers } from "redux";
 
+import { therion } from "__src/globals";
+
 import * as ReactNavigationTypes from "__src/commons/ReactNavigationTypes";
 import * as Types from "./types";
 
-const loggedOut = (state = {}, action) => {
+const loggedOut = (state = false, action) => {
 	switch (action.type) {
-	case Types.LOGOUT:
-		return true;
-	case ReactNavigationTypes.BACK:
+	case Types.LOGGED_IN:
+	case Types.LOGOUT_INPROGRESS:
 		return false;
+	case Types.LOGGEDOUT:
+	case ReactNavigationTypes.BACK:
+		return true;
 	default:
 		return state;
 	}
@@ -16,4 +20,5 @@ const loggedOut = (state = {}, action) => {
 
 export default combineReducers({
 	loggedOut,
+	homeUser: therion.createDbReducer("home/user"),
 });

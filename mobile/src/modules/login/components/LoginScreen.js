@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Text, View } from "react-native";
 import { Button, Spinner } from "native-base";
 
+import * as AppConstants from "__src/app/constants";
+
 import styles from "../styles.css.js";
 
 class LoginScreen extends Component {
@@ -13,15 +15,15 @@ class LoginScreen extends Component {
 	static propTypes = {
 		actions: PropTypes.object,
 		navigation: PropTypes.object,
-		loggedOut: PropTypes.bool,
+		isLoggedIn: PropTypes.bool,
 		isLoggingIn: PropTypes.bool,
 	}
 
 	componentDidUpdate(prevProps) {
-		const { loggedOut, navigation } = this.props;
+		const { isLoggedIn, navigation } = this.props;
 
-		if (prevProps.loggedOut !== loggedOut && loggedOut) {
-			navigation.goBack();
+		if (prevProps.isLoggedIn !== isLoggedIn && isLoggedIn) {
+			navigation.navigate(AppConstants.HOME_SCREEN);
 		}
 	}
 

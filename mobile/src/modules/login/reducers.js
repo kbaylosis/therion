@@ -28,17 +28,10 @@ const isLoggedIn = (state = false, action) => {
 	switch (action.type) {
 	case Types.LOGIN_SUCCESS:
 		return true;
+	case Types.LOGIN_INPROGRESS:
+	case Types.LOGIN_FAILED:
 	case ReactNavigationTypes.BACK:
 		return false;
-	default:
-		return state;
-	}
-};
-
-const error = (state = {}, action) => {
-	switch (action.type) {
-	case Types.LOGIN_FAILED:
-		return action.error;
 	default:
 		return state;
 	}
@@ -48,5 +41,4 @@ export default combineReducers({
 	session,
 	isLoggingIn,
 	isLoggedIn,
-	error,
 });

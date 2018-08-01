@@ -9,7 +9,7 @@ import {
 	createNavigationReducer,
 } from "react-navigation-redux-helpers";
 
-import * as globals from "__src/globals";
+import { therion } from "__src/globals";
 
 import Splash from "../modules/splash";
 import Login from "../modules/login";
@@ -34,7 +34,7 @@ const mapStateToProps = ({ nav }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	db: bindActionCreators(globals.ApiFactory.actions, dispatch),
+	db: bindActionCreators(therion.ApiFactory.actions, dispatch),
 });
 
 class AppNavigatorWrapper extends PureComponent {

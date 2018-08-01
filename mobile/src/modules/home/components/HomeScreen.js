@@ -13,7 +13,14 @@ class HomeScreen extends Component {
 	static propTypes = {
 		actions: PropTypes.object,
 		navigation: PropTypes.object,
+		screenProps: PropTypes.object,
 		loggedOut: PropTypes.bool,
+	}
+
+	componentDidMount() {
+		this.props.actions.setAsLoggedIn();
+		this.props.screenProps.db.findAllUsers("home/user", {},
+			[ "id", "firstname", "lastname" ]);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -27,10 +34,12 @@ class HomeScreen extends Component {
 	render() {
 		const { actions } = this.props;
 
+		console.log(this.props);
+
 		return (
 			<View style={styles.container}>
 				<Text>Home Screen</Text>
-				<Button primary full onPress={actions.logout}><Text>Log Out</Text></Button>
+				<Button primary full onPress={actions.logoutInProgress}><Text>Log Out</Text></Button>
 			</View>
 		);
 	}
