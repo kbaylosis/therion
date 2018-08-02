@@ -16,9 +16,9 @@ import Login from "../modules/login";
 import Home from "../modules/home";
 
 const AppNavigator = createStackNavigator({
-	Splash,
-	Login,
-	Home,
+	...Splash,
+	...Login,
+	...Home,
 });
 
 export const nav = createNavigationReducer(AppNavigator);
