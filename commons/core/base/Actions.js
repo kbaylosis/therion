@@ -42,9 +42,6 @@ class Actions {
 
 				const result = await this._api[op](options, attributes);
 
-				// eslint-disable-next-line no-console
-				console.log(result);
-
 				dispatch({ type: ActionTypes.DONE, name: this._api.name, id, result });
 			} catch (error) {
 				dispatch({ type: ActionTypes.ERROR, name: this._api.name, id, errors: error });

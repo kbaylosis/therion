@@ -10,9 +10,6 @@ class Reducer {
 			return state;
 		}
 
-		// eslint-disable-next-line no-console
-		console.log(type);
-
 		switch (type) {
 		case ActionTypes.ONGOING:
 			return { id, type };

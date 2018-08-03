@@ -172,9 +172,12 @@ class Api {
 
 	bulkCreate = async ({ values, options }, attributes = [ "id" ]) => {
 		const query = `
-		mutation BulkCreate{ this._pluralName }($values: Json, $options: Json) {
+		mutation BulkCreate${ this._pluralName }($values: Json, $options: Json) {
 			${ this._resources }(action: CREATE, values: $values, options: $options) {
-				${ this._generateAttribTree(attributes) }
+				count
+				rows {
+					${ this._generateAttribTree(attributes) }
+				}
 			}
 		}
 		`;
@@ -190,9 +193,12 @@ class Api {
 	update = async ({ values, options }, attributes = [ "id" ]) => {
 		const r = (options.limit === 1) ? this._resource : this._resources;
 		const query = `
-		mutation Update{ this._pluralName }($values: Json, $options: Json) {
+		mutation Update${ this._pluralName }($values: Json, $options: Json) {
 			${ r }(action: UPDATE, values: $values, options: $options) {
-				${ this._generateAttribTree(attributes) }
+				count
+				rows {
+					${ this._generateAttribTree(attributes) }
+				}
 			}
 		}
 		`;
@@ -208,9 +214,12 @@ class Api {
 	destroy = async (options, attributes = [ "id" ]) => {
 		const r = (options.limit === 1) ? this._resource : this._resources;
 		const query = `
-		mutation Delete{ this._pluralName }($options: Json) {
+		mutation Delete${ this._pluralName }($options: Json) {
 			${ r }(action: DELETE, options: $options) {
-				${ this._generateAttribTree(attributes) }
+				count
+				rows {
+					${ this._generateAttribTree(attributes) }
+				}
 			}
 		}
 		`;
@@ -237,6 +246,14 @@ class Api {
 	}
 
 	_execute = async (resource, query, variables) => {
+
+		// eslint-disable-next-line no-console
+		console.log(resource);
+		// eslint-disable-next-line no-console
+		console.log(query);
+		// eslint-disable-next-line no-console
+		console.log(variables);
+
 		const { data, errors } = await this._requestManager.execute(query, variables);
 
 		if (errors) {
