@@ -2,6 +2,7 @@ import _ from "lodash";
 import pluralize from "pluralize";
 import debug from "debug";
 
+import QueryUtils from "./QueryUtils";
 import RecordNotFound from "./RecordNotFound";
 import ServerError from "./ServerError";
 import Action from "../resolvers/Action";
@@ -34,7 +35,7 @@ class Controller {
 				} else {
 					const { where="{}", order="[]", options="{}" } = args;
 
-					args.where = _.isString(where) ? JSON.parse(where) : where;
+					args.where = new QueryUtils().where(where);
 					args.order = _.isString(order) ? JSON.parse(order) : order;
 					delete args.options;
 					_.assign(args, _.isString(options) ? JSON.parse(options) : options);
@@ -60,8 +61,7 @@ class Controller {
 			const { action, offset, limit, where="{}", order="[]", options="{}" } = args;
 
 			try {
-
-				args.where = _.isString(where) ? JSON.parse(where) : where;
+				args.where = new QueryUtils().where(where);
 				args.order = _.isString(order) ? JSON.parse(order) : order;
 				delete args.options;
 				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
@@ -127,9 +127,10 @@ class Controller {
 					break;
 				}
 				case Action.UPDATE: {
-					const { include } = options;
+					const { include, where="{}" } = options;
 
 					delete options.include;
+					options.where = new QueryUtils().where(where);
 					options.limit = 1;
 					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
 
@@ -141,6 +142,9 @@ class Controller {
 					break;
 				}
 				case Action.DELETE: {
+					const { where="{}" } = options;
+
+					options.where = new QueryUtils().where(where);
 					if (options.returning) {
 						record = await this._obj("findOne").findOne(options);
 					}
@@ -194,9 +198,10 @@ class Controller {
 					// Do nothing since it's not meaningful to do these operations on multiple records
 					return null;
 				case Action.UPDATE: {
-					const { include } = options;
+					const { include, where="{}" } = options;
 
 					delete options.include;
+					options.where = new QueryUtils().where(where);
 					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
 
 					options.include = include;
@@ -206,6 +211,9 @@ class Controller {
 					break;
 				}
 				case Action.DELETE: {
+					const { where="{}" } = options;
+
+					options.where = new QueryUtils().where(where);
 					if (options.returning) {
 						rows = await this._obj("findAll").findAll(options);
 						count = rows.length;
@@ -215,7 +223,6 @@ class Controller {
 					break;
 				}}
 
-				log(rows);
 				if (!rows && options.returning) {
 					rows = await this._obj("findAll").findAll(options);
 					count = rows.length;
