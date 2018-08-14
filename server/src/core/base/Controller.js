@@ -26,12 +26,12 @@ class Controller {
 		const modelName = _.camelCase(this._model.name);
 		const modelDef = this._modelDef;
 
-		query[`${ modelName }`] = async (obj, args) => {
+		query[`${ modelName }`] = async (obj, args, context) => {
 			let record;
 
 			try {
 				if (args.id) {
-					record = await this._obj("findById").findById(args.id);
+					record = await this._obj("findById").findById(args.id, args.options, context);
 				} else {
 					const { where="{}", order="[]", options="{}" } = args;
 
@@ -39,9 +39,9 @@ class Controller {
 					args.order = _.isString(order) ? JSON.parse(order) : order;
 					delete args.options;
 					_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-					args.include = Object.keys(modelDef.associations);
+					args.include = modelDef.associations ? Object.keys(modelDef.associations) : [];
 
-					record = await this._obj("findOne").findOne(args);
+					record = await this._obj("findOne").findOne(args, context);
 				}
 
 				if (!record) {
@@ -56,7 +56,7 @@ class Controller {
 			return record;
 		};
 
-		query[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
+		query[`${ pluralize.plural(modelName) }`] = async (obj, args, context) => {
 			let count, rows;
 			const { action, offset, limit, where="{}", order="[]", options="{}" } = args;
 
@@ -68,12 +68,12 @@ class Controller {
 				args.include = modelDef.associations ? Object.keys(modelDef.associations) : [];
 
 				if (action === Action.COUNT) {
-					const result = await this._obj("findAndCountAll").findAndCountAll(args);
+					const result = await this._obj("findAndCountAll").findAndCount(args, context);
 
 					count = result.count;
 					rows = result.rows;
 				} else {
-					rows = await this._obj("findAll").findAll(args);
+					rows = await this._obj("findAll").findAll(args, context);
 				}
 			} catch (e) {
 				log(e);
@@ -97,7 +97,7 @@ class Controller {
 		const modelName = _.camelCase(this._model.name);
 		const modelDef = this._modelDef;
 
-		mutation[`${ modelName }`] = async (obj, args) => {
+		mutation[`${ modelName }`] = async (obj, args, context) => {
 			let record;
 
 			try {
@@ -110,17 +110,17 @@ class Controller {
 				switch (action) {
 				case Action.CREATE:
 				default: {
-					record = await this._obj("create").create(values, options);
+					record = await this._obj("create").create(values, options, context);
 					break;
 				}
 				case Action.READ: {
-					const [ r ] = await this._obj("findOrCreate").findOrCreate(options);
+					const [ r ] = await this._obj("findOrCreate").findOrCreate(options, context);
 
 					record = r;
 					break;
 				}
 				case Action.UPSERT: {
-					await this._obj("upsert").upsert(values, options);
+					await this._obj("upsert").upsert(values, options, context);
 
 					// Do not auto fetch record from database since it might return the wrong one
 					options.returning = false;
@@ -132,7 +132,7 @@ class Controller {
 					delete options.include;
 					options.where = new QueryUtils().where(where);
 					options.limit = 1;
-					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
+					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options, context);
 
 					options.include = include;
 
@@ -146,10 +146,10 @@ class Controller {
 
 					options.where = new QueryUtils().where(where);
 					if (options.returning) {
-						record = await this._obj("findOne").findOne(options);
+						record = await this._obj("findOne").findOne(options, context);
 					}
 
-					const count = await this._obj("destroy").destroy(options);
+					const count = await this._obj("destroy").destroy(options, context);
 
 					if (!count) {
 						throw new RecordNotFound();
@@ -161,7 +161,7 @@ class Controller {
 				}}
 
 				if (!record && options.returning) {
-					record = await this._obj("findOne").findOne(options);
+					record = await this._obj("findOne").findOne(options, context);
 
 					if (!record) {
 						throw new RecordNotFound();
@@ -177,7 +177,7 @@ class Controller {
 			return record;
 		};
 
-		mutation[`${ pluralize.plural(modelName) }`] = async (obj, args) => {
+		mutation[`${ pluralize.plural(modelName) }`] = async (obj, args, context) => {
 			let count, rows;
 
 			try {
@@ -189,7 +189,7 @@ class Controller {
 
 				switch (action) {
 				case Action.CREATE:
-					rows = await this._obj("bulkCreate").update(values, options);
+					rows = await this._obj("bulkCreate").update(values, options, context);
 					count = rows.length;
 					break;
 				case Action.READ:
@@ -202,7 +202,8 @@ class Controller {
 
 					delete options.include;
 					options.where = new QueryUtils().where(where);
-					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options);
+					const [ affectedRows, affectedCount ] =
+						await this._obj("update").update(values, options, context);
 
 					options.include = include;
 
@@ -215,16 +216,16 @@ class Controller {
 
 					options.where = new QueryUtils().where(where);
 					if (options.returning) {
-						rows = await this._obj("findAll").findAll(options);
+						rows = await this._obj("findAll").findAll(options, context);
 						count = rows.length;
 					}
 
-					count = await this._obj("destroy").destroy(options);
+					count = await this._obj("destroy").destroy(options, context);
 					break;
 				}}
 
 				if (!rows && options.returning) {
-					rows = await this._obj("findAll").findAll(options);
+					rows = await this._obj("findAll").findAll(options, context);
 					count = rows.length;
 				}
 			} catch (e) {
