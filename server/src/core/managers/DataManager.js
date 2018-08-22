@@ -49,7 +49,13 @@ class DataManager {
 			_.forEach(this._definitions, (modelDef, name) => {
 				if ("associations" in modelDef) {
 					_.forEach(modelDef.associations, (association, fieldName) => {
-						this._models[name][association.type](this._models[association.model], { as: fieldName });
+						this._models[name][association.type](
+							this._models[association.model],
+							{
+								as: fieldName,
+								foreignKey: `${fieldName}Id`,
+							}
+						);
 					}, this);
 				}
 			});
