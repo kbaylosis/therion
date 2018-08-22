@@ -132,6 +132,7 @@ class Controller {
 					delete options.include;
 					options.where = new QueryUtils().where(where);
 					options.limit = 1;
+					options.individualHooks = true;
 					const [ affectedRows, affectedCount ] = await this._obj("update").update(values, options, context);
 
 					options.include = include;
@@ -202,6 +203,7 @@ class Controller {
 
 					delete options.include;
 					options.where = new QueryUtils().where(where);
+					options.individualHooks = true;
 					const [ affectedRows, affectedCount ] =
 						await this._obj("update").update(values, options, context);
 
