@@ -39,7 +39,7 @@ class Controller {
 					args.order = _.isString(order) ? JSON.parse(order) : order;
 					delete args.options;
 					_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-					args.include = modelDef.associations ? Object.keys(modelDef.associations) : [];
+					args.include = modelDef.associations ? this._listIncludes(modelDef.associations) : [];
 
 					record = await this._obj("findOne").findOne(args, context);
 				}
@@ -65,7 +65,7 @@ class Controller {
 				args.order = _.isString(order) ? JSON.parse(order) : order;
 				delete args.options;
 				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-				args.include = modelDef.associations ? Object.keys(modelDef.associations) : [];
+				args.include = modelDef.associations ? this._listIncludes(modelDef.associations) : [];
 
 				if (action === Action.COUNT) {
 					const result = await this._obj("findAndCountAll").findAndCount(args, context);
@@ -105,7 +105,7 @@ class Controller {
 				const values = _.isString(v) ? JSON.parse(v) : v;
 				const options = _.isString(o) ? JSON.parse(o) : o;
 
-				options.include = Object.keys(modelDef.associations);
+				options.include = modelDef.associations ? this._listIncludes(modelDef.associations) : [];
 
 				switch (action) {
 				case Action.CREATE:
@@ -173,7 +173,7 @@ class Controller {
 				throw new ServerError(e);
 			}
 
-			log(record);
+			log(record ? (record.toJSON ? record.toJSON() : record) : null);
 			return record;
 		};
 
@@ -185,7 +185,7 @@ class Controller {
 				const values = _.isString(v) ? JSON.parse(v) : v;
 				const options = _.isString(o) ? JSON.parse(o) : o;
 
-				options.include = Object.keys(modelDef.associations);
+				options.include = modelDef.associations ? this._listIncludes(modelDef.associations) : [];
 
 				switch (action) {
 				case Action.CREATE:
@@ -202,7 +202,8 @@ class Controller {
 
 					delete options.include;
 					options.where = new QueryUtils().where(where);
-					const [ affectedRows, affectedCount ] =
+					options.individualHooks = true;
+					const [ affectedCount, affectedRows ] =
 						await this._obj("update").update(values, options, context);
 
 					options.include = include;
@@ -234,7 +235,7 @@ class Controller {
 				throw new ServerError(e);
 			}
 
-			log(rows);
+			log(`Records found: ${ count }`);
 			return {
 				count,
 				rows,
@@ -265,6 +266,13 @@ class Controller {
 			${ pluralize.plural(modelName) }(action: Action, values: Json, options: Json): ${ formalModelName }WithCount
 		`;
 	}
+
+	_listIncludes = (associations) =>
+		_.transform(associations, (r, { type }, k) => {
+			if(type === "belongsTo") {
+				r.push(k);
+			}
+		}, []);
 }
 
 export default Controller;
