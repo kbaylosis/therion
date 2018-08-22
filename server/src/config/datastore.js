@@ -31,6 +31,12 @@ const datastore = {
 	// drop - Deletes tables before re-creating it
 	//
 	mode: "alter",
+
+	modelSequence: [
+		"User",
+		"Employee",
+		"Priority",
+	],
 };
 
 module.exports = datastore;
