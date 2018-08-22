@@ -9,6 +9,7 @@ import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes } from "merge-graphql-schemas";
 import _ from "lodash";
 
+import middlewares from "../middlewares";
 import * as builtInResolvers from "./resolvers";
 
 const log = debug("therion:server:app");
@@ -61,6 +62,10 @@ module.exports = (async (config, globals, modelDefs, controllers) => {
 		// Initialize middlewares
 		app.use(compression());
 		app.use(cors());
+		app.use("/static", express.static(path.join(__dirname, "../public")));
+		if (middlewares.length) {
+			app.use(...middlewares);
+		}
 
 		// The GraphQL endpoint
 		app.use(`${ config.Custom.urlPrefix }/${ config.Custom.endpoint }`,
