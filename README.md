@@ -1,4 +1,4 @@
-<img src="https://github.com/kbaylosis/therion/blob/master/therion_h.png?raw=true" height="450">
+<img src="https://github.com/kbaylosis/therion/blob/master/therion_h.png?raw=true" width="1200">
 
 An application development framework designed to create an app that runs over the mobile, web, and desktop platforms. This is based on the following projects:
 
