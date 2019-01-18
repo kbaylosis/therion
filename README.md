@@ -1,4 +1,4 @@
-# Therion #
+<img src="https://raw.githubusercontent.com/kbaylosis/therion/master/therion-logo-name.png" width="300">
 
 An application development framework designed to create an app that runs over the mobile, web, and desktop platforms. This is based on the following projects:
 
@@ -83,5 +83,4 @@ pnpm run desktop
 1. Install the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 2. Run the app
 3. Open the **Redux DevTools** menu in Chrome (find it's icon on the top right corner)
-![logo](https://bitbucket.org/repo/yppqL4R/images/3292584348-Screenshot%202017-05-20%2023.07.05.png)
 4. Select **Open Remote DevTools**
