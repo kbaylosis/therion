@@ -52,24 +52,15 @@ class DataManager {
 			// Construct relationships
 			_.forEach(this._definitions, (modelDef, name) => {
 				if ("associations" in modelDef) {
-					_.forEach(modelDef.associations, (association, fieldName) => {
-						const options = {
-							...association,
-							as: fieldName,
-							type: undefined,
-							model: undefined,
-						};
-
-						switch(association.type) {
-						case "belongsTo":
-							this._models[name][association.type](this._models[association.model], options);
-							break;
-						case "hasOne":
-						case "hasMany":
-						case "belongsToMany":
-							this._models[association.model][association.type](this._models[name], options);
-							break;
-						}
+					_.forEach(modelDef.associations, (association) => {
+						this._models[name][association.type](
+							this._models[association.model],
+							{
+								as: association.alias,
+								foreignKey: association.foreignKey,
+								// foreignKey: `${fieldName}Id`
+							}
+						);
 					}, this);
 				}
 			});
