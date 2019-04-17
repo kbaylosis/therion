@@ -34,7 +34,7 @@
     "merge-graphql-schemas": "^1.5.2",
     "moment": "^2.22.2",
     "pluralize": "^7.0.0",
-    "sequelize": "^4.38.0",
+    "sequelize": ">=5.3.0",
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {
