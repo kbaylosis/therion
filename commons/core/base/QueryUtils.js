@@ -22,7 +22,7 @@ class QueryUtils {
 	col = (...col) => _.transform(col, (r, v) => {
 		r.push({
 			col: v,
-		})
+		});
 	}, []);
 }
 
