@@ -4,7 +4,7 @@ class QueryUtils {
 	fn = (fn, args) => ({
 		fn,
 		args,
-	})
+	});
 
 	where = (attribute, comparator, logic) => {
 		if (logic === undefined) {
@@ -17,13 +17,18 @@ class QueryUtils {
 			comparator,
 			logic,
 		};
-	}
+	};
 
-	col = (...col) => _.transform(col, (r, v) => {
-		r.push({
-			col: v,
-		});
-	}, []);
+	col = (...col) =>
+		_.transform(
+			col,
+			(r, v) => {
+				r.push({
+					col: v,
+				});
+			},
+			[],
+		);
 }
 
 export default QueryUtils;

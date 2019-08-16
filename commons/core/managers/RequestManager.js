@@ -1,7 +1,6 @@
-
 class RequestManager {
 	constructor(config) {
-		this._url = `${ config.host }:${ config.port }/${ config.endpoint }`;
+		this._url = `${config.host}:${config.port}/${config.endpoint}`;
 	}
 
 	execute = async (query, variables) => {
@@ -18,7 +17,7 @@ class RequestManager {
 		});
 
 		return await result.json();
-	}
+	};
 }
 
 export default RequestManager;
