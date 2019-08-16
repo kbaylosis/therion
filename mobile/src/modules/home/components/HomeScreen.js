@@ -3,24 +3,27 @@ import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 import { Button } from "native-base";
 
-import styles from "../styles.css.js";
+import styles from "../styles";
 
 class HomeScreen extends Component {
 	static navigationOptions = {
 		header: null,
-	}
+	};
 
 	static propTypes = {
 		actions: PropTypes.object,
 		navigation: PropTypes.object,
 		screenProps: PropTypes.object,
 		loggedOut: PropTypes.bool,
-	}
+	};
 
 	componentDidMount() {
 		this.props.actions.setAsLoggedIn();
-		this.props.screenProps.db.findAllUsers("home/user", {},
-			[ "id", "firstname", "lastname" ]);
+		this.props.screenProps.db.findAllUsers("home/user", {}, [
+			"id",
+			"firstname",
+			"lastname",
+		]);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -39,7 +42,9 @@ class HomeScreen extends Component {
 		return (
 			<View style={styles.container}>
 				<Text>Home Screen</Text>
-				<Button primary full onPress={actions.logoutInProgress}><Text>Log Out</Text></Button>
+				<Button primary full onPress={actions.logoutInProgress}>
+					<Text>Log Out</Text>
+				</Button>
 			</View>
 		);
 	}

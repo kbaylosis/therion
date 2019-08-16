@@ -12,4 +12,7 @@ const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(HomeScreen);

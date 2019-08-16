@@ -8,9 +8,7 @@ import AppReducer from "./reducers";
 import AppNavigator from "./navigator";
 
 const composeEnhancers = composeWithDevTools({ realtime: true });
-const store = createStore(AppReducer,
-	composeEnhancers(applyMiddleware(thunk))
-);
+const store = createStore(AppReducer, composeEnhancers(applyMiddleware(thunk)));
 
 const App = () => (
 	<Provider store={store}>

@@ -1,10 +1,10 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 import { bindActionCreators } from "redux";
 import {
-	reduxifyNavigator,
+	createReduxContainer,
 	createReactNavigationReduxMiddleware,
 	createNavigationReducer,
 } from "react-navigation-redux-helpers";
@@ -21,8 +21,6 @@ const AppNavigator = createStackNavigator({
 	...Home,
 });
 
-export const nav = createNavigationReducer(AppNavigator);
-
 // Note: createReactNavigationReduxMiddleware must be run before reduxifyNavigator
 export const reactNavigation = createReactNavigationReduxMiddleware(
 	"root",
@@ -37,23 +35,26 @@ const mapDispatchToProps = (dispatch) => ({
 	db: bindActionCreators(therion.ApiFactory.actions, dispatch),
 });
 
+const AppContainer = createAppContainer(AppNavigator);
+
 class AppNavigatorWrapper extends PureComponent {
-	static router = AppNavigator.router
+	static router = AppNavigator.router;
 
 	static propTypes = {
 		nav: PropTypes.object,
 		db: PropTypes.object,
-	}
+	};
 
 	render() {
 		const { nav, db } = this.props;
 
-		return <AppNavigator nav={ nav } screenProps={{ db }} />;
+		return <AppContainer nav={nav} screenProps={{ db }} />;
 	}
 }
 
-export default connect()(
-	reduxifyNavigator(
-		connect(mapStateToProps, mapDispatchToProps)(AppNavigatorWrapper),
-		"root"
-	));
+export const nav = createNavigationReducer(AppNavigator);
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(createReduxContainer(AppNavigatorWrapper, "root"));
