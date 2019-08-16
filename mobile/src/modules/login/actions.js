@@ -10,17 +10,17 @@ export const loginFailed = (error) => ({
 	error,
 });
 
-export const loginInProgress = () => (
-	(dispatch) => {
-		dispatch({
-			type: Types.LOGIN_INPROGRESS,
-		});
-		setTimeout(() => {
-			dispatch(loginSuccess({
+export const loginInProgress = () => (dispatch) => {
+	dispatch({
+		type: Types.LOGIN_INPROGRESS,
+	});
+	setTimeout(() => {
+		dispatch(
+			loginSuccess({
 				email: "john.doe@gmail.com",
 				firstname: "John",
 				lastname: "Doe",
-			}));
-		}, 3000);
-	}
-);
+			}),
+		);
+	}, 3000);
+};

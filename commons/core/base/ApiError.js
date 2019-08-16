@@ -1,7 +1,6 @@
-
 class ApiError extends Error {
 	constructor(e = [], code) {
-		super(`${ e.length } error/s found!`);
+		super(`${e.length} error/s found!`);
 
 		this._errors = e;
 		this._code = code;

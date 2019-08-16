@@ -21,16 +21,18 @@ class Priority {
 			defaultValue: Enums.PENDING,
 			allowNull: false,
 			validate: {
-				isIn: [[
-					Enums.PENDING,
-					Enums.ACCEPTED,
-					Enums.SERVED,
-					Enums.REJECTED,
-					Enums.CANCELLED,
-				]],
+				isIn: [
+					[
+						Enums.PENDING,
+						Enums.ACCEPTED,
+						Enums.SERVED,
+						Enums.REJECTED,
+						Enums.CANCELLED,
+					],
+				],
 			},
 		},
-	}
+	};
 
 	static associations = {
 		to: {
@@ -41,7 +43,7 @@ class Priority {
 			type: "belongsTo",
 			model: "User",
 		},
-	}
+	};
 }
 
 export default Priority;

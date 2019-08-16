@@ -7,14 +7,14 @@ import * as Types from "./types";
 
 const loggedOut = (state = false, action) => {
 	switch (action.type) {
-	case Types.LOGGED_IN:
-	case Types.LOGOUT_INPROGRESS:
-		return false;
-	case Types.LOGGEDOUT:
-	case ReactNavigationTypes.BACK:
-		return true;
-	default:
-		return state;
+		case Types.LOGGED_IN:
+		case Types.LOGOUT_INPROGRESS:
+			return false;
+		case Types.LOGGEDOUT:
+		case ReactNavigationTypes.BACK:
+			return true;
+		default:
+			return state;
 	}
 };
 

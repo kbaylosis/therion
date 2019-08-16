@@ -9,7 +9,7 @@ class Employee {
 		dateOfHire: Sequelize.DATE,
 		email: Sequelize.STRING,
 		badgeId: Sequelize.STRING,
-	}
+	};
 }
 
 export default Employee;

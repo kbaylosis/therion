@@ -4,16 +4,16 @@ import { Text, View } from "react-native";
 import { Spinner } from "native-base";
 
 import * as AppConstants from "__src/app/constants";
-import styles from "../styles.css.js";
+import styles from "../styles";
 
 class Splash extends Component {
 	static navigationOptions = {
 		header: null,
-	}
+	};
 
 	static propTypes = {
 		navigation: PropTypes.object,
-	}
+	};
 
 	componentDidMount() {
 		setTimeout(() => {
@@ -25,7 +25,7 @@ class Splash extends Component {
 		return (
 			<View style={styles.container}>
 				<Text>Splash Screen</Text>
-				<Spinner color='blue' />
+				<Spinner color="blue" />
 			</View>
 		);
 	}

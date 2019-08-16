@@ -10,8 +10,7 @@ An application development framework designed to create an app that runs over th
 
 ## How do I get set up? #
 
-**Creating the project
-**
+**Creating the project**
 ```
 #!shell
 
@@ -29,8 +28,7 @@ cd <project_name>/web
 pnpm install
 ```
 
-**Running the graphql server
-**
+**Running the graphql server**
 ```
 #!shell
 
@@ -38,8 +36,8 @@ cd <project_path>/server
 pnpm start
 ```
 
-**Running the ios mobile client.
-** Attempts to open your app in the iOS Simulator if you're on a Mac and have it installed.
+**Running the ios mobile client.**
+Attempts to open your app in the iOS Simulator if you're on a Mac and have it installed.
 ```
 #!shell
 
@@ -47,7 +45,8 @@ cd <project_path>/mobile
 yarn run ios
 ```
 
-**Running the android mobile client.** Attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup).
+**Running the android mobile client.**
+Attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup).
 
 ```
 #!shell
@@ -56,7 +55,8 @@ cd <project_path>/mobile
 yarn run android
 ```
 
-**Running the web client. ** Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Running the web client.**
+Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ```
 #!shell
@@ -65,8 +65,7 @@ cd <project_path>/web
 pnpm start
 ```
 
-**Running the desktop client
-**
+**Running the desktop client**
 ```
 #!shell
 

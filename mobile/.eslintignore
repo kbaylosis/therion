@@ -2,3 +2,6 @@ native-base-theme
 __tests__
 *.test.js
 node_modules
+packager
+babel.config.js
+metro.config.js

@@ -1,10 +1,11 @@
 {
-  "extends": ["react-native"],
+  "root": true,
+  "extends": "@react-native-community",
   "settings": {
     "import/resolver": {
-      node: {},
+      "node": {},
       "babel-module": {}
-    }
+    },
   },
   "rules": {
     // Best Practices
@@ -25,7 +26,8 @@
     "func-call-spacing": ["error", "never"],
     "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
     "keyword-spacing": ["error", { "after": true }],
-    "indent": ["error", "tab"],
+    // Disable in favor for prettier
+    // "indent": ["error", "tab"],
     "line-comment-position": ["error", { "position": "above" }],
     "linebreak-style": ["error", "unix"],
     "max-depth": ["error", 4],
