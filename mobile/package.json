@@ -13,7 +13,8 @@
     "lint": "eslint --max-warnings 1 .",
     "lint-fix": "eslint --fix --max-warnings 1 .",
     "setup": "rm -rf ./src/commons && cp -fR ../commons ./src/commons",
-    "prepare": "patch-package"
+    "prepare": "patch-package",
+    "postinstall": "cd ios && pod install && cd .."
   },
   "dependencies": {
     "lodash": "^4.17.15",
