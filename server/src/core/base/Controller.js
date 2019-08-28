@@ -7,6 +7,8 @@ import RecordNotFound from "./RecordNotFound";
 import ServerError from "./ServerError";
 import Action from "../resolvers/Action";
 
+import { DataManager } from "../../globals";
+
 const log = debug("therion:server:Controller");
 
 class Controller {
@@ -65,7 +67,17 @@ class Controller {
 				args.order = _.isString(order) ? JSON.parse(order) : order;
 				delete args.options;
 				_.assign(args, _.isString(options) ? JSON.parse(options) : options);
-				args.include = modelDef.associations ? this._listIncludes(modelDef.associations) : [];
+
+				log(where, args, JSON.stringify(args, null, 2, true));
+
+				if (args.include && Array.isArray(args.include)) {
+					args.include = args.include.map((i) => ({
+						model: DataManager._models[i.model],
+						where: new QueryUtils().where(i.where),
+					}));
+				} else {
+					args.include = modelDef.associations ? this._listIncludes(modelDef.associations) : [];
+				}
 
 				if (action === Action.COUNT) {
 					const result = await this._obj("findAndCountAll").findAndCount(args, context);

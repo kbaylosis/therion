@@ -28,7 +28,9 @@ class DataManager {
 					},
 
 					// http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
-					operatorsAliases: false,
+					// [SEQUELIZE0004] DeprecationWarning: A boolean value was passed to options.operatorsAliases.
+					// This is a no-op with v5 and should be removed.
+					// operatorsAliases: false,
 				});
 
 			log(`Database connection to ${ datastore.host } has been established successfully.`);
@@ -44,7 +46,7 @@ class DataManager {
 
 				if (controllers[name]) {
 					_.forEach(controllers[name].hooks, (v, k) => {
-						r[name].hook(k, v);
+						r[name].addHook(k, v);
 					});
 				}
 			}, {});
