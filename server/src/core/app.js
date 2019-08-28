@@ -62,6 +62,7 @@ module.exports = (async (config, globals, modelDefs, controllers) => {
 		// Initialize middlewares
 		app.use(compression());
 		app.use(cors());
+		app.use(bodyParser.json());
 		app.use("/static", express.static(path.join(__dirname, "../public")));
 		if (middlewares.length) {
 			app.use(...middlewares);
