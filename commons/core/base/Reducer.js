@@ -11,14 +11,14 @@ class Reducer {
 		}
 
 		switch (type) {
-			case ActionTypes.ONGOING:
-				return { id, type };
-			case ActionTypes.DONE:
-				return { id, type, result };
-			case ActionTypes.ERROR:
-				return { id, type, errors };
-			default:
-				return state;
+		case ActionTypes.ONGOING:
+			return { id, type };
+		case ActionTypes.DONE:
+			return { id, type, result };
+		case ActionTypes.ERROR:
+			return { id, type, errors };
+		default:
+			return state;
 		}
 	};
 }
