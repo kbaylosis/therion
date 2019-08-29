@@ -7,7 +7,7 @@ import logo from "__src/assets/logo.svg";
 const menu = (
 	<Menu>
 		<Menu.Item>
-			<a target="_blank" rel="noopener noreferrer" href="#">Profile</a>
+			<a target="_blank" rel="noopener noreferrer" href="/#">Profile</a>
 		</Menu.Item>
 		<Menu.Divider/>
 		<Menu.Item>
@@ -29,7 +29,7 @@ class Header extends PureComponent {
 					<Col span={ 21 }>
 						<Row type="flex" justify="end">
 							<Dropdown overlay={ menu }>
-								<a className="ant-dropdown-link" href="#">
+								<a className="ant-dropdown-link" href="/#">
 										Welcome, Kenneth!<Icon type="down" />
 								</a>
 							</Dropdown>
