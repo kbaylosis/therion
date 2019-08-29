@@ -101,7 +101,7 @@
     "setup": "rm -rf ./src/commons && cp -fR ../commons ./src/commons"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
-  "homepage": "https://bitbucket.org/zoog/therion#readme",
+  "homepage": "https://bitbucket.org/#readme",
   "main": "./src/index.desktop.js",
   "repository": {
     "type": "git",
