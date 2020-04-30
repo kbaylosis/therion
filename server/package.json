@@ -30,7 +30,7 @@
     "graphql-tools": "^3.0.4",
     "graphql-tools-types": "^1.1.25",
     "json-circular-stringify": "^0.0.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.13",
     "merge-graphql-schemas": "^1.5.2",
     "moment": "^2.22.2",
     "pluralize": "^7.0.0",
