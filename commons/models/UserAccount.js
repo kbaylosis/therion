@@ -2,7 +2,7 @@ import Sequelize from "../../db";
 
 import * as Enums from "../enums";
 
-class User {
+class UserAccount {
 	static description = "System user";
 	static attributes = {
 		username: {
@@ -39,4 +39,4 @@ class User {
 	};
 }
 
-export default User;
+export default UserAccount;

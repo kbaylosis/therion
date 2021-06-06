@@ -256,10 +256,6 @@ class Api {
 	};
 
 	_execute = async (resource, query, variables) => {
-		console.log(resource);
-		console.log(query);
-		console.log(variables);
-
 		const { data, errors } = await this._requestManager.execute(query, variables);
 
 		if (errors) {

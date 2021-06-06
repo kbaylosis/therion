@@ -1,28 +1,27 @@
 
 const datastore = {
 	development: {
-		dialect: "sqlite",
-		host: "sqlite",
-		name: "db.therion.sqlite",
-		username: null,
-		password: null,
-		location: "../..",
+		dialect: "postgres", /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+		host: "localhost",
+		name: "therion",
+		username: "test",
+		password: "test",
 	},
 
 	test: {
-		dialect: "mysql",
+		dialect: "postgres", /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
 		host: "localhost",
 		name: "therion",
-		username: "root",
-		password: "root",
+		username: "test",
+		password: "test",
 	},
 
 	production: {
-		dialect: process.env.DB_DIALECT || "mysql",
+		dialect: process.env.DB_DIALECT || "postgres", /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
 		host: process.env.DB_HOST ||  "localhost",
 		name: process.env.DB_NAME || "therion",
-		username: process.env.DB_USERNAME || "root",
-		password: process.env.DB_PASSWORD || "root",
+		username: process.env.DB_USERNAME || "test",
+		password: process.env.DB_PASSWORD || "test",
 	},
 
 	//
@@ -30,12 +29,10 @@ const datastore = {
 	// alter - Alters tables to fit models
 	// drop - Deletes tables before re-creating it
 	//
-	mode: "alter",
+	mode: "drop",
 
 	modelSequence: [
-		"User",
-		"Employee",
-		"Priority",
+		"UserAccount",
 	],
 };
 

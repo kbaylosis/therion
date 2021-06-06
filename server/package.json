@@ -33,9 +33,10 @@
     "lodash": "^4.17.13",
     "merge-graphql-schemas": "^1.5.2",
     "moment": "^2.22.2",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.3",
     "pluralize": "^7.0.0",
-    "sequelize": ">=5.3.0",
-    "sqlite3": "^4.0.2"
+    "sequelize": ">=5.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -53,6 +54,6 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^2.0.7"
   }
 }
