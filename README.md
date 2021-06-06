@@ -19,21 +19,45 @@ cd <project_name>
 
 # Install the node modules of each project component
 cd <project_name>/server
-pnpm install
+yarn install
 
 cd <project_name>/mobile
 yarn install
 
 cd <project_name>/web
-pnpm install
+yarn install
 ```
+
+**Configure the test database**
+NOTE: The base configuration assumes a postgres database. Other supported databases are: mysql, mariadb, mssql, and sqlite. See [sequelize](https://sequelize.org/master/manual/getting-started.html) for more info.
+
+Run these on the postgres cli:
+```
+CREATE DATABASE therion;
+CREATE USER test WITH createdb;
+ALTER USER test WITH password 'test';
+GRANT all ON database therion TO test;
+```
+
+If you want to vary the configuration edit the items in: server/src/datastore.js
+
+```
+development: {
+    dialect: "postgres", /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+    host: "localhost",
+    name: "therion",
+    username: "test",
+    password: "test",
+},
+```
+
 
 **Running the graphql server**
 ```
 #!shell
 
 cd <project_path>/server
-pnpm start
+yarn start
 ```
 
 **Running the ios mobile client.**
@@ -62,7 +86,7 @@ Runs the app in development mode. Open [http://localhost:3000](http://localhost:
 #!shell
 
 cd <project_path>/web
-pnpm start
+yarn start
 ```
 
 **Running the desktop client**
@@ -70,11 +94,11 @@ pnpm start
 #!shell
 
 cd <project_path>/web
-npm start
+yarn start
 
 ### Open another terminal window.
 
-pnpm run desktop
+yarn run desktop
 ```
 
 ## Debugging/Logging #
