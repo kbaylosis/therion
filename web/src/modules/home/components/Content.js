@@ -11,9 +11,6 @@ class Content extends PureComponent {
 
 	componentDidMount() {
 		console.log(this.props);
-
-		this.props.screenProps.db.findAllUsers("home/user", {},
-			[ "id", "firstname", "lastname" ]);
 	}
 
 	render() {
